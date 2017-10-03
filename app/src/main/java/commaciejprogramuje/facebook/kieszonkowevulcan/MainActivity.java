@@ -1,17 +1,32 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan;
 
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -95,7 +110,37 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    public void loginOnClick(View view) {
+    public void loginOnClick(View view) throws IOException {
         infoTextView.setText("Login in progress...");
+
+        postLoginData();
+
+    }
+
+    private void postLoginData() throws IOException {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        URL url;
+        HttpURLConnection urlConnection = null;
+        try {
+            url = new URL("http://www.lublin112.pl/");
+            urlConnection = (HttpURLConnection) url.openConnection();
+            InputStream in = urlConnection.getInputStream();
+            InputStreamReader isw = new InputStreamReader(in);
+            int data = isw.read();
+            Log.w("UWAGA", url.toString());
+            while (data != -1) {
+                char current = (char) data;
+                data = isw.read();
+                infoTextView.append(String.valueOf(current));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (urlConnection != null) {
+                urlConnection.disconnect();
+            }
+        }
     }
 }
