@@ -1,5 +1,6 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
@@ -16,6 +17,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,6 +30,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -35,6 +41,13 @@ import butterknife.OnClick;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     @InjectView(R.id.info_text_view)
     TextView infoTextView;
+
+    //String link = "https://cufs.vulcan.net.pl/lublin/Account/LogOn";
+    String link = "https://cufs.vulcan.net.pl/lublin/Account/LogOn?ReturnUrl=%2Flublin%2FFS%2FLS%3Fwa%3Dwsignin1.0%26wtrealm%3Dhttps%3a%2f%2fuonetplus.vulcan.net.pl%2flublin%2fLoginEndpoint.aspx%26wctx%3Dhttps%3a%2f%2fuonetplus.vulcan.net.pl%2flublin%2fLoginEndpoint.aspx";
+    String loginString = "e_szymczyk@orange.pl";
+    String passwordString = "Ulka!2002";
+    String targetLink = "https://uonetplus.vulcan.net.pl/lublin/Start.mvc/Index";
+    String userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,34 +126,59 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void loginOnClick(View view) throws IOException {
         infoTextView.setText("Login in progress...");
 
-        postLoginData();
+        new JsoupAsyncIserv().execute();
 
     }
 
-    private void postLoginData() throws IOException {
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
+    private class JsoupAsyncIserv extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
 
-        URL url;
-        HttpURLConnection urlConnection = null;
-        try {
-            url = new URL("http://www.lublin112.pl/");
-            urlConnection = (HttpURLConnection) url.openConnection();
-            InputStream in = urlConnection.getInputStream();
-            InputStreamReader isw = new InputStreamReader(in);
-            int data = isw.read();
-            Log.w("UWAGA", url.toString());
-            while (data != -1) {
-                char current = (char) data;
-                data = isw.read();
-                infoTextView.append(String.valueOf(current));
+
+        protected Void doInBackground(Void... params) {
+            try {
+                Connection.Response login = Jsoup.connect(link)
+                        .userAgent(userAgent)
+                        .data("LoginName", loginString)
+                        .data("Password", passwordString)
+                        .method(Connection.Method.POST)
+                        .followRedirects(true)
+                        .execute();
+
+                //Document document = login.parse();
+                System.out.println(login.body());
+
+                /*
+                <html>
+                <head>
+                <title>Working...</title>
+                </head>
+
+                <body>
+                <form method="POST" name="hiddenform" action="https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx">
+                    <input type="hidden" name="wa" value="wsignin1.0" />
+                    <input type="hidden" name="wresult" value="&lt;trust:RequestSecurityTokenResponseCollection xmlns:trust=&quot;http://docs.oasis-open.org/ws-sx/ws-trust/200512&quot;>&lt;trust:RequestSecurityTokenResponse Context=&quot;https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx&quot;>&lt;trust:Lifetime>&lt;wsu:Created xmlns:wsu=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd&quot;>2017-10-04T16:09:34.548Z&lt;/wsu:Created>&lt;wsu:Expires xmlns:wsu=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd&quot;>2017-10-04T16:54:34.548Z&lt;/wsu:Expires>&lt;/trust:Lifetime>&lt;wsp:AppliesTo xmlns:wsp=&quot;http://schemas.xmlsoap.org/ws/2004/09/policy&quot;>&lt;wsa:EndpointReference xmlns:wsa=&quot;http://www.w3.org/2005/08/addressing&quot;>&lt;wsa:Address>https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx&lt;/wsa:Address>&lt;/wsa:EndpointReference>&lt;/wsp:AppliesTo>&lt;trust:RequestedSecurityToken>&lt;saml:Assertion MajorVersion=&quot;1&quot; MinorVersion=&quot;1&quot; AssertionID=&quot;_bfdcef45-8a03-43ad-adfc-e935cfbbdf83&quot; Issuer=&quot;CUFSTokenService&quot; IssueInstant=&quot;2017-10-04T16:09:34.548Z&quot; xmlns:saml=&quot;urn:oasis:names:tc:SAML:1.0:assertion&quot;>&lt;saml:Conditions NotBefore=&quot;2017-10-04T16:09:34.548Z&quot; NotOnOrAfter=&quot;2017-10-04T16:54:34.548Z&quot;>&lt;saml:AudienceRestrictionCondition>&lt;saml:Audience>https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx&lt;/saml:Audience>&lt;/saml:AudienceRestrictionCondition>&lt;/saml:Conditions>&lt;saml:AttributeStatement>&lt;saml:Subject>&lt;saml:SubjectConfirmation>&lt;saml:ConfirmationMethod>urn:oasis:names:tc:SAML:1.0:cm:bearer&lt;/saml:ConfirmationMethod>&lt;/saml:SubjectConfirmation>&lt;/saml:Subject>&lt;saml:Attribute AttributeName=&quot;name&quot; AttributeNamespace=&quot;http://schemas.xmlsoap.org/ws/2005/05/identity/claims&quot;>&lt;saml:AttributeValue>e_szymczyk@orange.pl&lt;/saml:AttributeValue>&lt;/saml:Attribute>&lt;saml:Attribute AttributeName=&quot;emailaddress&quot; AttributeNamespace=&quot;http://schemas.xmlsoap.org/ws/2005/05/identity/claims&quot;>&lt;saml:AttributeValue>e_szymczyk@orange.pl&lt;/saml:AttributeValue>&lt;/saml:Attribute>&lt;saml:Attribute AttributeName=&quot;SessionID&quot; AttributeNamespace=&quot;http://schemas.vulcan.edu.pl/ws/identity/claims&quot;>&lt;saml:AttributeValue>ipHPubySZuWUdOum4m5S+K28LBw=&lt;/saml:AttributeValue>&lt;/saml:Attribute>&lt;saml:Attribute AttributeName=&quot;authtype&quot; AttributeNamespace=&quot;http://schemas.vulcan.edu.pl/ws/identity/claims&quot;>&lt;saml:AttributeValue>internal&lt;/saml:AttributeValue>&lt;/saml:Attribute>&lt;saml:Attribute AttributeName=&quot;pwdvalid&quot; AttributeNamespace=&quot;http://schemas.vulcan.edu.pl/ws/identity/claims&quot;>&lt;saml:AttributeValue>True&lt;/saml:AttributeValue>&lt;/saml:Attribute>&lt;saml:Attribute AttributeName=&quot;daystochange&quot; AttributeNamespace=&quot;http://schemas.vulcan.edu.pl/ws/identity/claims&quot;>&lt;saml:AttributeValue>28&lt;/saml:AttributeValue>&lt;/saml:Attribute>&lt;saml:Attribute AttributeName=&quot;UserInstance&quot; AttributeNamespace=&quot;http://schemas.vulcan.edu.pl/ws/identity/claims&quot;>&lt;saml:AttributeValue>lublin&lt;/saml:AttributeValue>&lt;/saml:Attribute>&lt;/saml:AttributeStatement>&lt;Signature xmlns=&quot;http://www.w3.org/2000/09/xmldsig#&quot;>&lt;SignedInfo>&lt;CanonicalizationMethod Algorithm=&quot;http://www.w3.org/2001/10/xml-exc-c14n#&quot; />&lt;SignatureMethod Algorithm=&quot;http://www.w3.org/2001/04/xmldsig-more#rsa-sha256&quot; />&lt;Reference URI=&quot;#_bfdcef45-8a03-43ad-adfc-e935cfbbdf83&quot;>&lt;Transforms>&lt;Transform Algorithm=&quot;http://www.w3.org/2000/09/xmldsig#enveloped-signature&quot; />&lt;Transform Algorithm=&quot;http://www.w3.org/2001/10/xml-exc-c14n#&quot;
+                 */
+
+
+                Document document1 = Jsoup.connect(targetLink)
+                        .cookies(login.cookies())
+                        .post();
+
+                Log.w("UWAGA", document1.text());
+
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (urlConnection != null) {
-                urlConnection.disconnect();
-            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+
+
         }
     }
 }
