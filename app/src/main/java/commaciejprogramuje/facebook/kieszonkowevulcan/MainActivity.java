@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -124,6 +125,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void loginOnClick(View view) throws IOException {
         webView.getSettings().setJavaScriptEnabled(true);
+        webView.setVisibility(View.INVISIBLE);
         webView.loadUrl(LINK_1);
 
         webView.setWebViewClient(new WebViewClient() {
@@ -136,6 +138,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         "document.getElementById('Password').value = '" + PASSWORD_STRING + "';" +
                         "document.getElementsByTagName('input')[2].click();" +
                         "};");
+
+                //webView.setVisibility(View.INVISIBLE);
+
+                Log.w("UWAGA", "ok!");
             }
         });
 
