@@ -52,8 +52,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         webNavigation.navToLoginPage();
         webNavigation.navToDashboard();
 
-        navigationView.setCheckedItem(R.id.nav_grades);
-        onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_grades));
+        navigationView.setCheckedItem(R.id.nav_news);
+        //onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_planets));
     }
 
     @Override
@@ -100,6 +100,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_money) {
             Log.w("UWAGA", "drawer money");
             webNavigation.navToPupilPanel();
+        }else if (id == R.id.nav_news) {
+            Log.w("UWAGA", "drawer news");
+            webNavigation.navToNews();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

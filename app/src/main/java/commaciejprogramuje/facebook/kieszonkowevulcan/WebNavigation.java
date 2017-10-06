@@ -53,4 +53,9 @@ class WebNavigation {
         Log.w("UWAGA", "navToPupilGrades");
         webView.loadUrl("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie");
     }
+
+    void navToNews() {
+        Log.w("UWAGA", "navToNews");
+        webView.loadUrl("https://uonetplus.vulcan.net.pl/lublin/Start.mvc/Index");
+    }
 }
