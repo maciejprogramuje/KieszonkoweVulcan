@@ -12,15 +12,20 @@
     <WebView
         android:id="@+id/webView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="1">
     </WebView>
 
-    <Button
-        android:id="@+id/login_button"
+    <TextView
+        android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Login!"
-        android:onClick="navigateOnPageOnClick"/>
+        android:text="LINK: "/>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="BUTTON"/>
 
 </LinearLayout>

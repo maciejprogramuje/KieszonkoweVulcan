@@ -12,23 +12,20 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.TextView;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    public static final String LINK_1 = "https://cufs.vulcan.net.pl/lublin/Account/LogOn?ReturnUrl=%2Flublin%2FFS%2FLS%3Fwa%3Dwsignin1.0%26wtrealm%3Dhttps%253a%252f%252fuonetplus.vulcan.net.pl%252flublin%252fLoginEndpoint.aspx%26wctx%3Dhttps%253a%252f%252fuonetplus.vulcan.net.pl%252flublin%252fLoginEndpoint.aspx";
-    public static final String LINK_1_A = "https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx";
-    public static final String LOGIN_STRING = "e_szymczyk@orange.pl";
-    public static final String PASSWORD_STRING = "Ulka!2002";
-
-    @InjectView(R.id.login_button)
-    Button loginButton;
     @InjectView(R.id.webView)
     WebView webView;
+    @InjectView(R.id.textView)
+    TextView textView;
+    @InjectView(R.id.button)
+    Button button;
 
     WebNavigation webNavigation;
 
@@ -51,10 +48,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        webNavigation = new WebNavigation(webView);
+        webNavigation = new WebNavigation(webView, textView);
         webNavigation.navToLoginPage();
         webNavigation.navToDashboard();
-        webNavigation.navToPupilPanel();
+
+        navigationView.setCheckedItem(R.id.nav_grades);
+        onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_grades));
     }
 
     @Override
@@ -96,9 +95,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
         if (id == R.id.nav_grades) {
             Log.w("UWAGA", "drawer grades");
+            webNavigation.navToPupilPanel();
             webNavigation.navToPupilGrades();
         } else if (id == R.id.nav_money) {
             Log.w("UWAGA", "drawer money");
+            webNavigation.navToPupilPanel();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -106,8 +107,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    @OnClick(R.id.login_button)
+    @OnClick(R.id.button)
     public void onViewClicked() {
-        Log.w("UWAGA", "click button");
     }
 }

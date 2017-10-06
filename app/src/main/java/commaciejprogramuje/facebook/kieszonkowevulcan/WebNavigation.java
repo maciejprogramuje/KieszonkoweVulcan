@@ -1,34 +1,33 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan;
 
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.TextView;
 
-import static commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity.LINK_1;
-import static commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity.LINK_1_A;
-import static commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity.LOGIN_STRING;
-import static commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity.PASSWORD_STRING;
 
 /**
  * Created by m.szymczyk on 2017-10-06.
  */
 
 class WebNavigation {
+    private static final String LINK_LOGINENDPOINT = "https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx";
+    private static final String LOGIN_STRING = "e_szymczyk@orange.pl";
+    private static final String PASSWORD_STRING = "Ulka!2002";
+
     private WebView webView;
+    private TextView textView;
 
-    WebNavigation(WebView webView) {
+    WebNavigation(WebView webView, TextView textView) {
         this.webView = webView;
+        this.textView = textView;
         webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setDomStorageEnabled(true);
     }
 
-    void navToPupilGrades() {
-        Log.w("UWAGA", "navToPupilGrades");
-        webView.loadUrl("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie");
-    }
-
-    void navToPupilPanel() {
-        Log.w("UWAGA", "navToPupilPanel");
-        webView.loadUrl("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Start/Index/");
+    void navToLoginPage() {
+        webView.loadUrl(LINK_LOGINENDPOINT);
     }
 
     void navToDashboard() {
@@ -45,8 +44,13 @@ class WebNavigation {
         });
     }
 
-    void navToLoginPage() {
-        Log.w("UWAGA", "navToLoginPage");
-        webView.loadUrl(LINK_1);
+    void navToPupilPanel() {
+        Log.w("UWAGA", "navToPupilPanel");
+        webView.loadUrl("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Start/Index/");
+    }
+
+    void navToPupilGrades() {
+        Log.w("UWAGA", "navToPupilGrades");
+        webView.loadUrl("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie");
     }
 }
