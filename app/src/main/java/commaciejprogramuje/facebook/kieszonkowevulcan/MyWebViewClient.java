@@ -1,6 +1,7 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan;
 
 import android.net.Uri;
+import android.support.design.widget.NavigationView;
 import android.util.Log;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
@@ -9,7 +10,6 @@ import android.widget.TextView;
 
 import java.net.URL;
 
-import static commaciejprogramuje.facebook.kieszonkowevulcan.WebNavigation.URL_LOGINENDPOINT;
 import static commaciejprogramuje.facebook.kieszonkowevulcan.WebNavigation.LOGIN_STRING;
 import static commaciejprogramuje.facebook.kieszonkowevulcan.WebNavigation.PASSWORD_STRING;
 
@@ -20,10 +20,12 @@ import static commaciejprogramuje.facebook.kieszonkowevulcan.WebNavigation.PASSW
 public class MyWebViewClient extends WebViewClient {
     private WebView webView;
     private TextView textView;
+    private NavigationView navigationView;
 
-    MyWebViewClient(WebView webView, TextView textView) {
+    MyWebViewClient(WebView webView, TextView textView, NavigationView navigationView) {
         this.webView = webView;
         this.textView = textView;
+        this.navigationView = navigationView;
     }
 
     @Override
@@ -48,10 +50,7 @@ public class MyWebViewClient extends WebViewClient {
         Log.w("UWAGA", url);
         textView.setText(String.format("LOADING: %s", url));
 
-        //tryLoginToPage(url);
-
         return false;
-
         // Returning true means that you need to handle what to do with the url, e.g. open web page in a Browser
         // Returning false means that you are going to load this url in the webView itself
     }
@@ -61,6 +60,7 @@ public class MyWebViewClient extends WebViewClient {
                 || url.equals("https://uonetplus.vulcan.net.pl/lublin/?logout=true")) {
             Log.w("UWAGA", "================== LOGOWANIE ==================");
             webView.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
+            navigationView.setCheckedItem(R.id.nav_news);
         }
     }
 }

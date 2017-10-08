@@ -48,9 +48,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        webNavigation = new WebNavigation(webView, textView);
-        webNavigation.navToLoginPage();
-        webNavigation.navToDashboard();
+        webNavigation = new WebNavigation(webView, textView, navigationView);
+        webNavigation.navLoginAndDashboard();
 
         navigationView.setCheckedItem(R.id.nav_news);
         //onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_planets));
@@ -99,7 +98,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_grades) {
             Log.w("UWAGA", "drawer grades");
             webNavigation.navToPupilPanel();
-            //webNavigation.navToPupilGrades();
         } else if (id == R.id.nav_money) {
             Log.w("UWAGA", "drawer money");
             webNavigation.navToPupilPanel();
