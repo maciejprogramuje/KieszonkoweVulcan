@@ -57,7 +57,8 @@ public class MyWebViewClient extends WebViewClient {
 
     private void tryLoginToPage(String  url) {
         if (url.equals("https://uonetplus.vulcan.net.pl/lublin/")
-                || url.equals("https://uonetplus.vulcan.net.pl/lublin/?logout=true")) {
+                || url.equals("https://uonetplus.vulcan.net.pl/lublin/?logout=true")
+                || url.equals("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Default.aspx")) {
             Log.w("UWAGA", "================== LOGOWANIE ==================");
             webView.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
             navigationView.setCheckedItem(R.id.nav_news);
