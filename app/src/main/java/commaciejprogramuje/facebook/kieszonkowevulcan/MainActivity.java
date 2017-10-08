@@ -93,16 +93,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        if (id == R.id.nav_grades) {
+        if (id == R.id.nav_news) {
+            Log.w("UWAGA", "drawer news");
+            webNavigation.navToNews();
+        } else if (id == R.id.nav_grades) {
             Log.w("UWAGA", "drawer grades");
             webNavigation.navToPupilPanel();
-            webNavigation.navToPupilGrades();
+            //webNavigation.navToPupilGrades();
         } else if (id == R.id.nav_money) {
             Log.w("UWAGA", "drawer money");
             webNavigation.navToPupilPanel();
-        }else if (id == R.id.nav_news) {
-            Log.w("UWAGA", "drawer news");
-            webNavigation.navToNews();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

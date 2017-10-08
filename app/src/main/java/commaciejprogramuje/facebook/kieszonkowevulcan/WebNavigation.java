@@ -4,6 +4,9 @@ import android.util.Log;
 import android.webkit.WebView;
 import android.widget.TextView;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 
 /**
  * Created by m.szymczyk on 2017-10-06.
@@ -26,7 +29,7 @@ class WebNavigation {
     }
 
     void navToLoginPage() {
-        webView.loadUrl(URL_LOGINENDPOINT);
+        webView.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
     }
 
     void navToDashboard() {
@@ -41,7 +44,10 @@ class WebNavigation {
 
     void navToPupilGrades() {
         Log.w("UWAGA", "navToPupilGrades");
-        webView.loadUrl("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie");
+
+        //webView.loadUrl("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie");
+        //webView.loadUrl("javascript:document.getElementsByClassName('a')[14].onclick();");
+
     }
 
     void navToNews() {

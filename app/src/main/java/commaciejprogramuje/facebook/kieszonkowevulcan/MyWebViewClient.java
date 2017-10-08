@@ -2,9 +2,12 @@ package commaciejprogramuje.facebook.kieszonkowevulcan;
 
 import android.net.Uri;
 import android.util.Log;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
+
+import java.net.URL;
 
 import static commaciejprogramuje.facebook.kieszonkowevulcan.WebNavigation.URL_LOGINENDPOINT;
 import static commaciejprogramuje.facebook.kieszonkowevulcan.WebNavigation.LOGIN_STRING;
@@ -15,7 +18,7 @@ import static commaciejprogramuje.facebook.kieszonkowevulcan.WebNavigation.PASSW
  */
 
 public class MyWebViewClient extends WebViewClient {
-    WebView webView;
+    private WebView webView;
     private TextView textView;
 
     MyWebViewClient(WebView webView, TextView textView) {
@@ -25,6 +28,14 @@ public class MyWebViewClient extends WebViewClient {
 
     @Override
     public void onPageFinished(WebView view, String url) {
+        textView.setText(String.format("FINISHED: %s", url));
+        // do Oceny
+        if(url.equals("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Start/Index/")) {
+            webView.loadUrl("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie");
+        } else {
+            tryLoginToPage(url);
+        }
+
         webView.loadUrl("javascript: {" +
                 "document.getElementById('LoginName').value = '" + LOGIN_STRING + "';" +
                 "document.getElementById('Password').value = '" + PASSWORD_STRING + "';" +
@@ -34,16 +45,10 @@ public class MyWebViewClient extends WebViewClient {
 
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
-        String accurateUrl = Uri.parse(url).getHost() + Uri.parse(url).getEncodedPath() + Uri.parse(url).getEncodedQuery();
+        Log.w("UWAGA", url);
+        textView.setText(String.format("LOADING: %s", url));
 
-        Log.w("UWAGA", accurateUrl);
-        textView.setText(accurateUrl);
-
-        if(accurateUrl.equals("uonetplus.vulcan.net.pl/lublin/logout=true")) {
-            Log.w("UWAGA", "próbuję");
-            webView.loadUrl(URL_LOGINENDPOINT);
-        }
-
+        //tryLoginToPage(url);
 
         return false;
 
@@ -51,6 +56,11 @@ public class MyWebViewClient extends WebViewClient {
         // Returning false means that you are going to load this url in the webView itself
     }
 
-
-
+    private void tryLoginToPage(String  url) {
+        if (url.equals("https://uonetplus.vulcan.net.pl/lublin/")
+                || url.equals("https://uonetplus.vulcan.net.pl/lublin/?logout=true")) {
+            Log.w("UWAGA", "================== LOGOWANIE ==================");
+            webView.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
+        }
+    }
 }
