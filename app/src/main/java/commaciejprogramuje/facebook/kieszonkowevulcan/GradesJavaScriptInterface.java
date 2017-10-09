@@ -1,5 +1,6 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan;
 
+import android.content.Intent;
 import android.webkit.JavascriptInterface;
 
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.regex.Pattern;
  */
 
 public class GradesJavaScriptInterface {
+    public static final String RESULTS_KEY = "results";
     MainActivity mainActivity;
 
     public GradesJavaScriptInterface(MainActivity mainActivity) {
@@ -25,11 +27,23 @@ public class GradesJavaScriptInterface {
             set(html, i);
         }
 
-        System.out.println("=================================================================================");
+        StringBuilder stringBuilder = new StringBuilder();
         for(int i = 0; i < mainActivity.getSubjects().size(); i++) {
-            System.out.println(mainActivity.getSubjects().getName(i) + ": " + mainActivity.getSubjects().getGrades(i) + ", avg=" + mainActivity.getSubjects().getAverage(i));
+            stringBuilder.append(mainActivity.getSubjects().getName(i))
+                    .append(": ")
+                    .append(mainActivity.getSubjects().getGrades(i))
+                    .append(", avg=")
+                    .append(mainActivity.getSubjects().getAverage(i))
+                    .append("\n");
         }
+
         System.out.println("=================================================================================");
+        System.out.println(stringBuilder.toString());
+        System.out.println("=================================================================================");
+
+        Intent intent = new Intent(mainActivity.getBaseContext(), SuccessActivity.class);
+        intent.putExtra(RESULTS_KEY, stringBuilder.toString());
+        mainActivity.startActivity(intent);
     }
 
     private void set(String htmlAsString, int subjectIndex) {
