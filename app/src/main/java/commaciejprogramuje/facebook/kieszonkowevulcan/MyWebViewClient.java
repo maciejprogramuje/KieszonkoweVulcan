@@ -5,6 +5,11 @@ import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import static commaciejprogramuje.facebook.kieszonkowevulcan.NavMenuButtonsTitle.ATTENDING;
 import static commaciejprogramuje.facebook.kieszonkowevulcan.NavMenuButtonsTitle.GRADES;
 import static commaciejprogramuje.facebook.kieszonkowevulcan.NavMenuButtonsTitle.MONEY;
@@ -21,7 +26,7 @@ class MyWebViewClient extends WebViewClient {
     MyWebViewClient(WebNavigation webNavigation) {
         this.webNavigation = webNavigation;
 
-        webNavigation.getWebView().addJavascriptInterface(new gradesJavaScriptInterface(), "GRADES_HTMLOUT");
+        webNavigation.getWebView().addJavascriptInterface(new GradesJavaScriptInterface(), "GRADES_HTMLOUT");
         webNavigation.getWebView().addJavascriptInterface(new attendingJavaScriptInterface(), "ATTENDING_HTMLOUT");
     }
 
@@ -60,14 +65,6 @@ class MyWebViewClient extends WebViewClient {
         webNavigation.getWebView().loadUrl("javascript:window.ATTENDING_HTMLOUT.processHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');");
     }
 
-    /* An instance of this class will be registered as a JavaScript interface */
-    private class gradesJavaScriptInterface {
-        @JavascriptInterface
-        @SuppressWarnings("unused")
-        public void processHTML(String html) {
-            System.out.println(html);
-        }
-    }
 
     /* An instance of this class will be registered as a JavaScript interface */
     private class attendingJavaScriptInterface {

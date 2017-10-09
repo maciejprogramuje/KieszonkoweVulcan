@@ -8,12 +8,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -22,6 +24,7 @@ import butterknife.OnClick;
 import static commaciejprogramuje.facebook.kieszonkowevulcan.NavMenuButtonsTitle.*;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    public static final String SUBJECTS_KEY = "subjects";
     @InjectView(R.id.webView)
     WebView webView;
     @InjectView(R.id.textView)
@@ -30,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Button button;
 
     WebNavigation webNavigation;
+    Subjects subjects;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +56,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         webNavigation = new WebNavigation(webView, textView, navigationView, getApplicationContext());
         webNavigation.navToLoginAndDashboard();
+
+        if(savedInstanceState == null) {
+            subjects = new Subjects();
+        } else {
+            subjects = (Subjects) savedInstanceState.getSerializable(SUBJECTS_KEY);
+        }
 
         navigationView.setCheckedItem(R.id.nav_news);
         //onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_planets));
@@ -111,5 +121,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @OnClick(R.id.button)
     public void onViewClicked() {
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable(SUBJECTS_KEY, subjects);
     }
 }
