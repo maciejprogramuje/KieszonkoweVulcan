@@ -19,6 +19,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
+import static commaciejprogramuje.facebook.kieszonkowevulcan.NavMenuButtonsTitle.*;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     @InjectView(R.id.webView)
     WebView webView;
@@ -48,8 +50,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        webNavigation = new WebNavigation(webView, textView, navigationView);
-        webNavigation.navLoginAndDashboard();
+        webNavigation = new WebNavigation(webView, textView, navigationView, getApplicationContext());
+        webNavigation.navToLoginAndDashboard();
 
         navigationView.setCheckedItem(R.id.nav_news);
         //onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_planets));
@@ -93,14 +95,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_news) {
-            Log.w("UWAGA", "drawer news");
             webNavigation.navToNews();
         } else if (id == R.id.nav_grades) {
-            Log.w("UWAGA", "drawer grades");
-            webNavigation.navToPupilPanel();
+            webNavigation.navToPupilPanel(GRADES);
         } else if (id == R.id.nav_money) {
-            Log.w("UWAGA", "drawer money");
-            webNavigation.navToPupilPanel();
+            webNavigation.navToPupilPanel(MONEY);
+        } else if (id == R.id.nav_attending) {
+            webNavigation.navToPupilPanel(ATTENDING);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
