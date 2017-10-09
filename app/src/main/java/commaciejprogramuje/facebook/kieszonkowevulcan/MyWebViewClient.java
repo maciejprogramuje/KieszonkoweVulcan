@@ -21,13 +21,14 @@ class MyWebViewClient extends WebViewClient {
     MyWebViewClient(WebNavigation webNavigation) {
         this.webNavigation = webNavigation;
 
-        webNavigation.getWebView().addJavascriptInterface(new gradesJavaScriptInterface(), "HTMLOUT");
+        webNavigation.getWebView().addJavascriptInterface(new gradesJavaScriptInterface(), "GRADES_HTMLOUT");
+        webNavigation.getWebView().addJavascriptInterface(new attendingJavaScriptInterface(), "ATTENDING_HTMLOUT");
     }
 
     @Override
     public void onPageFinished(WebView view, String url) {
         webNavigation.setTextView(String.format("FINISHED: %s", url));
-        // do Oceny
+        // links to pages
         if (webNavigation.getNavMenuButtonsTitle().equals(GRADES)
                 && url.equals("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Start/Index/")) {
             webNavigation.getWebView().loadUrl("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie");
@@ -37,9 +38,13 @@ class MyWebViewClient extends WebViewClient {
         } else if (webNavigation.getNavMenuButtonsTitle().equals(ATTENDING)
                 && url.equals("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Start/Index/")) {
             webNavigation.getWebView().loadUrl("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Frekwencja.mvc");
+        // parse pages
         } else if (url.equals("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie")) {
-            System.out.println("===================== PARSING ============================");
-            parsePage();
+            System.out.println("===================== PARSING GRADES ======================");
+            gradesParsePage();
+        } else if (url.equals("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Frekwencja.mvc")) {
+            System.out.println("===================== PARSING ATTENDING ===================");
+            attendingParsePage();
         } else {
             getLoadingPage(url);
         }
@@ -47,12 +52,25 @@ class MyWebViewClient extends WebViewClient {
         fillLoginForm();
     }
 
-    private void parsePage() {
-        webNavigation.getWebView().loadUrl("javascript:window.HTMLOUT.processHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');");
+    private void gradesParsePage() {
+        webNavigation.getWebView().loadUrl("javascript:window.GRADES_HTMLOUT.processHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');");
+    }
+
+    private void attendingParsePage() {
+        webNavigation.getWebView().loadUrl("javascript:window.ATTENDING_HTMLOUT.processHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');");
     }
 
     /* An instance of this class will be registered as a JavaScript interface */
     private class gradesJavaScriptInterface {
+        @JavascriptInterface
+        @SuppressWarnings("unused")
+        public void processHTML(String html) {
+            System.out.println(html);
+        }
+    }
+
+    /* An instance of this class will be registered as a JavaScript interface */
+    private class attendingJavaScriptInterface {
         @JavascriptInterface
         @SuppressWarnings("unused")
         public void processHTML(String html) {
