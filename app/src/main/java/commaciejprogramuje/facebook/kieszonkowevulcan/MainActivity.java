@@ -34,6 +34,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     WebNavigation webNavigation;
     Subjects subjects;
+    NavMenuButtonsTitle navMenuButtonsTitle;
+    NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +50,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        webNavigation = new WebNavigation(webView, textView, navigationView, getApplicationContext());
+        navMenuButtonsTitle = NEWS;
+        webNavigation = new WebNavigation(this);
         webNavigation.navToLoginAndDashboard();
 
         if(savedInstanceState == null) {
@@ -105,13 +108,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_news) {
+            navMenuButtonsTitle = NEWS;
             webNavigation.navToNews();
         } else if (id == R.id.nav_grades) {
-            webNavigation.navToPupilPanel(GRADES);
+            navMenuButtonsTitle = GRADES;
+            webNavigation.navToPupilPanel();
         } else if (id == R.id.nav_money) {
-            webNavigation.navToPupilPanel(MONEY);
+            navMenuButtonsTitle = MONEY;
+            webNavigation.navToPupilPanel();
         } else if (id == R.id.nav_attending) {
-            webNavigation.navToPupilPanel(ATTENDING);
+            navMenuButtonsTitle = ATTENDING;
+            webNavigation.navToPupilPanel();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -127,5 +134,68 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putSerializable(SUBJECTS_KEY, subjects);
+    }
+
+
+
+
+    public WebView getWebView() {
+        return webView;
+    }
+
+    public void setWebView(WebView webView) {
+        this.webView = webView;
+    }
+
+    public TextView getTextView() {
+        return textView;
+    }
+
+    public void setTextViewByString(String s) {
+        textView.setText(s);
+    }
+
+    public Button getButton() {
+        return button;
+    }
+
+    public void setButton(Button button) {
+        this.button = button;
+    }
+
+    public WebNavigation getWebNavigation() {
+        return webNavigation;
+    }
+
+    public void setWebNavigation(WebNavigation webNavigation) {
+        this.webNavigation = webNavigation;
+    }
+
+    public Subjects getSubjects() {
+        return subjects;
+    }
+
+    public void setSubjects(Subjects subjects) {
+        this.subjects = subjects;
+    }
+
+    public NavMenuButtonsTitle getNavMenuButtonsTitle() {
+        return navMenuButtonsTitle;
+    }
+
+    public void setNavMenuButtonsTitle(NavMenuButtonsTitle navMenuButtonsTitle) {
+        this.navMenuButtonsTitle = navMenuButtonsTitle;
+    }
+
+    public NavigationView getNavigationView() {
+        return navigationView;
+    }
+
+    public void setNavigationView(NavigationView navigationView) {
+        this.navigationView = navigationView;
+    }
+
+    public void setTextView(TextView textView) {
+        this.textView = textView;
     }
 }

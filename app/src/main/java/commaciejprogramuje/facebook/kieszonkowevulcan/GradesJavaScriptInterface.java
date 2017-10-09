@@ -12,6 +12,12 @@ import java.util.regex.Pattern;
  */
 
 public class GradesJavaScriptInterface {
+    MainActivity mainActivity;
+
+    public GradesJavaScriptInterface(MainActivity mainActivity) {
+        this.mainActivity = mainActivity;
+    }
+
     @JavascriptInterface
     @SuppressWarnings("unused")
     public void processHTML(String html) {
@@ -59,24 +65,20 @@ public class GradesJavaScriptInterface {
 
     private List<String> getGrades(String html, String subject) {
         List<String> gradesArray = new ArrayList<>();
-
         String temp = html.substring(html.indexOf(subject));
         temp = temp.substring(0, temp.indexOf("</tr>"));
-
         Matcher m = Pattern.compile("[1-6]{1}</span>").matcher(temp);
         while (m.find()) {
-            gradesArray.add(m.group().substring(0,1));
+            gradesArray.add(m.group().substring(0, 1));
         }
         return gradesArray;
     }
 
     private List<String> getAverageGrades(String html, String subject) {
         List<String> averageGradesArray = new ArrayList<>();
-
         String temp = html.substring(html.indexOf(subject));
         temp = temp.substring(0, temp.indexOf("</tr>"));
-
-        if(temp.contains("</span></td>")) {
+        if (temp.contains("</span></td>")) {
             Matcher m = Pattern.compile("[1-6]{1}[,]?[0-9]?[0-9]?</td>").matcher(temp);
             while (m.find()) {
                 averageGradesArray.add(m.group().replace("</td>", ""));
@@ -84,14 +86,6 @@ public class GradesJavaScriptInterface {
         } else {
             averageGradesArray.add("-");
         }
-
-
-
         return averageGradesArray;
     }
-
-    /*<td>3,46</td>
-				                                    <td>-</td>
-                    <td>-</td>*/
-
 }

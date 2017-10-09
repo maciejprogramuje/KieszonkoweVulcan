@@ -9,7 +9,7 @@ import java.util.List;
  */
 
 public class Subjects implements Serializable {
-    private class Subject {
+    private class Subject implements Serializable {
         private String subjectName;
         private String subjectGrades;
         private String subjectAverage;
