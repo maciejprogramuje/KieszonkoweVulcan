@@ -1,5 +1,8 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
@@ -13,18 +16,21 @@ import android.view.MenuItem;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.List;
+import android.widget.Toast;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-import static commaciejprogramuje.facebook.kieszonkowevulcan.NavMenuButtonsTitle.*;
+import static commaciejprogramuje.facebook.kieszonkowevulcan.NavMenuButtonsTitle.ATTENDING;
+import static commaciejprogramuje.facebook.kieszonkowevulcan.NavMenuButtonsTitle.GRADES;
+import static commaciejprogramuje.facebook.kieszonkowevulcan.NavMenuButtonsTitle.MONEY;
+import static commaciejprogramuje.facebook.kieszonkowevulcan.NavMenuButtonsTitle.NEWS;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     public static final String SUBJECTS_KEY = "subjects";
+    public static final String RESULTS_KEY = "results";
+
     @InjectView(R.id.webView)
     WebView webView;
     @InjectView(R.id.textView)
@@ -50,24 +56,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        if (!checkInternetConnection(this)) {
+            Toast.makeText(getApplicationContext(), "Włącz internet!", Toast.LENGTH_LONG).show();
 
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-
-        navMenuButtonsTitle = NEWS;
-        webNavigation = new WebNavigation(this);
-        webNavigation.navToLoginAndDashboard();
-
-        if(savedInstanceState == null) {
-            subjects = new Subjects();
+            Intent intent = new Intent(this, NoInternetActivity.class);
+            startActivity(intent);
         } else {
-            subjects = (Subjects) savedInstanceState.getSerializable(SUBJECTS_KEY);
-        }
+            navigationView = (NavigationView) findViewById(R.id.nav_view);
+            navigationView.setNavigationItemSelectedListener(this);
 
-        navigationView.setCheckedItem(R.id.nav_news);
-        //onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_planets));
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+
+            navMenuButtonsTitle = NEWS;
+            webNavigation = new WebNavigation(this);
+
+            webNavigation.navToLoginAndDashboard();
+
+            if (savedInstanceState == null) {
+                subjects = new Subjects();
+            } else {
+                subjects = (Subjects) savedInstanceState.getSerializable(SUBJECTS_KEY);
+            }
+
+            navigationView.setCheckedItem(R.id.nav_news);
+            //onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_planets));
+        }
     }
 
     @Override
@@ -136,7 +150,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         outState.putSerializable(SUBJECTS_KEY, subjects);
     }
 
-
+    public boolean checkInternetConnection(Context context) {
+        ConnectivityManager con_manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        return con_manager.getActiveNetworkInfo() != null
+                && con_manager.getActiveNetworkInfo().isAvailable()
+                && con_manager.getActiveNetworkInfo().isConnected();
+    }
 
 
     public WebView getWebView() {

@@ -8,12 +8,13 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity.RESULTS_KEY;
+
 /**
  * Created by m.szymczyk on 2017-10-09.
  */
 
 public class GradesJavaScriptInterface {
-    public static final String RESULTS_KEY = "results";
     MainActivity mainActivity;
 
     public GradesJavaScriptInterface(MainActivity mainActivity) {
@@ -32,7 +33,7 @@ public class GradesJavaScriptInterface {
             stringBuilder.append(mainActivity.getSubjects().getName(i))
                     .append(": ")
                     .append(mainActivity.getSubjects().getGrades(i))
-                    .append(", avg=")
+                    .append("średnia: ")
                     .append(mainActivity.getSubjects().getAverage(i))
                     .append("\n");
         }
@@ -72,7 +73,7 @@ public class GradesJavaScriptInterface {
         if (temp.contains("</span></td>")) {
             Matcher m = Pattern.compile("[1-6]{1}[,]?[0-9]?[0-9]?</td>").matcher(temp);
             while (m.find()) {
-                averageGradesStringBuilder.append(m.group().replace("</td>", "")).append(" ");
+                averageGradesStringBuilder.append(m.group().replace("</td>", "")).append(", ");
             }
         } else {
             averageGradesStringBuilder.append("-");

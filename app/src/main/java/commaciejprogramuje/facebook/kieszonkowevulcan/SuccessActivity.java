@@ -8,7 +8,7 @@ import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-import static commaciejprogramuje.facebook.kieszonkowevulcan.GradesJavaScriptInterface.RESULTS_KEY;
+import static commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity.RESULTS_KEY;
 
 public class SuccessActivity extends AppCompatActivity {
 
