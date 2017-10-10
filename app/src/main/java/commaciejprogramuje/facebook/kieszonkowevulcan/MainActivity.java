@@ -161,7 +161,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void loadGrades() {
-        subjects = new Subjects(MainActivity.this);
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //do some serious stuff...
+                        subjects = new Subjects(MainActivity.this);
+                    }
+                });
+            }
+        };
+        t.start();
+        //t.join();
     }
 
     private void showGradesFragment() {
