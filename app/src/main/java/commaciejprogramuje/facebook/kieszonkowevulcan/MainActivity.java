@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -18,15 +19,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-
-import static commaciejprogramuje.facebook.kieszonkowevulcan.NavMenuButtonsTitle.ATTENDING;
-import static commaciejprogramuje.facebook.kieszonkowevulcan.NavMenuButtonsTitle.GRADES;
-import static commaciejprogramuje.facebook.kieszonkowevulcan.NavMenuButtonsTitle.MONEY;
-import static commaciejprogramuje.facebook.kieszonkowevulcan.NavMenuButtonsTitle.NEWS;
+import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     public static final String LOGIN_STRING = "e_szymczyk@orange.pl";
@@ -36,11 +34,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @InjectView(R.id.tempWebView)
     WebView tempWebView;
+    @InjectView(R.id.fab)
+    FloatingActionButton fab;
+    @InjectView(R.id.progressBar)
+    ProgressBar progressBar;
 
     Subjects subjects;
-    NavMenuButtonsTitle navMenuButtonsTitle;
     NavigationView navigationView;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +57,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
+
+        progressBar.setVisibility(View.GONE);
 
         if (!checkInternetConnection(this)) {
             Toast.makeText(getApplicationContext(), "Włącz internet!", Toast.LENGTH_LONG).show();
@@ -113,32 +115,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle bottom_navigation_money_activity view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_news) {
-
             NewsFragment newsFragment = NewsFragment.newInstance();
             replaceFragment(newsFragment);
-
         } else if (id == R.id.nav_grades) {
-
-            StringBuilder stringBuilder = new StringBuilder();
-            for (int i = 0; i < subjects.size(); i++) {
-                stringBuilder.append(subjects.getName(i))
-                        .append(": ")
-                        .append(subjects.getGrades(i))
-                        .append("średnia: ")
-                        .append(subjects.getAverage(i))
-                        .append("\n");
-            }
-            Log.w("UWAGA", stringBuilder.toString());
-
-            GradesFragment gradesFragment = GradesFragment.newInstance(stringBuilder.toString());
-            replaceFragment(gradesFragment);
-
+            loadGrades();
+            showGradesFragment();
         } else if (id == R.id.nav_money) {
-            navMenuButtonsTitle = MONEY;
-            //webView.loadUrl("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Start/Index/");
+
         } else if (id == R.id.nav_attending) {
-            navMenuButtonsTitle = ATTENDING;
-            //webView.loadUrl("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Start/Index/");
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -169,7 +154,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return tempWebView;
     }
 
-    public void setTempWebView(WebView tempWebView) {
-        this.tempWebView = tempWebView;
+    @OnClick(R.id.fab)
+    public void onViewClicked() {
+        loadGrades();
+        showGradesFragment();
+    }
+
+    private void loadGrades() {
+        subjects = new Subjects(MainActivity.this);
+    }
+
+    private void showGradesFragment() {
+        while (!progressBar.isShown()) {
+            StringBuilder stringBuilder = new StringBuilder();
+            for (int i = 0; i < subjects.size(); i++) {
+                stringBuilder.append(subjects.getName(i))
+                        .append(": ")
+                        .append(subjects.getGrades(i))
+                        .append("średnia: ")
+                        .append(subjects.getAverage(i))
+                        .append("\n");
+            }
+            //Log.w("UWAGA", stringBuilder.toString());
+
+            GradesFragment gradesFragment = GradesFragment.newInstance(stringBuilder.toString());
+            replaceFragment(gradesFragment);
+        }
     }
 }

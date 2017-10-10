@@ -11,7 +11,6 @@ import butterknife.InjectView;
 import static commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity.RESULTS_KEY;
 
 public class GradesActivity extends AppCompatActivity {
-
     @InjectView(R.id.resultTextView)
     TextView resultTextView;
 
@@ -19,11 +18,7 @@ public class GradesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        /*if(savedInstanceState != null) {
-            resultTextView.setText(savedInstanceState.getString(RESULTS_KEY));
-        }*/
-
-        setContentView(R.layout.activity_success);
+        setContentView(R.layout.activity_grades);
         ButterKnife.inject(this);
 
         Intent intent = getIntent();

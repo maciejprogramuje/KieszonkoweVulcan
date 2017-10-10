@@ -1,6 +1,7 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan;
 
 import android.util.Log;
+import android.view.View;
 import android.webkit.WebView;
 
 import java.io.Serializable;
@@ -51,7 +52,7 @@ class Subjects implements Serializable {
     private List<Subject> subjects = new ArrayList<>();
 
     Subjects(MainActivity mainActivity) {
-        Log.w("UWAGA", "konstruktor subjects");
+        mainActivity.progressBar.setVisibility(View.VISIBLE);
 
         subjects.add(new Subject("Język polski")); // 0
         subjects.add(new Subject("Język angielski")); // 1

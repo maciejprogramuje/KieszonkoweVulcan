@@ -1,6 +1,7 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan;
 
 import android.content.Intent;
+import android.view.View;
 import android.webkit.JavascriptInterface;
 
 import java.util.regex.Matcher;
@@ -26,6 +27,7 @@ public class GradesJavaScriptInterface {
         for(int i = 0; i < mainActivity.subjects.size(); i++) {
             set(html, i);
         }
+        mainActivity.progressBar.setVisibility(View.GONE);
     }
 
     private void set(String htmlAsString, int subjectIndex) {
