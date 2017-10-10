@@ -22,11 +22,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SuccessActivity" />
+        <activity android:name=".GradesActivity" />
         <activity
             android:name=".NoInternetActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".MoneyActivity"
+            android:label="@string/title_activity_money"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

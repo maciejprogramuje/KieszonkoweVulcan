@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/actual_month"
+        android:title="Aktualny miesiąc" />
+
+    <item
+        android:id="@+id/previous_month"
+        android:title="Poprzedni miesiąc" />
+
+</menu>

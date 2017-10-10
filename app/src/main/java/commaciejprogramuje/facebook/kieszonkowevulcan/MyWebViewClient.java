@@ -40,13 +40,12 @@ class MyWebViewClient extends WebViewClient {
             mainActivity.getWebView().loadUrl("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Frekwencja.mvc");
         // parse pages
         } else if (url.equals("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie")) {
-            System.out.println("===================== PARSING GRADES ======================");
             gradesParsePage();
         } else if (url.equals("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Frekwencja.mvc")) {
             System.out.println("===================== PARSING ATTENDING ===================");
             attendingParsePage();
         } else {
-            getLoadingPage(url);
+            getLoginPage(url);
         }
 
         fillLoginForm();
@@ -81,7 +80,7 @@ class MyWebViewClient extends WebViewClient {
         // Returning false means that you are going to load this url in the webView itself
     }
 
-    private void getLoadingPage(String url) {
+    private void getLoginPage(String url) {
         if (url.equals("https://uonetplus.vulcan.net.pl/lublin/")
                 || url.equals("https://uonetplus.vulcan.net.pl/lublin/?logout=true")
                 || url.equals("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Default.aspx")) {

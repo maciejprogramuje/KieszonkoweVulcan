@@ -10,7 +10,7 @@ import butterknife.InjectView;
 
 import static commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity.RESULTS_KEY;
 
-public class SuccessActivity extends AppCompatActivity {
+public class GradesActivity extends AppCompatActivity {
 
     @InjectView(R.id.resultTextView)
     TextView resultTextView;

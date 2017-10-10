@@ -3,12 +3,11 @@ package commaciejprogramuje.facebook.kieszonkowevulcan;
 import android.content.Intent;
 import android.webkit.JavascriptInterface;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity.RESULTS_KEY;
+import static commaciejprogramuje.facebook.kieszonkowevulcan.NavMenuButtonsTitle.*;
 
 /**
  * Created by m.szymczyk on 2017-10-09.
@@ -38,13 +37,18 @@ public class GradesJavaScriptInterface {
                     .append("\n");
         }
 
-        System.out.println("=================================================================================");
-        System.out.println(stringBuilder.toString());
-        System.out.println("=================================================================================");
+        //System.out.println("=================================================================================");
+        //System.out.println(stringBuilder.toString());
+        //System.out.println("=================================================================================");
 
-        Intent intent = new Intent(mainActivity.getBaseContext(), SuccessActivity.class);
-        intent.putExtra(RESULTS_KEY, stringBuilder.toString());
-        mainActivity.startActivity(intent);
+        if(mainActivity.getNavMenuButtonsTitle().equals(GRADES)) {
+            Intent intent = new Intent(mainActivity.getBaseContext(), GradesActivity.class);
+            intent.putExtra(RESULTS_KEY, stringBuilder.toString());
+            mainActivity.startActivity(intent);
+        } else if (mainActivity.getNavMenuButtonsTitle().equals(MONEY)) {
+            Intent intent = new Intent(mainActivity.getBaseContext(), MoneyActivity.class);
+            mainActivity.startActivity(intent);
+        }
     }
 
     private void set(String htmlAsString, int subjectIndex) {
@@ -61,7 +65,7 @@ public class GradesJavaScriptInterface {
         temp = temp.substring(0, temp.indexOf("</tr>"));
         Matcher m = Pattern.compile("[1-6]{1}</span>").matcher(temp);
         while (m.find()) {
-            gradesStringBuilder.append(m.group().substring(0, 1)).append(" ");
+            gradesStringBuilder.append(m.group().substring(0, 1)).append(", ");
         }
         return gradesStringBuilder.toString();
     }
@@ -73,7 +77,7 @@ public class GradesJavaScriptInterface {
         if (temp.contains("</span></td>")) {
             Matcher m = Pattern.compile("[1-6]{1}[,]?[0-9]?[0-9]?</td>").matcher(temp);
             while (m.find()) {
-                averageGradesStringBuilder.append(m.group().replace("</td>", "")).append(", ");
+                averageGradesStringBuilder.append(m.group().replace("</td>", ""));
             }
         } else {
             averageGradesStringBuilder.append("-");
