@@ -6,21 +6,22 @@ import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebView;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.OnClick;
 
 import static commaciejprogramuje.facebook.kieszonkowevulcan.NavMenuButtonsTitle.ATTENDING;
 import static commaciejprogramuje.facebook.kieszonkowevulcan.NavMenuButtonsTitle.GRADES;
@@ -28,20 +29,18 @@ import static commaciejprogramuje.facebook.kieszonkowevulcan.NavMenuButtonsTitle
 import static commaciejprogramuje.facebook.kieszonkowevulcan.NavMenuButtonsTitle.NEWS;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    public static final String LOGIN_STRING = "e_szymczyk@orange.pl";
+    public static final String PASSWORD_STRING = "Ulka!2002";
     public static final String SUBJECTS_KEY = "subjects";
     public static final String RESULTS_KEY = "results";
 
-    @InjectView(R.id.webView)
-    WebView webView;
-    @InjectView(R.id.textView)
-    TextView textView;
-    @InjectView(R.id.button)
-    Button button;
+    @InjectView(R.id.tempWebView)
+    WebView tempWebView;
 
-    WebNavigation webNavigation;
     Subjects subjects;
     NavMenuButtonsTitle navMenuButtonsTitle;
     NavigationView navigationView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,31 +55,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
         if (!checkInternetConnection(this)) {
             Toast.makeText(getApplicationContext(), "Włącz internet!", Toast.LENGTH_LONG).show();
-
             Intent intent = new Intent(this, NoInternetActivity.class);
             startActivity(intent);
         } else {
+            // czyli szuflada
             navigationView = (NavigationView) findViewById(R.id.nav_view);
             navigationView.setNavigationItemSelectedListener(this);
 
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-
-            navMenuButtonsTitle = NEWS;
-            webNavigation = new WebNavigation(this);
-
-            webNavigation.navToLoginAndDashboard();
-
-            if (savedInstanceState == null) {
-                subjects = new Subjects();
-            } else {
-                subjects = (Subjects) savedInstanceState.getSerializable(SUBJECTS_KEY);
-            }
+            tempWebView.setVisibility(View.INVISIBLE);
+            subjects = new Subjects(MainActivity.this);
 
             navigationView.setCheckedItem(R.id.nav_news);
-            //onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_planets));
+            onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_news));
         }
     }
 
@@ -122,17 +113,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle bottom_navigation_money_activity view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_news) {
-            navMenuButtonsTitle = NEWS;
-            webNavigation.navToNews();
+
+            NewsFragment newsFragment = NewsFragment.newInstance();
+            replaceFragment(newsFragment);
+
         } else if (id == R.id.nav_grades) {
-            navMenuButtonsTitle = GRADES;
-            webNavigation.navToPupilPanel();
+
+            StringBuilder stringBuilder = new StringBuilder();
+            for (int i = 0; i < subjects.size(); i++) {
+                stringBuilder.append(subjects.getName(i))
+                        .append(": ")
+                        .append(subjects.getGrades(i))
+                        .append("średnia: ")
+                        .append(subjects.getAverage(i))
+                        .append("\n");
+            }
+            Log.w("UWAGA", stringBuilder.toString());
+
+            GradesFragment gradesFragment = GradesFragment.newInstance(stringBuilder.toString());
+            replaceFragment(gradesFragment);
+
         } else if (id == R.id.nav_money) {
             navMenuButtonsTitle = MONEY;
-            webNavigation.navToPupilPanel();
+            //webView.loadUrl("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Start/Index/");
         } else if (id == R.id.nav_attending) {
             navMenuButtonsTitle = ATTENDING;
-            webNavigation.navToPupilPanel();
+            //webView.loadUrl("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Start/Index/");
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -140,8 +146,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    @OnClick(R.id.button)
-    public void onViewClicked() {
+    private void replaceFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.main_container, fragment);
+        fragmentTransaction.commit();
     }
 
     @Override
@@ -157,64 +165,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 && con_manager.getActiveNetworkInfo().isConnected();
     }
 
-
-    public WebView getWebView() {
-        return webView;
+    public WebView getTempWebView() {
+        return tempWebView;
     }
 
-    public void setWebView(WebView webView) {
-        this.webView = webView;
-    }
-
-    public TextView getTextView() {
-        return textView;
-    }
-
-    public void setTextViewByString(String s) {
-        textView.setText(s);
-    }
-
-    public Button getButton() {
-        return button;
-    }
-
-    public void setButton(Button button) {
-        this.button = button;
-    }
-
-    public WebNavigation getWebNavigation() {
-        return webNavigation;
-    }
-
-    public void setWebNavigation(WebNavigation webNavigation) {
-        this.webNavigation = webNavigation;
-    }
-
-    public Subjects getSubjects() {
-        return subjects;
-    }
-
-    public void setSubjects(Subjects subjects) {
-        this.subjects = subjects;
-    }
-
-    public NavMenuButtonsTitle getNavMenuButtonsTitle() {
-        return navMenuButtonsTitle;
-    }
-
-    public void setNavMenuButtonsTitle(NavMenuButtonsTitle navMenuButtonsTitle) {
-        this.navMenuButtonsTitle = navMenuButtonsTitle;
-    }
-
-    public NavigationView getNavigationView() {
-        return navigationView;
-    }
-
-    public void setNavigationView(NavigationView navigationView) {
-        this.navigationView = navigationView;
-    }
-
-    public void setTextView(TextView textView) {
-        this.textView = textView;
+    public void setTempWebView(WebView tempWebView) {
+        this.tempWebView = tempWebView;
     }
 }

@@ -23,40 +23,17 @@ public class GradesJavaScriptInterface {
     @JavascriptInterface
     @SuppressWarnings("unused")
     public void processHTML(String html) {
-        for(int i = 0; i < mainActivity.getSubjects().size(); i++) {
+        for(int i = 0; i < mainActivity.subjects.size(); i++) {
             set(html, i);
-        }
-
-        StringBuilder stringBuilder = new StringBuilder();
-        for(int i = 0; i < mainActivity.getSubjects().size(); i++) {
-            stringBuilder.append(mainActivity.getSubjects().getName(i))
-                    .append(": ")
-                    .append(mainActivity.getSubjects().getGrades(i))
-                    .append("średnia: ")
-                    .append(mainActivity.getSubjects().getAverage(i))
-                    .append("\n");
-        }
-
-        //System.out.println("=================================================================================");
-        //System.out.println(stringBuilder.toString());
-        //System.out.println("=================================================================================");
-
-        if(mainActivity.getNavMenuButtonsTitle().equals(GRADES)) {
-            Intent intent = new Intent(mainActivity.getBaseContext(), GradesActivity.class);
-            intent.putExtra(RESULTS_KEY, stringBuilder.toString());
-            mainActivity.startActivity(intent);
-        } else if (mainActivity.getNavMenuButtonsTitle().equals(MONEY)) {
-            Intent intent = new Intent(mainActivity.getBaseContext(), MoneyActivity.class);
-            mainActivity.startActivity(intent);
         }
     }
 
     private void set(String htmlAsString, int subjectIndex) {
         // ustal nazwę przedmiotu
-        String tempName = mainActivity.getSubjects().getName(subjectIndex);;
+        String tempName = mainActivity.subjects.getName(subjectIndex);;
         // wypełnij subjects danymi
-        mainActivity.getSubjects().setGrades(subjectIndex, getGrades(htmlAsString, tempName));
-        mainActivity.getSubjects().setAverage(subjectIndex, getAverageGrades(htmlAsString, tempName));
+        mainActivity.subjects.setGrades(subjectIndex, getGrades(htmlAsString, tempName));
+        mainActivity.subjects.setAverage(subjectIndex, getAverageGrades(htmlAsString, tempName));
     }
 
     private String getGrades(String html, String subject) {
