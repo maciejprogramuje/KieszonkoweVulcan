@@ -1,5 +1,6 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan;
 
+import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -21,6 +22,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.Toast;
+
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -58,24 +61,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
+        // czyli szuflada
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        tempWebView.setVisibility(View.INVISIBLE);
+        waitMessages = new WaitMessages();
+        progressDialog = createProgressDialog();
+        subjects = new Subjects();
+
         if (!checkInternetConnection(this)) {
-            Toast.makeText(getApplicationContext(), "Włącz internet!", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(this, NoInternetActivity.class);
-            startActivity(intent);
+            noInternetReaction();
         } else {
-            // czyli szuflada
-            navigationView = (NavigationView) findViewById(R.id.nav_view);
-            navigationView.setNavigationItemSelectedListener(this);
-
-            tempWebView.setVisibility(View.INVISIBLE);
-            waitMessages = new WaitMessages();
-            progressDialog = createProgressDialog();
-
             loadGrades();
-
-            navigationView.setCheckedItem(R.id.nav_news);
-            onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_news));
         }
+
+        navigationView.setCheckedItem(R.id.nav_news);
+        onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_news));
     }
 
     @Override
@@ -116,6 +118,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle bottom_navigation_money_activity view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_news) {
+            if (!checkInternetConnection(this)) {
+                noInternetReaction();
+            }
             NewsFragment newsFragment = NewsFragment.newInstance();
             replaceFragment(newsFragment);
         } else if (id == R.id.nav_grades) {
@@ -133,43 +138,66 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @OnClick(R.id.fab)
     public void onViewClicked() {
-        loadGrades();
+        if (!checkInternetConnection(this)) {
+            noInternetReaction();
+        } else {
+            loadGrades();
 
-        progressDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialogInterface) {
-                if(navigationView.getMenu().findItem(R.id.nav_news).isChecked()) {
-                    onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_news));
-                } else if (navigationView.getMenu().findItem(R.id.nav_grades).isChecked()) {
-                    onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_grades));
-                } else if(navigationView.getMenu().findItem(R.id.nav_money).isChecked()) {
-                    onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_money));
+            progressDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialogInterface) {
+                    if (navigationView.getMenu().findItem(R.id.nav_news).isChecked()) {
+                        onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_news));
+                    } else if (navigationView.getMenu().findItem(R.id.nav_grades).isChecked()) {
+                        onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_grades));
+                    } else if (navigationView.getMenu().findItem(R.id.nav_money).isChecked()) {
+                        onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_money));
+                    }
                 }
-            }
-        });
+            });
+        }
+    }
+
+    private void noInternetReaction() {
+        Toast.makeText(getApplicationContext(), "Włącz internet!", Toast.LENGTH_LONG).show();
+
+
     }
 
     private void loadGrades() {
         progressDialog.setMessage(waitMessages.getRandomText());
         progressDialog.show();
-        subjects = new Subjects(MainActivity.this);
+
+        tempWebView.getSettings().setJavaScriptEnabled(true);
+        tempWebView.getSettings().setDomStorageEnabled(true);
+        tempWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+        tempWebView.setWebViewClient(new MyWebViewClient(tempWebView));
+        tempWebView.addJavascriptInterface(new GradesJavaScriptInterface(this), "GRADES_HTMLOUT");
+
+        tempWebView.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
     }
 
     private void showGradesFragment() {
         StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < subjects.size(); i++) {
-            stringBuilder.append(subjects.getName(i))
-                    .append(": ")
-                    .append(subjects.getGrades(i).get(0).getmGrade()) ////////////
-                    .append(" (")
-                    .append(subjects.getGrades(i).get(0).getmDate())
-                    .append(", ")
-                    .append(subjects.getGrades(i).get(0).getmText())
-                    .append("), średnia: ")
-                    .append(subjects.getAverage(i))
-                    .append("\n");
+
+        if (!checkInternetConnection(this)) {
+            noInternetReaction();
+            stringBuilder.append("Włącz internet i odśwież przyciskiem!\n\npusty showGradesFragment");
+        } else {
+            for (int i = 0; i < subjects.size(); i++) {
+                stringBuilder.append(subjects.getName(i))
+                        .append(": ")
+                        .append(subjects.getGrades(i).get(0).getmGrade()) ////////////
+                        .append(" (")
+                        .append(subjects.getGrades(i).get(0).getmDate())
+                        .append(", ")
+                        .append(subjects.getGrades(i).get(0).getmText())
+                        .append("), średnia: ")
+                        .append(subjects.getAverage(i))
+                        .append("\n");
+            }
+            //Log.w("UWAGA", stringBuilder.toString());
         }
-        //Log.w("UWAGA", stringBuilder.toString());
 
         GradesFragment gradesFragment = GradesFragment.newInstance(stringBuilder.toString());
         replaceFragment(gradesFragment);
@@ -177,15 +205,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void showMoneyFragment() {
         StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < subjects.size(); i++) {
-            stringBuilder.append(subjects.getName(i))
-                    .append(": ")
-                    .append(subjects.getGrades(i).get(0).getmGrade()) ////////////
-                    .append("średnia: ")
-                    .append(subjects.getAverage(i))
-                    .append("\n");
+
+        if (!checkInternetConnection(this)) {
+            noInternetReaction();
+            stringBuilder.append("Włącz internet i odśwież przyciskiem!\n\npusty showMoneyFragment");
+        } else {
+            for (int i = 0; i < subjects.size(); i++) {
+                stringBuilder.append(subjects.getName(i))
+                        .append(": ")
+                        .append(subjects.getGrades(i).get(0).getmGrade()) ////////////
+                        .append("średnia: ")
+                        .append(subjects.getAverage(i))
+                        .append("\n");
+            }
+            //Log.w("UWAGA", stringBuilder.toString());
         }
-        //Log.w("UWAGA", stringBuilder.toString());
 
         MoneyFragment moneyFragment = MoneyFragment.newInstance(stringBuilder.toString());
         replaceFragment(moneyFragment);
@@ -210,10 +244,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 && con_manager.getActiveNetworkInfo().isConnected();
     }
 
-    public WebView getTempWebView() {
-        return tempWebView;
-    }
-
     private ProgressDialog createProgressDialog() {
         ProgressDialog pd = new ProgressDialog(MainActivity.this);
         pd.setTitle("Czekaj...");
@@ -221,7 +251,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         pd.setIndeterminate(true);
         pd.setCancelable(false);
-        pd.setCanceledOnTouchOutside(false);
         return pd;
     }
 }

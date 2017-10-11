@@ -1,6 +1,7 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 
@@ -14,7 +15,7 @@ import java.util.regex.Pattern;
  */
 
 public class GradesJavaScriptInterface {
-    MainActivity mainActivity;
+    private MainActivity mainActivity;
 
     public GradesJavaScriptInterface(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
@@ -53,6 +54,8 @@ public class GradesJavaScriptInterface {
         while (m.find()) {
             gradesStringBuilder.append(m.group().substring(0, 1)).append(", ");
         }
+
+        Log.w("UWAGA", gradesStringBuilder.toString());
 
         tempGrades.add(new Grade(gradesStringBuilder.toString(), "data", "opis"));
 

@@ -1,5 +1,10 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan;
 
+import android.content.Context;
+import android.os.Build;
+import android.util.Log;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.webkit.WebView;
 
 import java.io.Serializable;
@@ -13,7 +18,7 @@ import java.util.List;
 class Subjects implements Serializable {
     private List<Subject> subjects = new ArrayList<>();
 
-    Subjects(MainActivity mainActivity) {
+    Subjects() {
         subjects.add(new Subject("Język polski")); // 0
         subjects.add(new Subject("Język angielski")); // 1
         subjects.add(new Subject("Język niemiecki")); // 2
@@ -30,16 +35,6 @@ class Subjects implements Serializable {
         subjects.add(new Subject("Zajęcia techniczne")); // 13
         subjects.add(new Subject("Wychowanie do życia w rodzinie")); // 14
         subjects.add(new Subject("Etyka")); // 15
-
-
-        WebView browser = mainActivity.getTempWebView();
-        browser.getSettings().setJavaScriptEnabled(true);
-        browser.getSettings().setDomStorageEnabled(true);
-        browser.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-        browser.setWebViewClient(new MyWebViewClient(browser));
-        browser.addJavascriptInterface(new GradesJavaScriptInterface(mainActivity), "GRADES_HTMLOUT");
-        //browser.addJavascriptInterface(new MyWebViewClient.attendingJavaScriptInterface(), "ATTENDING_HTMLOUT");
-        browser.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
     }
 
     public String getName(int index) {

@@ -19,11 +19,14 @@ class MyWebViewClient extends WebViewClient {
     MyWebViewClient(WebView webView) {
         Log.w("UWAGA", "konstruktor MyWebViewClient");
         this.webView = webView;
+
+        //webView.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
     }
 
     @Override
     public void onPageFinished(WebView view, String url) {
         Log.w("UWAGA", "FINISHED: " + url);
+
         if (url.equals("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Start/Index/")
                 || url.equals("https://uonetplus.vulcan.net.pl/lublin/Start.mvc/Index")) {
             webView.loadUrl("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie");
@@ -40,8 +43,8 @@ class MyWebViewClient extends WebViewClient {
                 "document.getElementById('LoginName').value = '" + LOGIN_STRING + "';" +
                 "document.getElementById('Password').value = '" + PASSWORD_STRING + "';" +
                 "document.getElementsByTagName('input')[2].click();" +
-                "};");
-
+                "};"
+        );
     }
 
     private void gradesParsePage() {
