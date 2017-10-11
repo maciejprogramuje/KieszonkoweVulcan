@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_grades) {
             showGradesFragment();
         } else if (id == R.id.nav_money) {
-
+            showMoneyFragment();
         } else if (id == R.id.nav_attending) {
 
         }
@@ -142,6 +142,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_news));
                 } else if (navigationView.getMenu().findItem(R.id.nav_grades).isChecked()) {
                     onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_grades));
+                } else if(navigationView.getMenu().findItem(R.id.nav_money).isChecked()) {
+                    onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_money));
                 }
             }
         });
@@ -167,6 +169,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         GradesFragment gradesFragment = GradesFragment.newInstance(stringBuilder.toString());
         replaceFragment(gradesFragment);
+    }
+
+    private void showMoneyFragment() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < subjects.size(); i++) {
+            stringBuilder.append(subjects.getName(i))
+                    .append(": ")
+                    .append(subjects.getGrades(i))
+                    .append("średnia: ")
+                    .append(subjects.getAverage(i))
+                    .append("\n");
+        }
+        //Log.w("UWAGA", stringBuilder.toString());
+
+        MoneyFragment moneyFragment = MoneyFragment.newInstance(stringBuilder.toString());
+        replaceFragment(moneyFragment);
     }
 
     private void replaceFragment(Fragment fragment) {
@@ -198,6 +216,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         pd.setMessage(waitMessages.getRandomText());
         pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         pd.setIndeterminate(true);
+        pd.setCancelable(false);
+        pd.setCanceledOnTouchOutside(false);
         return pd;
     }
 }

@@ -13,22 +13,22 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
-public class GradesFragment extends Fragment {
+public class MoneyFragment extends Fragment {
     public static final String GRADES_KEY = "grades";
 
-    @InjectView(R.id.grades_fragment_textview)
-    TextView gradesFragmentTextview;
+    @InjectView(R.id.money_fragment_textview)
+    TextView moneyFragmentTextview;
 
     private String grades;
 
-    public GradesFragment() {
+    public MoneyFragment() {
         // Required empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_grades, container, false);
+        View view = inflater.inflate(R.layout.fragment_money, container, false);
         ButterKnife.inject(this, view);
         return view;
     }
@@ -39,12 +39,12 @@ public class GradesFragment extends Fragment {
 
         if (getArguments() != null) {
             grades = getArguments().getString(GRADES_KEY);
-            gradesFragmentTextview.setText(grades);
+            moneyFragmentTextview.setText(grades);
         }
     }
 
-    public static GradesFragment newInstance(String initialGrades) {
-        GradesFragment fragment = new GradesFragment();
+    public static MoneyFragment newInstance(String initialGrades) {
+        MoneyFragment fragment = new MoneyFragment();
         Bundle args = new Bundle();
         args.putString(GRADES_KEY, initialGrades);
         fragment.setArguments(args);
