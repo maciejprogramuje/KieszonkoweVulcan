@@ -11,42 +11,6 @@ import java.util.List;
  */
 
 class Subjects implements Serializable {
-    private class Subject implements Serializable {
-        private String subjectName;
-        private String subjectGrades;
-        private String subjectAverage;
-
-        Subject(String subjectName) {
-            this.subjectName = subjectName;
-            subjectGrades = "";
-            subjectAverage = "";
-        }
-
-        public String getSubjectName() {
-            return subjectName;
-        }
-
-        public void setSubjectName(String subjectName) {
-            this.subjectName = subjectName;
-        }
-
-        public String getSubjectGrades() {
-            return subjectGrades;
-        }
-
-        public void setSubjectGrades(String subjectGrades) {
-            this.subjectGrades = subjectGrades;
-        }
-
-        public String getSubjectAverage() {
-            return subjectAverage;
-        }
-
-        public void setSubjectAverage(String subjectAverage) {
-            this.subjectAverage = subjectAverage;
-        }
-    }
-
     private List<Subject> subjects = new ArrayList<>();
 
     Subjects(MainActivity mainActivity) {
@@ -82,7 +46,7 @@ class Subjects implements Serializable {
         return subjects.get(index).getSubjectName();
     }
 
-    public String getGrades(int index) {
+    public List<Grade> getGrades(int index) {
         return subjects.get(index).getSubjectGrades();
     }
 
@@ -90,8 +54,8 @@ class Subjects implements Serializable {
         return subjects.get(index).getSubjectAverage();
     }
 
-    public void setGrades(int index, String gradesString) {
-        subjects.get(index).setSubjectGrades(gradesString);
+    public void setGrades(int index, List<Grade> gradesList) {
+        subjects.get(index).setSubjectGrades(gradesList);
     }
 
     public void setAverage(int index, String averageString) {

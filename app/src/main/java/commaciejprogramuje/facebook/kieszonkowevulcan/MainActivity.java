@@ -160,8 +160,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         for (int i = 0; i < subjects.size(); i++) {
             stringBuilder.append(subjects.getName(i))
                     .append(": ")
-                    .append(subjects.getGrades(i))
-                    .append("średnia: ")
+                    .append(subjects.getGrades(i).get(0).getmGrade()) ////////////
+                    .append(" (")
+                    .append(subjects.getGrades(i).get(0).getmDate())
+                    .append(", ")
+                    .append(subjects.getGrades(i).get(0).getmText())
+                    .append("), średnia: ")
                     .append(subjects.getAverage(i))
                     .append("\n");
         }
@@ -176,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         for (int i = 0; i < subjects.size(); i++) {
             stringBuilder.append(subjects.getName(i))
                     .append(": ")
-                    .append(subjects.getGrades(i))
+                    .append(subjects.getGrades(i).get(0).getmGrade()) ////////////
                     .append("średnia: ")
                     .append(subjects.getAverage(i))
                     .append("\n");

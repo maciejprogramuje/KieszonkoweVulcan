@@ -4,11 +4,10 @@ import android.content.Intent;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity.RESULTS_KEY;
-import static commaciejprogramuje.facebook.kieszonkowevulcan.NavMenuButtonsTitle.*;
 
 /**
  * Created by m.szymczyk on 2017-10-09.
@@ -44,15 +43,20 @@ public class GradesJavaScriptInterface {
         mainActivity.subjects.setAverage(subjectIndex, getAverageGrades(htmlAsString, tempName));
     }
 
-    private String getGrades(String html, String subject) {
-        StringBuilder gradesStringBuilder = new StringBuilder("");
+    private List<Grade> getGrades(String html, String subject) {
+        List<Grade> tempGrades = new ArrayList<>();
+
+        StringBuilder gradesStringBuilder = new StringBuilder();
         String temp = html.substring(html.indexOf(subject));
         temp = temp.substring(0, temp.indexOf("</tr>"));
         Matcher m = Pattern.compile("[1-6]{1}</span>").matcher(temp);
         while (m.find()) {
             gradesStringBuilder.append(m.group().substring(0, 1)).append(", ");
         }
-        return gradesStringBuilder.toString();
+
+        tempGrades.add(new Grade(gradesStringBuilder.toString(), "data", "opis"));
+
+        return tempGrades;
     }
 
     private String getAverageGrades(String html, String subject) {

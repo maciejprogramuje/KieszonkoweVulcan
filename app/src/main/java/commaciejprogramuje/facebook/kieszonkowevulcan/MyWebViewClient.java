@@ -8,9 +8,6 @@ import android.webkit.WebViewClient;
 
 import static commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity.LOGIN_STRING;
 import static commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity.PASSWORD_STRING;
-import static commaciejprogramuje.facebook.kieszonkowevulcan.NavMenuButtonsTitle.ATTENDING;
-import static commaciejprogramuje.facebook.kieszonkowevulcan.NavMenuButtonsTitle.GRADES;
-import static commaciejprogramuje.facebook.kieszonkowevulcan.NavMenuButtonsTitle.MONEY;
 
 /**
  * Created by 5742ZGPC on 2017-10-07.
