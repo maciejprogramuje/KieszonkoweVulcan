@@ -27,7 +27,13 @@ public class GradesJavaScriptInterface {
         for(int i = 0; i < mainActivity.subjects.size(); i++) {
             set(html, i);
         }
-        mainActivity.progressBar.setVisibility(View.GONE);
+
+        mainActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mainActivity.progressDialog.dismiss();
+            }
+        });
     }
 
     private void set(String htmlAsString, int subjectIndex) {

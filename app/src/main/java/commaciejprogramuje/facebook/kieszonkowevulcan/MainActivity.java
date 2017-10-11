@@ -1,6 +1,8 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
@@ -14,12 +16,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import butterknife.ButterKnife;
@@ -36,11 +36,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     WebView tempWebView;
     @InjectView(R.id.fab)
     FloatingActionButton fab;
-    @InjectView(R.id.progressBar)
-    ProgressBar progressBar;
 
     Subjects subjects;
     NavigationView navigationView;
+    ProgressDialog progressDialog;
+    private WaitMessages waitMessages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +58,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        progressBar.setVisibility(View.GONE);
-
         if (!checkInternetConnection(this)) {
             Toast.makeText(getApplicationContext(), "Włącz internet!", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(this, NoInternetActivity.class);
@@ -70,7 +68,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             navigationView.setNavigationItemSelectedListener(this);
 
             tempWebView.setVisibility(View.INVISIBLE);
-            subjects = new Subjects(MainActivity.this);
+            waitMessages = new WaitMessages();
+            progressDialog = createProgressDialog();
+
+            loadGrades();
 
             navigationView.setCheckedItem(R.id.nav_news);
             onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_news));
@@ -118,7 +119,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             NewsFragment newsFragment = NewsFragment.newInstance();
             replaceFragment(newsFragment);
         } else if (id == R.id.nav_grades) {
-            loadGrades();
             showGradesFragment();
         } else if (id == R.id.nav_money) {
 
@@ -129,6 +129,44 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @OnClick(R.id.fab)
+    public void onViewClicked() {
+        loadGrades();
+
+        progressDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                if(navigationView.getMenu().findItem(R.id.nav_news).isChecked()) {
+                    onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_news));
+                } else if (navigationView.getMenu().findItem(R.id.nav_grades).isChecked()) {
+                    onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_grades));
+                }
+            }
+        });
+    }
+
+    private void loadGrades() {
+        progressDialog.setMessage(waitMessages.getRandomText());
+        progressDialog.show();
+        subjects = new Subjects(MainActivity.this);
+    }
+
+    private void showGradesFragment() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < subjects.size(); i++) {
+            stringBuilder.append(subjects.getName(i))
+                    .append(": ")
+                    .append(subjects.getGrades(i))
+                    .append("średnia: ")
+                    .append(subjects.getAverage(i))
+                    .append("\n");
+        }
+        //Log.w("UWAGA", stringBuilder.toString());
+
+        GradesFragment gradesFragment = GradesFragment.newInstance(stringBuilder.toString());
+        replaceFragment(gradesFragment);
     }
 
     private void replaceFragment(Fragment fragment) {
@@ -154,44 +192,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return tempWebView;
     }
 
-    @OnClick(R.id.fab)
-    public void onViewClicked() {
-        loadGrades();
-        showGradesFragment();
-    }
-
-    private void loadGrades() {
-        Thread t = new Thread() {
-            @Override
-            public void run() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        //do some serious stuff...
-                        subjects = new Subjects(MainActivity.this);
-                    }
-                });
-            }
-        };
-        t.start();
-        //t.join();
-    }
-
-    private void showGradesFragment() {
-        while (!progressBar.isShown()) {
-            StringBuilder stringBuilder = new StringBuilder();
-            for (int i = 0; i < subjects.size(); i++) {
-                stringBuilder.append(subjects.getName(i))
-                        .append(": ")
-                        .append(subjects.getGrades(i))
-                        .append("średnia: ")
-                        .append(subjects.getAverage(i))
-                        .append("\n");
-            }
-            //Log.w("UWAGA", stringBuilder.toString());
-
-            GradesFragment gradesFragment = GradesFragment.newInstance(stringBuilder.toString());
-            replaceFragment(gradesFragment);
-        }
+    private ProgressDialog createProgressDialog() {
+        ProgressDialog pd = new ProgressDialog(MainActivity.this);
+        pd.setTitle("Czekaj...");
+        pd.setMessage(waitMessages.getRandomText());
+        pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        pd.setIndeterminate(true);
+        return pd;
     }
 }
