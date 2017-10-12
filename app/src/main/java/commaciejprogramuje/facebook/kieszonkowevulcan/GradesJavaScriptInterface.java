@@ -32,6 +32,11 @@ public class GradesJavaScriptInterface {
             @Override
             public void run() {
                 mainActivity.progressDialog.dismiss();
+
+                if(mainActivity.getSupportFragmentManager().findFragmentById(R.id.main_container) instanceof HelloFragment) {
+                    mainActivity.navigationView.setCheckedItem(R.id.nav_news);
+                    mainActivity.onNavigationItemSelected(mainActivity.navigationView.getMenu().findItem(R.id.nav_news));
+                }
             }
         });
     }

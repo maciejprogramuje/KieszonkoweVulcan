@@ -15,8 +15,12 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class NewsFragment extends Fragment {
-    @InjectView(R.id.textView)
-    TextView textView;
+    public static final String NEWS_KEY = "news";
+
+    @InjectView(R.id.news_fragment_textview)
+    TextView newsFragmentTextView;
+
+    private String grades;
 
     public NewsFragment() {
         // Required empty public constructor
@@ -34,26 +38,20 @@ public class NewsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        if (getArguments() != null) {
+            grades = getArguments().getString(NEWS_KEY);
+            newsFragmentTextView.setText(grades);
+        }
 
     }
 
-    public static NewsFragment newInstance() {
+    public static NewsFragment newInstance(String initialGrades) {
         NewsFragment fragment = new NewsFragment();
-        //Bundle args = new Bundle();
-        //args.putString(ARG_PARAM1, param1);
-        //fragment.setArguments(args);
+        Bundle args = new Bundle();
+        args.putString(NEWS_KEY, initialGrades);
+        fragment.setArguments(args);
         return fragment;
     }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            //mParam1 = getArguments().getString(ARG_PARAM1);
-        }
-    }
-
-
 
     @Override
     public void onAttach(Context context) {

@@ -14,9 +14,6 @@
             android:id="@+id/nav_money"
             android:icon="@drawable/ic_menu_money"
             android:title="Kieszonkowe" />
-        <item
-            android:id="@+id/nav_attending"
-            android:icon="@drawable/ic_menu_attending"
-            android:title="Frekwencja" />
+
     </group>
 </menu>

@@ -5,11 +5,18 @@
     android:orientation="vertical"
     tools:context="commaciejprogramuje.facebook.kieszonkowevulcan.NewsFragment">
 
-    <TextView
-        android:id="@+id/textView"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="News fragment" />
+        android:fillViewport="true"
+        android:scrollbars="vertical">
 
+        <TextView
+            android:id="@+id/news_fragment_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="News fragment" />
+
+    </ScrollView>
 
 </LinearLayout>

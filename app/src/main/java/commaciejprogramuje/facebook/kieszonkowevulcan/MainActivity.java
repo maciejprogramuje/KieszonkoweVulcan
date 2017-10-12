@@ -71,14 +71,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         progressDialog = createProgressDialog();
         subjects = new Subjects();
 
+        HelloFragment helloFragment = HelloFragment.newInstance();
+        replaceFragment(helloFragment);
+
         if (!checkInternetConnection(this)) {
             noInternetReaction();
         } else {
             loadGrades();
         }
 
-        navigationView.setCheckedItem(R.id.nav_news);
-        onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_news));
+        //navigationView.setCheckedItem(R.id.nav_news);
+        //onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_news));
     }
 
     @Override
@@ -119,11 +122,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle bottom_navigation_money_activity view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_news) {
-            if (!checkInternetConnection(this)) {
-                noInternetReaction();
-            }
-            NewsFragment newsFragment = NewsFragment.newInstance();
-            replaceFragment(newsFragment);
+            showNewsFragment();
         } else if (id == R.id.nav_grades) {
             showGradesFragment();
         } else if (id == R.id.nav_money) {
@@ -159,10 +158,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    private void noInternetReaction() {
-        Toast.makeText(getApplicationContext(), "Włącz internet!", Toast.LENGTH_LONG).show();
-    }
-
     private void loadGrades() {
         progressDialog.setMessage(waitMessages.getRandomText());
         progressDialog.show();
@@ -176,8 +171,46 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         tempWebView.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
     }
 
+    private void showNewsFragment() {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        if (!checkInternetConnection(this)) {
+            noInternetReaction();
+            stringBuilder.append("Włącz internet i odśwież przyciskiem!\n\npusty showGradesFragment");
+        } else {
+            stringBuilder.append("===== NEWS =====\n\n");
+
+            for (int i = 0; i < subjects.size(); i++) {
+                stringBuilder.append(subjects.getName(i).toUpperCase());
+                if(!subjects.getAverage(i).equals("-")) {
+                    stringBuilder.append(" (").append(subjects.getAverage(i)).append(")");
+                }
+                stringBuilder.append("\n");
+                if(subjects.getGrades(i).size() > 0) {
+                    for(int j = 0 ; j < subjects.getGrades(i).size(); j++) {
+                        stringBuilder.append("   ")
+                                .append(subjects.getGrades(i).get(j).getmGrade())
+                                .append(" (")
+                                .append(subjects.getGrades(i).get(j).getmDate())
+                                .append(", ")
+                                .append(subjects.getGrades(i).get(j).getmText())
+                                .append(")\n");
+                    }
+                } else {
+                    stringBuilder.append("   --- brak ocen ---\n");
+                }
+                stringBuilder.append("\n");
+            }
+        }
+
+        NewsFragment newsFragment = NewsFragment.newInstance(stringBuilder.toString());
+        replaceFragment(newsFragment);
+    }
+
     private void showGradesFragment() {
         StringBuilder stringBuilder = new StringBuilder();
+
+        stringBuilder.append("===== OCENY =====\n\n");
 
         if (!checkInternetConnection(this)) {
             noInternetReaction();
@@ -215,17 +248,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (!checkInternetConnection(this)) {
             noInternetReaction();
-            stringBuilder.append("Włącz internet i odśwież przyciskiem!\n\npusty showMoneyFragment");
+            stringBuilder.append("Włącz internet i odśwież przyciskiem!\n\npusty showGradesFragment");
         } else {
+            stringBuilder.append("===== KIESZONKOWE =====\n\n");
+
             for (int i = 0; i < subjects.size(); i++) {
-                stringBuilder.append(subjects.getName(i))
-                        .append(": ")
-                        .append(subjects.getGrades(i).get(0).getmGrade()) ////////////
-                        .append("średnia: ")
-                        .append(subjects.getAverage(i))
-                        .append("\n");
+                stringBuilder.append(subjects.getName(i).toUpperCase());
+                if (!subjects.getAverage(i).equals("-")) {
+                    stringBuilder.append(" (").append(subjects.getAverage(i)).append(")");
+                }
+                stringBuilder.append("\n");
+                if (subjects.getGrades(i).size() > 0) {
+                    for (int j = 0; j < subjects.getGrades(i).size(); j++) {
+                        stringBuilder.append("   ")
+                                .append(subjects.getGrades(i).get(j).getmGrade())
+                                .append(" (")
+                                .append(subjects.getGrades(i).get(j).getmDate())
+                                .append(", ")
+                                .append(subjects.getGrades(i).get(j).getmText())
+                                .append(")\n");
+                    }
+                } else {
+                    stringBuilder.append("   --- brak ocen ---\n");
+                }
+                stringBuilder.append("\n");
             }
-            //Log.w("UWAGA", stringBuilder.toString());
         }
 
         MoneyFragment moneyFragment = MoneyFragment.newInstance(stringBuilder.toString());
@@ -259,5 +306,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         pd.setIndeterminate(true);
         pd.setCancelable(false);
         return pd;
+    }
+
+    private void noInternetReaction() {
+        Toast.makeText(getApplicationContext(), "Włącz internet!", Toast.LENGTH_LONG).show();
     }
 }
