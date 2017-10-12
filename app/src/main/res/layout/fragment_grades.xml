@@ -4,12 +4,18 @@
     android:layout_height="match_parent"
     tools:context="commaciejprogramuje.facebook.kieszonkowevulcan.GradesFragment">
 
-    <TextView
-        android:id="@+id/grades_fragment_textview"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_vertical"
-        android:text="grades_fragment_textview"
-        android:scrollbars="horizontal"/>
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:scrollbars="vertical">
 
+        <TextView
+            android:id="@+id/grades_fragment_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="grades_fragment_textview" />
+
+    </ScrollView>
 </FrameLayout>

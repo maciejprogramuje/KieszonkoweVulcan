@@ -24,6 +24,7 @@ import android.webkit.WebView;
 import android.widget.Toast;
 
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -160,8 +161,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void noInternetReaction() {
         Toast.makeText(getApplicationContext(), "Włącz internet!", Toast.LENGTH_LONG).show();
-
-
     }
 
     private void loadGrades() {
@@ -185,18 +184,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             stringBuilder.append("Włącz internet i odśwież przyciskiem!\n\npusty showGradesFragment");
         } else {
             for (int i = 0; i < subjects.size(); i++) {
-                stringBuilder.append(subjects.getName(i))
-                        .append(": ")
-                        .append(subjects.getGrades(i).get(0).getmGrade()) ////////////
-                        .append(" (")
-                        .append(subjects.getGrades(i).get(0).getmDate())
-                        .append(", ")
-                        .append(subjects.getGrades(i).get(0).getmText())
-                        .append("), średnia: ")
-                        .append(subjects.getAverage(i))
-                        .append("\n");
+                stringBuilder.append(subjects.getName(i).toUpperCase());
+                if(!subjects.getAverage(i).equals("-")) {
+                    stringBuilder.append(" (").append(subjects.getAverage(i)).append(")");
+                }
+                stringBuilder.append("\n");
+                if(subjects.getGrades(i).size() > 0) {
+                    for(int j = 0 ; j < subjects.getGrades(i).size(); j++) {
+                        stringBuilder.append("   ")
+                                .append(subjects.getGrades(i).get(j).getmGrade())
+                                .append(" (")
+                                .append(subjects.getGrades(i).get(j).getmDate())
+                                .append(", ")
+                                .append(subjects.getGrades(i).get(j).getmText())
+                                .append(")\n");
+                    }
+                } else {
+                    stringBuilder.append("   --- brak ocen ---\n");
+                }
+                stringBuilder.append("\n");
             }
-            //Log.w("UWAGA", stringBuilder.toString());
         }
 
         GradesFragment gradesFragment = GradesFragment.newInstance(stringBuilder.toString());

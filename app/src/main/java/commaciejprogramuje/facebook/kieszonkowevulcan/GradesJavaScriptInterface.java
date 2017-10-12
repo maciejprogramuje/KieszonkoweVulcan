@@ -46,19 +46,31 @@ public class GradesJavaScriptInterface {
 
     private List<Grade> getGrades(String html, String subject) {
         List<Grade> tempGrades = new ArrayList<>();
+        String tempGrade = "";
+        String tempDate = "";
+        String tempText = "";
 
-        StringBuilder gradesStringBuilder = new StringBuilder();
         String temp = html.substring(html.indexOf(subject));
         temp = temp.substring(0, temp.indexOf("</tr>"));
-        Matcher m = Pattern.compile("[1-6]{1}</span>").matcher(temp);
-        while (m.find()) {
-            gradesStringBuilder.append(m.group().substring(0, 1)).append(", ");
+
+        Matcher gradeMatcher = Pattern.compile("[1-6]{1}</span>").matcher(temp);
+        Matcher dateMatcher = Pattern.compile("Data: \\d{2}\\.\\d{2}\\.\\d{4}").matcher(temp);
+        Matcher textMatcher = Pattern.compile("Opis:(.*?)<br/>").matcher(temp);
+
+        while (gradeMatcher.find()) {
+            tempGrade = gradeMatcher.group().substring(0, 1);
+
+            if(dateMatcher.find()) {
+                tempDate = dateMatcher.group().substring(6);
+            }
+
+            if(textMatcher.find()) {
+                tempText = textMatcher.group().substring(6);
+                tempText = tempText.replace("<br/>", "");
+                tempText = tempText.replaceAll("&quot;", "'");
+            }
+            tempGrades.add(new Grade(tempGrade, tempDate, tempText));
         }
-
-        Log.w("UWAGA", gradesStringBuilder.toString());
-
-        tempGrades.add(new Grade(gradesStringBuilder.toString(), "data", "opis"));
-
         return tempGrades;
     }
 
