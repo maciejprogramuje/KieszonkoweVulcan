@@ -79,9 +79,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             loadGrades();
         }
-
-        //navigationView.setCheckedItem(R.id.nav_news);
-        //onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_news));
     }
 
     @Override
@@ -127,48 +124,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             showGradesFragment();
         } else if (id == R.id.nav_money) {
             showMoneyFragment();
-        } else if (id == R.id.nav_attending) {
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    @OnClick(R.id.fab)
-    public void onViewClicked() {
-        if (!checkInternetConnection(this)) {
-            noInternetReaction();
-        } else {
-            loadGrades();
-
-            progressDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                @Override
-                public void onDismiss(DialogInterface dialogInterface) {
-                    if (navigationView.getMenu().findItem(R.id.nav_news).isChecked()) {
-                        onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_news));
-                    } else if (navigationView.getMenu().findItem(R.id.nav_grades).isChecked()) {
-                        onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_grades));
-                    } else if (navigationView.getMenu().findItem(R.id.nav_money).isChecked()) {
-                        onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_money));
-                    }
-                }
-            });
-        }
-    }
-
-    private void loadGrades() {
-        progressDialog.setMessage(waitMessages.getRandomText());
-        progressDialog.show();
-
-        tempWebView.getSettings().setJavaScriptEnabled(true);
-        tempWebView.getSettings().setDomStorageEnabled(true);
-        tempWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-        tempWebView.setWebViewClient(new MyWebViewClient(tempWebView));
-        tempWebView.addJavascriptInterface(new GradesJavaScriptInterface(this), "GRADES_HTMLOUT");
-
-        tempWebView.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
     }
 
     private void showNewsFragment() {
@@ -310,5 +270,40 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void noInternetReaction() {
         Toast.makeText(getApplicationContext(), "Włącz internet!", Toast.LENGTH_LONG).show();
+    }
+
+    @OnClick(R.id.fab)
+    public void onViewClicked() {
+        if (!checkInternetConnection(this)) {
+            noInternetReaction();
+        } else {
+            loadGrades();
+
+            progressDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialogInterface) {
+                    if (navigationView.getMenu().findItem(R.id.nav_news).isChecked()) {
+                        onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_news));
+                    } else if (navigationView.getMenu().findItem(R.id.nav_grades).isChecked()) {
+                        onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_grades));
+                    } else if (navigationView.getMenu().findItem(R.id.nav_money).isChecked()) {
+                        onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_money));
+                    }
+                }
+            });
+        }
+    }
+
+    private void loadGrades() {
+        progressDialog.setMessage(waitMessages.getRandomText());
+        progressDialog.show();
+
+        tempWebView.getSettings().setJavaScriptEnabled(true);
+        tempWebView.getSettings().setDomStorageEnabled(true);
+        tempWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+        tempWebView.setWebViewClient(new MyWebViewClient(tempWebView));
+        tempWebView.addJavascriptInterface(new GradesJavaScriptInterface(this), "GRADES_HTMLOUT");
+
+        tempWebView.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
     }
 }
