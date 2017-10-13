@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="commaciejprogramuje.facebook.kieszonkowevulcan.NewsFragment">
+    tools:context="commaciejprogramuje.facebook.kieszonkowevulcan.NewsFragment"
+    android:layout_margin="8dp">
 
     <ScrollView
         android:layout_width="match_parent"

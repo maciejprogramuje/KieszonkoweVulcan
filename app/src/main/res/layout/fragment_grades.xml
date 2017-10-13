@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="commaciejprogramuje.facebook.kieszonkowevulcan.GradesFragment">
+    tools:context="commaciejprogramuje.facebook.kieszonkowevulcan.GradesFragment"
+    android:layout_margin="8dp">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -14,7 +15,6 @@
             android:id="@+id/grades_fragment_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
             android:text="grades_fragment_textview" />
 
     </ScrollView>

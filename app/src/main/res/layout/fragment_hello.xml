@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="commaciejprogramuje.facebook.kieszonkowevulcan.HelloFragment">
+    tools:context="commaciejprogramuje.facebook.kieszonkowevulcan.HelloFragment"
+    android:layout_margin="8dp">
 
     <TextView
         android:id="@+id/hello_fragment_textview"

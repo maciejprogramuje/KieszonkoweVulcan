@@ -1,7 +1,5 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan.DataFragmentGenerator;
 
-import android.util.Log;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -19,31 +17,53 @@ public class Generator {
     private static int previousMonthInt;
 
     public static String dataForNewsFragment(Subjects subjects) {
+
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("===== NEWS =====\n\n");
 
         for (int i = 0; i < subjects.size(); i++) {
             stringBuilder.append(subjects.getName(i).toUpperCase());
             if (!subjects.getAverage(i).equals("-")) {
-                stringBuilder.append(" (").append(subjects.getAverage(i)).append(")");
+                stringBuilder.append(" (").append(subjects.getAverage(i)).append(")\n");
             }
-            stringBuilder.append("\n");
+
             if (subjects.getGrades(i).size() > 0) {
-                for (int j = 0; j < subjects.getGrades(i).size(); j++) {
-                    stringBuilder.append("   ")
-                            .append(subjects.getGrades(i).get(j).getmGrade())
-                            .append(" (")
-                            .append(subjects.getGrades(i).get(j).getmDate())
-                            .append(", ")
-                            .append(subjects.getGrades(i).get(j).getmCode())
-                            .append(", ")
-                            .append(subjects.getGrades(i).get(j).getmText())
-                            .append(")\n");
+                StringBuilder newestGradeStringBuilder = new StringBuilder();
+                Calendar oldGradeDateCal = Calendar.getInstance();
+                try {
+                    String dateString = subjects.getGrades(i).get(0).getmDate();
+                    Date date = (new SimpleDateFormat("dd.MM.yyyy", Locale.US).parse(dateString));
+                    oldGradeDateCal.setTime(date);
+                } catch (ParseException e) {
+                    e.printStackTrace();
                 }
+
+                for (int j = 0; j < subjects.getGrades(i).size(); j++) {
+                    Calendar newGradeDateCal = Calendar.getInstance();
+                    try {
+                        String dateString = subjects.getGrades(i).get(j).getmDate();
+                        Date date = (new SimpleDateFormat("dd.MM.yyyy", Locale.US).parse(dateString));
+                        newGradeDateCal.setTime(date);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                    if(newGradeDateCal.after(oldGradeDateCal)) {
+                        oldGradeDateCal = newGradeDateCal;
+                        newestGradeStringBuilder = new StringBuilder();
+                        newestGradeStringBuilder
+                                .append("   ").append(subjects.getGrades(i).get(j).getmGrade()).append(" (").append(subjects.getGrades(i).get(j).getmDate()).append(")\n")
+                                .append("   ").append(subjects.getGrades(i).get(j).getmCode()).append(", ").append(subjects.getGrades(i).get(j).getmText()).append("\n");
+                    } else if(newGradeDateCal.equals(oldGradeDateCal)) {
+                        newestGradeStringBuilder.append("   ")
+                                .append("   ").append(subjects.getGrades(i).get(j).getmGrade()).append(" (").append(subjects.getGrades(i).get(j).getmDate()).append(")\n")
+                                .append("   ").append(subjects.getGrades(i).get(j).getmCode()).append(", ").append(subjects.getGrades(i).get(j).getmText()).append("\n");
+                    }
+                }
+                stringBuilder.append(newestGradeStringBuilder).append("\n");
             } else {
-                stringBuilder.append("   --- brak ocen ---\n");
+                stringBuilder.append("\n   --- brak ocen ---\n\n");
             }
-            stringBuilder.append("\n");
         }
         return stringBuilder.toString();
     }
@@ -114,18 +134,18 @@ public class Generator {
 
             if (subjects.getGrades(i).size() > 0) {
                 for (int j = 0; j < subjects.getGrades(i).size(); j++) {
-                    Calendar gradesCalendar = Calendar.getInstance();
-                    Calendar currentCallendar = Calendar.getInstance();
-                    currentMonthInt = currentCallendar.get(Calendar.MONTH);
+                    Calendar gradeDateCal = Calendar.getInstance();
+                    Calendar curDateCal = Calendar.getInstance();
+                    currentMonthInt = curDateCal.get(Calendar.MONTH);
                     try {
                         String dateString = subjects.getGrades(i).get(j).getmDate();
                         Date date = (new SimpleDateFormat("dd.MM.yyyy", Locale.US).parse(dateString));
-                        gradesCalendar.setTime(date);
+                        gradeDateCal.setTime(date);
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
 
-                    if (gradesCalendar.get(Calendar.MONTH) == currentCallendar.get(Calendar.MONTH)) {
+                    if (gradeDateCal.get(Calendar.MONTH) == curDateCal.get(Calendar.MONTH)) {
                         if (subjects.getGrades(i).get(j).getmGrade().equals("1") || subjects.getGrades(i).get(j).getmGrade().equals("2")) {
                             extraMoneyCurrentMonth = 0;
                         } else if (subjects.getGrades(i).get(j).getmGrade().equals("3") && extraMoneyCurrentMonth > 0) {
@@ -133,10 +153,10 @@ public class Generator {
                         }
                     }
 
-                    currentCallendar.add(Calendar.MONTH, -1);
-                    previousMonthInt = currentCallendar.get(Calendar.MONTH);
+                    curDateCal.add(Calendar.MONTH, -1);
+                    previousMonthInt = curDateCal.get(Calendar.MONTH);
 
-                    if (gradesCalendar.get(Calendar.MONTH) == currentCallendar.get(Calendar.MONTH)) {
+                    if (gradeDateCal.get(Calendar.MONTH) == curDateCal.get(Calendar.MONTH)) {
                         if (subjects.getGrades(i).get(j).getmGrade().equals("1") || subjects.getGrades(i).get(j).getmGrade().equals("2")) {
                             extraMoneyPreviousMonth = 0;
                         } else if (subjects.getGrades(i).get(j).getmGrade().equals("3") && extraMoneyPreviousMonth > 0) {
@@ -146,15 +166,15 @@ public class Generator {
                 }
             }
         }
-        stringBuilder.append("==============================\n")
+        stringBuilder.append("\n===============================\n")
                 .append("=== SUMA KWOT: ").append(money).append(" zł\n")
-                .append("==============================\n")
+                .append("===============================\n")
                 .append("=== PREMIA ZA ").append(getMonthName(currentMonthInt)).append(": ").append(extraMoneyCurrentMonth).append(" zł\n")
                 .append("=== KIESZONKOWE Z PREMIĄ: ").append(money + extraMoneyCurrentMonth).append(" zł\n")
-                .append("==============================\n")
+                .append("===============================\n")
                 .append("=== PREMIA ZA ").append(getMonthName(previousMonthInt)).append(": ").append(extraMoneyPreviousMonth).append(" zł\n")
                 .append("=== KIESZONKOWE Z PREMIĄ: ").append(money + extraMoneyPreviousMonth).append(" zł\n")
-                .append("==============================\n");
+                .append("===============================\n");
         return stringBuilder.toString();
     }
 
