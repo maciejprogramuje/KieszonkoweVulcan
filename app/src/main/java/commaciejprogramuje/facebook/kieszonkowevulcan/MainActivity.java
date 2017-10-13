@@ -1,10 +1,8 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan;
 
-import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -23,18 +21,16 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.Toast;
 
-import java.util.List;
-import java.util.Objects;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import commaciejprogramuje.facebook.kieszonkowevulcan.DataFragmentGenerator.Generator;
+import commaciejprogramuje.facebook.kieszonkowevulcan.GradesDatabase.Subjects;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     public static final String LOGIN_STRING = "e_szymczyk@orange.pl";
     public static final String PASSWORD_STRING = "Ulka!2002";
     public static final String SUBJECTS_KEY = "subjects";
-    public static final String RESULTS_KEY = "results";
 
     @InjectView(R.id.tempWebView)
     WebView tempWebView;
@@ -132,110 +128,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void showNewsFragment() {
-        StringBuilder stringBuilder = new StringBuilder();
-
-        if (!checkInternetConnection(this)) {
-            noInternetReaction();
-            stringBuilder.append("Włącz internet i odśwież przyciskiem!\n\npusty showGradesFragment");
+        NewsFragment newsFragment;
+        if (checkInternetConnection(this)) {
+            newsFragment = NewsFragment.newInstance(Generator.dataForNewsFragment(subjects));
         } else {
-            stringBuilder.append("===== NEWS =====\n\n");
-
-            for (int i = 0; i < subjects.size(); i++) {
-                stringBuilder.append(subjects.getName(i).toUpperCase());
-                if(!subjects.getAverage(i).equals("-")) {
-                    stringBuilder.append(" (").append(subjects.getAverage(i)).append(")");
-                }
-                stringBuilder.append("\n");
-                if(subjects.getGrades(i).size() > 0) {
-                    for(int j = 0 ; j < subjects.getGrades(i).size(); j++) {
-                        stringBuilder.append("   ")
-                                .append(subjects.getGrades(i).get(j).getmGrade())
-                                .append(" (")
-                                .append(subjects.getGrades(i).get(j).getmDate())
-                                .append(", ")
-                                .append(subjects.getGrades(i).get(j).getmText())
-                                .append(")\n");
-                    }
-                } else {
-                    stringBuilder.append("   --- brak ocen ---\n");
-                }
-                stringBuilder.append("\n");
-            }
+            noInternetReaction();
+            newsFragment = NewsFragment.newInstance("Włącz internet i odśwież przyciskiem!");
         }
-
-        NewsFragment newsFragment = NewsFragment.newInstance(stringBuilder.toString());
         replaceFragment(newsFragment);
     }
 
-    private void showGradesFragment() {
-        StringBuilder stringBuilder = new StringBuilder();
-
-        stringBuilder.append("===== OCENY =====\n\n");
-
-        if (!checkInternetConnection(this)) {
-            noInternetReaction();
-            stringBuilder.append("Włącz internet i odśwież przyciskiem!\n\npusty showGradesFragment");
+    public void showGradesFragment() {
+        GradesFragment gradesFragment;
+        if (checkInternetConnection(this)) {
+            gradesFragment = GradesFragment.newInstance(Generator.dataForGradesFragment(subjects));
         } else {
-            for (int i = 0; i < subjects.size(); i++) {
-                stringBuilder.append(subjects.getName(i).toUpperCase());
-                if(!subjects.getAverage(i).equals("-")) {
-                    stringBuilder.append(" (").append(subjects.getAverage(i)).append(")");
-                }
-                stringBuilder.append("\n");
-                if(subjects.getGrades(i).size() > 0) {
-                    for(int j = 0 ; j < subjects.getGrades(i).size(); j++) {
-                        stringBuilder.append("   ")
-                                .append(subjects.getGrades(i).get(j).getmGrade())
-                                .append(" (")
-                                .append(subjects.getGrades(i).get(j).getmDate())
-                                .append(", ")
-                                .append(subjects.getGrades(i).get(j).getmText())
-                                .append(")\n");
-                    }
-                } else {
-                    stringBuilder.append("   --- brak ocen ---\n");
-                }
-                stringBuilder.append("\n");
-            }
+            noInternetReaction();
+            gradesFragment = GradesFragment.newInstance("Włącz internet i odśwież przyciskiem!");
         }
-
-        GradesFragment gradesFragment = GradesFragment.newInstance(stringBuilder.toString());
         replaceFragment(gradesFragment);
     }
 
     private void showMoneyFragment() {
-        StringBuilder stringBuilder = new StringBuilder();
-
-        if (!checkInternetConnection(this)) {
-            noInternetReaction();
-            stringBuilder.append("Włącz internet i odśwież przyciskiem!\n\npusty showGradesFragment");
+        MoneyFragment moneyFragment;
+        if (checkInternetConnection(this)) {
+            moneyFragment = MoneyFragment.newInstance(Generator.dataForMoneyFragment(subjects));
         } else {
-            stringBuilder.append("===== KIESZONKOWE =====\n\n");
-
-            for (int i = 0; i < subjects.size(); i++) {
-                stringBuilder.append(subjects.getName(i).toUpperCase());
-                if (!subjects.getAverage(i).equals("-")) {
-                    stringBuilder.append(" (").append(subjects.getAverage(i)).append(")");
-                }
-                stringBuilder.append("\n");
-                if (subjects.getGrades(i).size() > 0) {
-                    for (int j = 0; j < subjects.getGrades(i).size(); j++) {
-                        stringBuilder.append("   ")
-                                .append(subjects.getGrades(i).get(j).getmGrade())
-                                .append(" (")
-                                .append(subjects.getGrades(i).get(j).getmDate())
-                                .append(", ")
-                                .append(subjects.getGrades(i).get(j).getmText())
-                                .append(")\n");
-                    }
-                } else {
-                    stringBuilder.append("   --- brak ocen ---\n");
-                }
-                stringBuilder.append("\n");
-            }
+            noInternetReaction();
+            moneyFragment = MoneyFragment.newInstance("Włącz internet i odśwież przyciskiem!");
         }
-
-        MoneyFragment moneyFragment = MoneyFragment.newInstance(stringBuilder.toString());
         replaceFragment(moneyFragment);
     }
 

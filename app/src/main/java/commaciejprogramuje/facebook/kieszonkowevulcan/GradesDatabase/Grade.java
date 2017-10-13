@@ -1,4 +1,4 @@
-package commaciejprogramuje.facebook.kieszonkowevulcan;
+package commaciejprogramuje.facebook.kieszonkowevulcan.GradesDatabase;
 
 import java.io.Serializable;
 
@@ -10,11 +10,13 @@ public class Grade implements Serializable {
     private String mGrade;
     private String mDate;
     private String mText;
+    private String mCode;
 
-    public Grade(String mGrade, String mDate, String mText) {
+    public Grade(String mGrade, String mDate, String mText, String mCode) {
         this.mGrade = mGrade;
         this.mDate = mDate;
         this.mText = mText;
+        this.mCode = mCode;
     }
 
     public String getmGrade() {
@@ -39,5 +41,13 @@ public class Grade implements Serializable {
 
     public void setmText(String mText) {
         this.mText = mText;
+    }
+
+    public String getmCode() {
+        return mCode;
+    }
+
+    public void setmCode(String mCode) {
+        this.mCode = mCode;
     }
 }

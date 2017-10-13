@@ -4,13 +4,17 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
+import commaciejprogramuje.facebook.kieszonkowevulcan.DataFragmentGenerator.Generator;
 
 
 public class MoneyFragment extends Fragment {
@@ -18,8 +22,6 @@ public class MoneyFragment extends Fragment {
 
     @InjectView(R.id.money_fragment_textview)
     TextView moneyFragmentTextview;
-
-    private String grades;
 
     public MoneyFragment() {
         // Required empty public constructor
@@ -38,7 +40,7 @@ public class MoneyFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         if (getArguments() != null) {
-            grades = getArguments().getString(GRADES_KEY);
+            String grades = getArguments().getString(GRADES_KEY);
             moneyFragmentTextview.setText(grades);
         }
     }
@@ -49,16 +51,6 @@ public class MoneyFragment extends Fragment {
         args.putString(GRADES_KEY, initialGrades);
         fragment.setArguments(args);
         return fragment;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
     }
 
     @Override

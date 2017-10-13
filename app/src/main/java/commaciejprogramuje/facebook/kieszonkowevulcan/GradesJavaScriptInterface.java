@@ -1,14 +1,13 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan;
 
-import android.content.Intent;
-import android.util.Log;
-import android.view.View;
 import android.webkit.JavascriptInterface;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import commaciejprogramuje.facebook.kieszonkowevulcan.GradesDatabase.Grade;
 
 /**
  * Created by m.szymczyk on 2017-10-09.
@@ -54,6 +53,7 @@ public class GradesJavaScriptInterface {
         String tempGrade = "";
         String tempDate = "";
         String tempText = "";
+        String tempCode = "";
 
         String temp = html.substring(html.indexOf(subject));
         temp = temp.substring(0, temp.indexOf("</tr>"));
@@ -61,6 +61,7 @@ public class GradesJavaScriptInterface {
         Matcher gradeMatcher = Pattern.compile("[1-6]{1}</span>").matcher(temp);
         Matcher dateMatcher = Pattern.compile("Data: \\d{2}\\.\\d{2}\\.\\d{4}").matcher(temp);
         Matcher textMatcher = Pattern.compile("Opis:(.*?)<br/>").matcher(temp);
+        Matcher codeMatcher = Pattern.compile("Kod:(.*?)<br/>").matcher(temp);
 
         while (gradeMatcher.find()) {
             tempGrade = gradeMatcher.group().substring(0, 1);
@@ -74,7 +75,13 @@ public class GradesJavaScriptInterface {
                 tempText = tempText.replace("<br/>", "");
                 tempText = tempText.replaceAll("&quot;", "'");
             }
-            tempGrades.add(new Grade(tempGrade, tempDate, tempText));
+
+            if(codeMatcher.find()) {
+                tempCode = codeMatcher.group().substring(5);
+                tempCode = tempCode.replace("<br/>", "");
+            }
+
+            tempGrades.add(new Grade(tempGrade, tempDate, tempText, tempCode));
         }
         return tempGrades;
     }

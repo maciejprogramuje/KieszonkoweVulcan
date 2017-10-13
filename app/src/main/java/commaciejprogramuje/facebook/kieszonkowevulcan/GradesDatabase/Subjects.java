@@ -1,24 +1,20 @@
-package commaciejprogramuje.facebook.kieszonkowevulcan;
-
-import android.content.Context;
-import android.os.Build;
-import android.util.Log;
-import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
-import android.webkit.WebView;
+package commaciejprogramuje.facebook.kieszonkowevulcan.GradesDatabase;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import commaciejprogramuje.facebook.kieszonkowevulcan.GradesDatabase.Grade;
+import commaciejprogramuje.facebook.kieszonkowevulcan.GradesDatabase.Subject;
+
 /**
  * Created by m.szymczyk on 2017-10-09.
  */
 
-class Subjects implements Serializable {
+public class Subjects implements Serializable {
     private List<Subject> subjects = new ArrayList<>();
 
-    Subjects() {
+    public Subjects() {
         subjects.add(new Subject("Język polski")); // 0
         subjects.add(new Subject("Język angielski")); // 1
         subjects.add(new Subject("Język niemiecki")); // 2

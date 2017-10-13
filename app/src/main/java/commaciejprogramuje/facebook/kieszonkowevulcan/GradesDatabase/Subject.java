@@ -1,8 +1,10 @@
-package commaciejprogramuje.facebook.kieszonkowevulcan;
+package commaciejprogramuje.facebook.kieszonkowevulcan.GradesDatabase;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import commaciejprogramuje.facebook.kieszonkowevulcan.GradesDatabase.Grade;
 
 /**
  * Created by m.szymczyk on 2017-10-11.
@@ -13,7 +15,7 @@ public class Subject implements Serializable {
     private List<Grade> subjectGrades = new ArrayList<>();
     private String subjectAverage;
 
-    Subject(String subjectName) {
+    public Subject(String subjectName) {
         this.subjectName = subjectName;
     }
 
