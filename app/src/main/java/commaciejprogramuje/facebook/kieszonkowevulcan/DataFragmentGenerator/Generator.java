@@ -55,7 +55,7 @@ public class Generator {
                                 .append("   ").append(subjects.getGrades(i).get(j).getmGrade()).append(" (").append(subjects.getGrades(i).get(j).getmDate()).append(")\n")
                                 .append("   ").append(subjects.getGrades(i).get(j).getmCode()).append(", ").append(subjects.getGrades(i).get(j).getmText()).append("\n");
                     } else if(newGradeDateCal.equals(oldGradeDateCal)) {
-                        newestGradeStringBuilder.append("   ")
+                        newestGradeStringBuilder
                                 .append("   ").append(subjects.getGrades(i).get(j).getmGrade()).append(" (").append(subjects.getGrades(i).get(j).getmDate()).append(")\n")
                                 .append("   ").append(subjects.getGrades(i).get(j).getmCode()).append(", ").append(subjects.getGrades(i).get(j).getmText()).append("\n");
                     }
