@@ -4,43 +4,50 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.StrictMode;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
 import android.webkit.WebView;
 import android.widget.Toast;
-
-import java.io.File;
-import java.util.Date;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import commaciejprogramuje.facebook.kieszonkowevulcan.DataFragmentGenerator.Generator;
 import commaciejprogramuje.facebook.kieszonkowevulcan.GradesUtils.Subjects;
+import commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments.ReplaceFrag;
+import commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments.ShowGradesFrag;
+import commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments.ShowHelloFrag;
+import commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments.ShowLoginFrag;
+import commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments.ShowMoneyFrag;
+import commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments.ShowNewsFrag;
+import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.CheckInternetConn;
+import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.DeleteCredentials;
+import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.NoInternetReaction;
 import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.WaitMessages;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, LoginFragment.OnFragmentInteractionListener {
-    public static final String SUBJECTS_KEY = "subjects";
     public static final String LOGIN_DATA_KEY = "loginData";
     public static final String PASSWORD_DATA_KEY = "passwordData";
+
+    private final DeleteCredentials deleteCredentials = new DeleteCredentials(this);
+    private final ShowNewsFrag ShowNewsFrag = new ShowNewsFrag(this);
+    private final ShowGradesFrag showGradesFrag = new ShowGradesFrag(this);
+    private final ShowMoneyFrag showMoneyFrag = new ShowMoneyFrag(this);
+    public final ShowLoginFrag showLoginFrag = new ShowLoginFrag(this);
+    private final ShowHelloFrag showHelloFrag = new ShowHelloFrag(this);
+    public final CheckInternetConn checkInternetConn = new CheckInternetConn();
+    public final NoInternetReaction noInternetReaction = new NoInternetReaction();
+    public final ReplaceFrag replaceFrag = new ReplaceFrag();
 
     @InjectView(R.id.tempWebView)
     WebView browser;
@@ -54,7 +61,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private String login = "";
     private String password = "";
     private MyWebViewClient myWebViewClient;
-    //boolean problem = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,13 +91,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         login = sharedPref.getString(LOGIN_DATA_KEY, "");
         password = sharedPref.getString(PASSWORD_DATA_KEY, "");
 
-        if (!checkInternetConnection(this)) {
-            noInternetReaction();
+        if (!checkInternetConn.checkInternetConnection(this)) {
+            noInternetReaction.noInternetReaction(MainActivity.this);
         } else {
             if(login.isEmpty() || password.isEmpty()) {
-                showLoginFragment();
+                showLoginFrag.showLoginFragment();
             } else {
-                showHelloFragment("Logowanie...");
+                showHelloFrag.showHelloFragment("Logowanie...");
                 loadGrades(login, password);
             }
         }
@@ -118,37 +124,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.logout_settings) {
-            deleteLoginAndPassword();
+            deleteCredentials.delete();
             return true;
         } else if(id == R.id.exit_settings) {
             this.finishAndRemoveTask();
             System.exit(0);
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
-
-    void deleteLoginAndPassword() {
-        Log.w("UWAGA", "czyszczenie danych");
-
-        login = "";
-        password = "";
-
-        CookieSyncManager.createInstance(this);
-        CookieManager cookieManager = CookieManager.getInstance();
-        cookieManager.removeAllCookie();
-
-        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(LOGIN_DATA_KEY, "");
-        editor.putString(PASSWORD_DATA_KEY, "");
-        editor.apply();
-
-        showLoginFragment();
-    }
-
-
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -156,78 +140,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle bottom_navigation_money_activity view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_news) {
-            showNewsFragment();
+            ShowNewsFrag.showNewsFragment();
         } else if (id == R.id.nav_grades) {
-            showGradesFragment();
+            showGradesFrag.showGradesFragment();
         } else if (id == R.id.nav_money) {
-            showMoneyFragment();
+            showMoneyFrag.showMoneyFragment();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    private void showNewsFragment() {
-        NewsFragment newsFragment;
-        if (checkInternetConnection(this)) {
-            newsFragment = NewsFragment.newInstance(Generator.dataForNewsFragment(subjects));
-        } else {
-            noInternetReaction();
-            newsFragment = NewsFragment.newInstance("Włącz internet i odśwież przyciskiem!");
-        }
-        replaceFragment(newsFragment);
-    }
-
-    public void showGradesFragment() {
-        GradesFragment gradesFragment;
-        if (checkInternetConnection(this)) {
-            gradesFragment = GradesFragment.newInstance(Generator.dataForGradesFragment(subjects));
-        } else {
-            noInternetReaction();
-            gradesFragment = GradesFragment.newInstance("Włącz internet i odśwież przyciskiem!");
-        }
-        replaceFragment(gradesFragment);
-    }
-
-    private void showMoneyFragment() {
-        MoneyFragment moneyFragment;
-        if (checkInternetConnection(this)) {
-            moneyFragment = MoneyFragment.newInstance(Generator.dataForMoneyFragment(subjects));
-        } else {
-            noInternetReaction();
-            moneyFragment = MoneyFragment.newInstance("Włącz internet i odśwież przyciskiem!");
-        }
-        replaceFragment(moneyFragment);
-    }
-
-    private void showLoginFragment() {
-        LoginFragment loginFragment = LoginFragment.newInstance();
-        replaceFragment(loginFragment);
-    }
-
-    private void showHelloFragment(String helloText) {
-        HelloFragment helloFragment = HelloFragment.newInstance(helloText);
-        replaceFragment(helloFragment);
-    }
-
-    private void replaceFragment(Fragment fragment) {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.main_container, fragment);
-        fragmentTransaction.commit();
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putSerializable(SUBJECTS_KEY, subjects);
-    }
-
-    public boolean checkInternetConnection(Context context) {
-        ConnectivityManager con_manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        return con_manager.getActiveNetworkInfo() != null
-                && con_manager.getActiveNetworkInfo().isAvailable()
-                && con_manager.getActiveNetworkInfo().isConnected();
     }
 
     private ProgressDialog createProgressDialog() {
@@ -244,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if(myWebViewClient.isProblem()) {
                     Log.w("UWAGA", "wystąpił problem");
                     Toast.makeText(MainActivity.this, "Mamy problem z logowaniem!\n\n\nZapewne błędny login lub hasło.\nSpróbuj ponownie", Toast.LENGTH_LONG).show();
-                    deleteLoginAndPassword();
+                    deleteCredentials.delete();
                 } else if (navigationView.getMenu().findItem(R.id.nav_news).isChecked()) {
                     onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_news));
                 } else if (navigationView.getMenu().findItem(R.id.nav_grades).isChecked()) {
@@ -258,14 +180,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return pd;
     }
 
-    private void noInternetReaction() {
-        Toast.makeText(getApplicationContext(), "Włącz internet!", Toast.LENGTH_LONG).show();
-    }
-
     @OnClick(R.id.fab)
     public void onViewClicked() {
-        if (!checkInternetConnection(this)) {
-            noInternetReaction();
+        if (!checkInternetConn.checkInternetConnection(this)) {
+            noInternetReaction.noInternetReaction(MainActivity.this);
         } else {
             loadGrades(login, password);
         }
@@ -302,7 +220,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         editor.putString(PASSWORD_DATA_KEY, password);
         editor.apply();
 
-        showHelloFragment("Trwa łącznie z bazą danych...");
+        showHelloFrag.showHelloFragment("Trwa łącznie z bazą danych...");
         loadGrades(login, password);
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Subjects getSubjects() {
+        return subjects;
     }
 }
