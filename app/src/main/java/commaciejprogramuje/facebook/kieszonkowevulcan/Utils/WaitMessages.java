@@ -1,4 +1,4 @@
-package commaciejprogramuje.facebook.kieszonkowevulcan;
+package commaciejprogramuje.facebook.kieszonkowevulcan.Utils;
 
 import java.util.ArrayList;
 import java.util.List;

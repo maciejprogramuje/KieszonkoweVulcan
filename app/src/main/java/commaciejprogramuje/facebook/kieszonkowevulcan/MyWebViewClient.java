@@ -1,54 +1,69 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan;
 
+import android.app.ProgressDialog;
 import android.util.Log;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import static commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity.LOGIN_STRING;
-import static commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity.PASSWORD_STRING;
-
 /**
  * Created by 5742ZGPC on 2017-10-07.
  */
 
 class MyWebViewClient extends WebViewClient {
-    private WebView webView;
+    private WebView browser;
+    private String login;
+    private String password;
+    private ProgressDialog progressDialog;
+    private int loginPageShowIndex;
+    private boolean problem;
 
-    MyWebViewClient(WebView webView) {
+    MyWebViewClient(WebView browser, String login, String password, ProgressDialog progressDialog) {
         Log.w("UWAGA", "konstruktor MyWebViewClient");
-        this.webView = webView;
-
-        //webView.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
+        this.browser = browser;
+        this.login = login;
+        this.password = password;
+        this.progressDialog = progressDialog;
+        loginPageShowIndex = 10;
     }
 
     @Override
     public void onPageFinished(WebView view, String url) {
         Log.w("UWAGA", "FINISHED: " + url);
 
-        if (url.equals("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Start/Index/")
+        if (url.equals("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Start/Index")
                 || url.equals("https://uonetplus.vulcan.net.pl/lublin/Start.mvc/Index")) {
-            webView.loadUrl("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie");
+            browser.loadUrl("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie");
         } else if (url.equals("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie")) {
             gradesParsePage();
         } else {
-            if (url.equals("https://uonetplus.vulcan.net.pl/lublin/")
+            if (url.equals("https://uonetplus.vulcan.net.pl/lublin")
                     || url.equals("https://uonetplus.vulcan.net.pl/lublin/Start.mvc/Index")
                     || url.equals("https://uonetplus.vulcan.net.pl/lublin/?logout=true")) {
-                webView.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
+                browser.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
             }
         }
-        webView.loadUrl("javascript: {" +
-                "document.getElementById('LoginName').value = '" + LOGIN_STRING + "';" +
-                "document.getElementById('Password').value = '" + PASSWORD_STRING + "';" +
-                "document.getElementsByTagName('input')[2].click();" +
-                "};"
-        );
+
+        if(loginPageShowIndex > 0) {
+            Log.w("UWAGA", "adres 2, loginPageShowIndex=" + loginPageShowIndex);
+
+            problem = false;
+            browser.loadUrl("javascript: {" +
+                    "document.getElementById('LoginName').value = '" + login + "';" +
+                    "document.getElementById('Password').value = '" + password + "';" +
+                    "document.getElementsByTagName('input')[2].click();" +
+                    "};"
+            );
+            loginPageShowIndex--;
+        } else {
+            problem = true;
+            progressDialog.dismiss();
+        }
     }
 
     private void gradesParsePage() {
-        webView.loadUrl("javascript:window.GRADES_HTMLOUT.processHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');");
+        browser.loadUrl("javascript:window.GRADES_HTMLOUT.processHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');");
     }
 
     @Override
@@ -59,5 +74,9 @@ class MyWebViewClient extends WebViewClient {
         return false;
         // Returning true means that you need to handle what to do with the url, e.g. open web page in a Browser
         // Returning false means that you are going to load this url in the webView itself
+    }
+
+    public boolean isProblem() {
+        return problem;
     }
 }

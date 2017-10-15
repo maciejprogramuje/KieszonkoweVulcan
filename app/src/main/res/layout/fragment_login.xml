@@ -1,0 +1,48 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="commaciejprogramuje.facebook.kieszonkowevulcan.LoginFragment"
+    android:orientation="vertical"
+    android:layout_margin="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:text="Podaj login i hasło\ndo dziennika elektrinicznego\nfirmy Vulcan" />
+    <EditText
+        android:id="@+id/login_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="login" />
+
+    <EditText
+        android:id="@+id/password_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="hasło"
+        android:inputType="textPassword" />
+
+    <Button
+        android:id="@+id/login_button"
+        android:text="Zaloguj!"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="loginOnClick"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="16dp"
+        android:text="UWAGA:\nAplikacja działa tylko dla uczniów\nbyłego Gimnazjum nr 16 w Lublinie!" />
+
+
+
+</LinearLayout>

@@ -3,8 +3,10 @@ package commaciejprogramuje.facebook.kieszonkowevulcan;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.StrictMode;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -15,25 +17,33 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.webkit.WebView;
 import android.widget.Toast;
+
+import java.io.File;
+import java.util.Date;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import commaciejprogramuje.facebook.kieszonkowevulcan.DataFragmentGenerator.Generator;
-import commaciejprogramuje.facebook.kieszonkowevulcan.GradesDatabase.Subjects;
+import commaciejprogramuje.facebook.kieszonkowevulcan.GradesUtils.Subjects;
+import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.WaitMessages;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    public static final String LOGIN_STRING = "e_szymczyk@orange.pl";
-    public static final String PASSWORD_STRING = "Ulka!2002";
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, LoginFragment.OnFragmentInteractionListener {
     public static final String SUBJECTS_KEY = "subjects";
+    public static final String LOGIN_DATA_KEY = "loginData";
+    public static final String PASSWORD_DATA_KEY = "passwordData";
 
     @InjectView(R.id.tempWebView)
-    WebView tempWebView;
+    WebView browser;
     @InjectView(R.id.fab)
     FloatingActionButton fab;
 
@@ -41,6 +51,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
     ProgressDialog progressDialog;
     private WaitMessages waitMessages;
+    private String login = "";
+    private String password = "";
+    private MyWebViewClient myWebViewClient;
+    //boolean problem = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,18 +76,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        tempWebView.setVisibility(View.INVISIBLE);
+        browser.setVisibility(View.INVISIBLE);
         waitMessages = new WaitMessages();
         progressDialog = createProgressDialog();
         subjects = new Subjects();
 
-        HelloFragment helloFragment = HelloFragment.newInstance();
-        replaceFragment(helloFragment);
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        login = sharedPref.getString(LOGIN_DATA_KEY, "");
+        password = sharedPref.getString(PASSWORD_DATA_KEY, "");
 
         if (!checkInternetConnection(this)) {
             noInternetReaction();
         } else {
-            loadGrades();
+            if(login.isEmpty() || password.isEmpty()) {
+                showLoginFragment();
+            } else {
+                showHelloFragment("Logowanie...");
+                loadGrades(login, password);
+            }
         }
     }
 
@@ -96,18 +116,39 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.logout_settings) {
+            deleteLoginAndPassword();
+            return true;
+        } else if(id == R.id.exit_settings) {
+            this.finishAndRemoveTask();
+            System.exit(0);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+    void deleteLoginAndPassword() {
+        Log.w("UWAGA", "czyszczenie danych");
+
+        login = "";
+        password = "";
+
+        CookieSyncManager.createInstance(this);
+        CookieManager cookieManager = CookieManager.getInstance();
+        cookieManager.removeAllCookie();
+
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(LOGIN_DATA_KEY, "");
+        editor.putString(PASSWORD_DATA_KEY, "");
+        editor.apply();
+
+        showLoginFragment();
+    }
+
+
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -160,6 +201,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         replaceFragment(moneyFragment);
     }
 
+    private void showLoginFragment() {
+        LoginFragment loginFragment = LoginFragment.newInstance();
+        replaceFragment(loginFragment);
+    }
+
+    private void showHelloFragment(String helloText) {
+        HelloFragment helloFragment = HelloFragment.newInstance(helloText);
+        replaceFragment(helloFragment);
+    }
+
     private void replaceFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.main_container, fragment);
@@ -186,6 +237,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         pd.setIndeterminate(true);
         pd.setCancelable(false);
+
+        pd.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                if(myWebViewClient.isProblem()) {
+                    Log.w("UWAGA", "wystąpił problem");
+                    Toast.makeText(MainActivity.this, "Mamy problem z logowaniem!\n\n\nZapewne błędny login lub hasło.\nSpróbuj ponownie", Toast.LENGTH_LONG).show();
+                    deleteLoginAndPassword();
+                } else if (navigationView.getMenu().findItem(R.id.nav_news).isChecked()) {
+                    onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_news));
+                } else if (navigationView.getMenu().findItem(R.id.nav_grades).isChecked()) {
+                    onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_grades));
+                } else if (navigationView.getMenu().findItem(R.id.nav_money).isChecked()) {
+                    onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_money));
+                }
+            }
+        });
+
         return pd;
     }
 
@@ -198,33 +267,42 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (!checkInternetConnection(this)) {
             noInternetReaction();
         } else {
-            loadGrades();
-
-            progressDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                @Override
-                public void onDismiss(DialogInterface dialogInterface) {
-                    if (navigationView.getMenu().findItem(R.id.nav_news).isChecked()) {
-                        onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_news));
-                    } else if (navigationView.getMenu().findItem(R.id.nav_grades).isChecked()) {
-                        onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_grades));
-                    } else if (navigationView.getMenu().findItem(R.id.nav_money).isChecked()) {
-                        onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_money));
-                    }
-                }
-            });
+            loadGrades(login, password);
         }
     }
 
-    private void loadGrades() {
+    private void loadGrades(String login, String password) {
         progressDialog.setMessage(waitMessages.getRandomText());
         progressDialog.show();
 
-        tempWebView.getSettings().setJavaScriptEnabled(true);
-        tempWebView.getSettings().setDomStorageEnabled(true);
-        tempWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-        tempWebView.setWebViewClient(new MyWebViewClient(tempWebView));
-        tempWebView.addJavascriptInterface(new GradesJavaScriptInterface(this), "GRADES_HTMLOUT");
+        browser.getSettings().setJavaScriptEnabled(true);
+        browser.getSettings().setDomStorageEnabled(true);
+        browser.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
 
-        tempWebView.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
+        myWebViewClient = new MyWebViewClient(browser, login, password, progressDialog);
+
+        browser.setWebViewClient(myWebViewClient);
+        browser.addJavascriptInterface(new GradesJavaScriptInterface(this), "GRADES_HTMLOUT");
+
+        browser.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
+    }
+
+    @Override
+    public void onFragmentInteraction(String login, String password) {
+        Log.w("UWAGA", login + ", " + password);
+
+        if(login.isEmpty() || password.isEmpty()) {
+            login = "a";
+            password = "a";
+        }
+
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(LOGIN_DATA_KEY, login);
+        editor.putString(PASSWORD_DATA_KEY, password);
+        editor.apply();
+
+        showHelloFragment("Trwa łącznie z bazą danych...");
+        loadGrades(login, password);
     }
 }

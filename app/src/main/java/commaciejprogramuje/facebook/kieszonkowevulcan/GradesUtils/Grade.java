@@ -1,4 +1,4 @@
-package commaciejprogramuje.facebook.kieszonkowevulcan.GradesDatabase;
+package commaciejprogramuje.facebook.kieszonkowevulcan.GradesUtils;
 
 import java.io.Serializable;
 

@@ -1,10 +1,8 @@
-package commaciejprogramuje.facebook.kieszonkowevulcan.GradesDatabase;
+package commaciejprogramuje.facebook.kieszonkowevulcan.GradesUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import commaciejprogramuje.facebook.kieszonkowevulcan.GradesDatabase.Grade;
 
 /**
  * Created by m.szymczyk on 2017-10-11.

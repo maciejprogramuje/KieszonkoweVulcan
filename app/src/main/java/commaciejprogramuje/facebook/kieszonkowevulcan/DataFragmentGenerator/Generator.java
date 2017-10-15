@@ -6,7 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import commaciejprogramuje.facebook.kieszonkowevulcan.GradesDatabase.Subjects;
+import commaciejprogramuje.facebook.kieszonkowevulcan.GradesUtils.Subjects;
 
 /**
  * Created by m.szymczyk on 2017-10-13.
