@@ -12,6 +12,6 @@ public class ShowHelloFrag {
 
     public void showHelloFragment(String helloText) {
         HelloFragment helloFragment = HelloFragment.newInstance(helloText);
-        mainActivity.replaceFrag.replaceFragment(mainActivity, helloFragment);
+        mainActivity.replaceFrag.replace(mainActivity, helloFragment);
     }
 }

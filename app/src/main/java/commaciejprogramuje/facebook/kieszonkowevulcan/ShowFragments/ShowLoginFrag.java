@@ -12,6 +12,6 @@ public class ShowLoginFrag {
 
     public void showLoginFragment() {
         LoginFragment loginFragment = LoginFragment.newInstance();
-        mainActivity.replaceFrag.replaceFragment(mainActivity, loginFragment);
+        mainActivity.replaceFrag.replace(mainActivity, loginFragment);
     }
 }

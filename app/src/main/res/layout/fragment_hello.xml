@@ -2,13 +2,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="commaciejprogramuje.facebook.kieszonkowevulcan.HelloFragment"
-    android:layout_margin="8dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="commaciejprogramuje.facebook.kieszonkowevulcan.HelloFragment">
 
-    <TextView
-        android:id="@+id/hello_fragment_textview"
+    <ImageView
+        android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="hello fragment" />
+        app:srcCompat="@mipmap/hello_background"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"/>
 
 </FrameLayout>

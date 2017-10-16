@@ -42,7 +42,6 @@ public class NewsFragment extends Fragment {
             grades = getArguments().getString(NEWS_KEY);
             newsFragmentTextView.setText(grades);
         }
-
     }
 
     public static NewsFragment newInstance(String initialGrades) {

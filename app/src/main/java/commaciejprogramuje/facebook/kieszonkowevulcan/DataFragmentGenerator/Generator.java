@@ -1,12 +1,22 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan.DataFragmentGenerator;
 
+import android.view.View;
+import android.webkit.WebView;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import commaciejprogramuje.facebook.kieszonkowevulcan.GradesUtils.Subjects;
+import commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity;
 
 /**
  * Created by m.szymczyk on 2017-10-13.
@@ -206,5 +216,75 @@ public class Generator {
                 return "GRUDZIEŃ";
         }
         return null;
+    }
+
+    public static String dataForTeachersFragment(MainActivity mainActivity) {
+        //http://zastepstwa.g16-lublin.eu/
+        StringBuilder stringBuilder = new StringBuilder();
+        try {
+            Document document = Jsoup.connect("http://zastepstwa.g16-lublin.eu/").get();
+            String temp = document.body().toString();
+
+            System.out.println(temp);
+
+            stringBuilder.append(temp.substring(temp.indexOf("<nobr>") + 14, temp.indexOf("</nobr>"))).append("\n");
+
+            Matcher rowMatcher = Pattern.compile("<td nowrap class=\"st1\"(.*?)</td>(.*?)dyżury").matcher(temp);
+            while (rowMatcher.find()) {
+                System.out.println("znaleziono");
+
+                String masterTeacherString = rowMatcher.group();
+                stringBuilder.append(masterTeacherString).append("\n").append("===============================\n");
+
+
+
+            }
+
+
+            /*<tr>
+                <td nowrap class="st7" align="LEFT"> 3 </td>
+                <td nowrap class="st8" align="LEFT"> 2 bg - 202 </td>
+                <td nowrap class="st9" align="LEFT"> Magdalena Ostrokulska </td>
+            </tr>
+            <tr>
+                <td nowrap class="st10" align="LEFT" bgcolor="#F7F3D9"> 4 </td>
+                <td nowrap class="st11" align="LEFT" bgcolor="#F7F3D9"> 2 bg - 202 </td>
+                <td nowrap class="st12" align="LEFT" bgcolor="#F7F3D9"> Magdalena Ostrokulska </td>
+            </tr> */
+
+
+
+
+            /*Matcher gradeMatcher = Pattern.compile("[1-6]{1}</span>").matcher(temp);
+            Matcher dateMatcher = Pattern.compile("Data: \\d{2}\\.\\d{2}\\.\\d{4}").matcher(temp);
+            Matcher textMatcher = Pattern.compile("Opis:(.*?)<br/>").matcher(temp);
+            Matcher codeMatcher = Pattern.compile("Kod:(.*?)<br/>").matcher(temp);
+
+            while (gradeMatcher.find()) {
+                tempGrade = gradeMatcher.group().substring(0, 1);
+
+                if(dateMatcher.find()) {
+                    tempDate = dateMatcher.group().substring(6);
+                }
+
+                if(textMatcher.find()) {
+                    tempText = textMatcher.group().substring(6);
+                    tempText = tempText.replace("<br/>", "");
+                    tempText = tempText.replaceAll("&quot;", "'");
+                }
+
+                if(codeMatcher.find()) {
+                    tempCode = codeMatcher.group().substring(5);
+                    tempCode = tempCode.replace("<br/>", "");
+                }
+            }*/
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        return stringBuilder.toString();
     }
 }

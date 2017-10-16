@@ -11,7 +11,7 @@ public class ShowGradesFrag {
         this.mainActivity = mainActivity;
     }
 
-    public void showGradesFragment() {
+    public void show() {
         GradesFragment gradesFragment;
         if (mainActivity.checkInternetConn.checkInternetConnection(mainActivity)) {
             gradesFragment = GradesFragment.newInstance(Generator.dataForGradesFragment(mainActivity.getSubjects()));
@@ -19,6 +19,6 @@ public class ShowGradesFrag {
             mainActivity.noInternetReaction.noInternetReaction(mainActivity);
             gradesFragment = GradesFragment.newInstance("Włącz internet i odśwież przyciskiem!");
         }
-        mainActivity.replaceFrag.replaceFragment(mainActivity, gradesFragment);
+        mainActivity.replaceFrag.replace(mainActivity, gradesFragment);
     }
 }

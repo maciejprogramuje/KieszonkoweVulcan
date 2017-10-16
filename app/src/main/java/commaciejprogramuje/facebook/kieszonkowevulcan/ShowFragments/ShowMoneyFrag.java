@@ -11,7 +11,7 @@ public class ShowMoneyFrag {
         this.mainActivity = mainActivity;
     }
 
-    public void showMoneyFragment() {
+    public void show() {
         MoneyFragment moneyFragment;
         if (mainActivity.checkInternetConn.checkInternetConnection(mainActivity)) {
             moneyFragment = MoneyFragment.newInstance(Generator.dataForMoneyFragment(mainActivity.getSubjects()));
@@ -19,6 +19,6 @@ public class ShowMoneyFrag {
             mainActivity.noInternetReaction.noInternetReaction(mainActivity);
             moneyFragment = MoneyFragment.newInstance("Włącz internet i odśwież przyciskiem!");
         }
-        mainActivity.replaceFrag.replaceFragment(mainActivity, moneyFragment);
+        mainActivity.replaceFrag.replace(mainActivity, moneyFragment);
     }
 }

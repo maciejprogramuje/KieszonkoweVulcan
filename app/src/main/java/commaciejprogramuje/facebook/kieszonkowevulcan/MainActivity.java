@@ -30,6 +30,7 @@ import commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments.ShowHelloFra
 import commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments.ShowLoginFrag;
 import commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments.ShowMoneyFrag;
 import commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments.ShowNewsFrag;
+import commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments.ShowTeachersFrag;
 import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.CheckInternetConn;
 import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.DeleteCredentials;
 import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.NoInternetReaction;
@@ -45,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private final ShowMoneyFrag showMoneyFrag = new ShowMoneyFrag(this);
     public final ShowLoginFrag showLoginFrag = new ShowLoginFrag(this);
     private final ShowHelloFrag showHelloFrag = new ShowHelloFrag(this);
+    private final ShowTeachersFrag showTeachersFrag = new ShowTeachersFrag(this);
     public final CheckInternetConn checkInternetConn = new CheckInternetConn();
     public final NoInternetReaction noInternetReaction = new NoInternetReaction();
     public final ReplaceFrag replaceFrag = new ReplaceFrag();
@@ -60,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private WaitMessages waitMessages;
     private String login = "";
     private String password = "";
-    private MyWebViewClient myWebViewClient;
+    private MyWebViewClientGrades myWebViewClientGrades;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,11 +142,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle bottom_navigation_money_activity view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_news) {
-            ShowNewsFrag.showNewsFragment();
+            ShowNewsFrag.show();
         } else if (id == R.id.nav_grades) {
-            showGradesFrag.showGradesFragment();
+            showGradesFrag.show();
         } else if (id == R.id.nav_money) {
-            showMoneyFrag.showMoneyFragment();
+            showMoneyFrag.show();
+        } else if (id == R.id.nav_teachers) {
+            showTeachersFrag.show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -163,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         pd.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
-                if(myWebViewClient.isProblem()) {
+                if(myWebViewClientGrades.isProblem()) {
                     Log.w("UWAGA", "wystąpił problem");
                     Toast.makeText(MainActivity.this, "Mamy problem z logowaniem!\n\n\nZapewne błędny login lub hasło.\nSpróbuj ponownie", Toast.LENGTH_LONG).show();
                     deleteCredentials.delete();
@@ -173,6 +177,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_grades));
                 } else if (navigationView.getMenu().findItem(R.id.nav_money).isChecked()) {
                     onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_money));
+                } else if(navigationView.getMenu().findItem(R.id.nav_teachers).isChecked()) {
+                    onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_teachers));
                 }
             }
         });
@@ -197,9 +203,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         browser.getSettings().setDomStorageEnabled(true);
         browser.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
 
-        myWebViewClient = new MyWebViewClient(browser, login, password, progressDialog);
+        myWebViewClientGrades = new MyWebViewClientGrades(browser, login, password, progressDialog);
 
-        browser.setWebViewClient(myWebViewClient);
+        browser.setWebViewClient(myWebViewClientGrades);
         browser.addJavascriptInterface(new GradesJavaScriptInterface(this), "GRADES_HTMLOUT");
 
         browser.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");

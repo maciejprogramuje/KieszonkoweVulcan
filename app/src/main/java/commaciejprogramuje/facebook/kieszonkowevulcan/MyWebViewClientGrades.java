@@ -11,7 +11,7 @@ import android.webkit.WebViewClient;
  * Created by 5742ZGPC on 2017-10-07.
  */
 
-class MyWebViewClient extends WebViewClient {
+class MyWebViewClientGrades extends WebViewClient {
     private WebView browser;
     private String login;
     private String password;
@@ -19,8 +19,8 @@ class MyWebViewClient extends WebViewClient {
     private int loginPageShowIndex;
     private boolean problem;
 
-    MyWebViewClient(WebView browser, String login, String password, ProgressDialog progressDialog) {
-        Log.w("UWAGA", "konstruktor MyWebViewClient");
+    MyWebViewClientGrades(WebView browser, String login, String password, ProgressDialog progressDialog) {
+        Log.w("UWAGA", "konstruktor MyWebViewClientGrades");
         this.browser = browser;
         this.login = login;
         this.password = password;

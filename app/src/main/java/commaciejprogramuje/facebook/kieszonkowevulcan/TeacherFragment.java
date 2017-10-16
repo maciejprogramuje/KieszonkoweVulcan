@@ -12,37 +12,39 @@ import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class HelloFragment extends Fragment {
-    public static final String HELLO_KEY = "hello";
+public class TeacherFragment extends Fragment {
+    public static final String TEACHERS_KEY = "teachers";
 
-    //private String mParam1;
+    @InjectView(R.id.teachers_fragment_textview)
+    TextView teachersFragmentTextview;
 
-    public HelloFragment() {
+    public TeacherFragment() {
         // Required empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_hello, container, false);
+        View view = inflater.inflate(R.layout.fragment_teacher, container, false);
         ButterKnife.inject(this, view);
         return view;
+    }
+
+    public static TeacherFragment newInstance(String teachersData) {
+        TeacherFragment fragment = new TeacherFragment();
+        Bundle args = new Bundle();
+        args.putString(TEACHERS_KEY, teachersData);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (getArguments() != null) {
-
+            String teachers = getArguments().getString(TEACHERS_KEY);
+            teachersFragmentTextview.setText(teachers);
         }
-    }
-
-    public static HelloFragment newInstance(String helloText) {
-        HelloFragment fragment = new HelloFragment();
-        Bundle args = new Bundle();
-        args.putString(HELLO_KEY, helloText);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override

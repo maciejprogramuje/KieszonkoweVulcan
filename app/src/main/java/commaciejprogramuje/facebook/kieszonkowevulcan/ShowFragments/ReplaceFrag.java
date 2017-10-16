@@ -11,7 +11,7 @@ public class ReplaceFrag {
     public ReplaceFrag() {
     }
 
-    public void replaceFragment(MainActivity mainActivity, Fragment fragment) {
+    public void replace(MainActivity mainActivity, Fragment fragment) {
         FragmentTransaction fragmentTransaction = mainActivity.getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.main_container, fragment);
         fragmentTransaction.commit();
