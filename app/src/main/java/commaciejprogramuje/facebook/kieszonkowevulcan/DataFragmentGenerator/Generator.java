@@ -1,5 +1,6 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan.DataFragmentGenerator;
 
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 
@@ -58,13 +59,13 @@ public class Generator {
                         e.printStackTrace();
                     }
 
-                    if(newGradeDateCal.after(oldGradeDateCal)) {
+                    if (newGradeDateCal.after(oldGradeDateCal)) {
                         oldGradeDateCal = newGradeDateCal;
                         newestGradeStringBuilder = new StringBuilder();
                         newestGradeStringBuilder
                                 .append("   ").append(subjects.getGrades(i).get(j).getmGrade()).append(" (").append(subjects.getGrades(i).get(j).getmDate()).append(")\n")
                                 .append("   ").append(subjects.getGrades(i).get(j).getmCode()).append(", ").append(subjects.getGrades(i).get(j).getmText()).append("\n");
-                    } else if(newGradeDateCal.equals(oldGradeDateCal)) {
+                    } else if (newGradeDateCal.equals(oldGradeDateCal)) {
                         newestGradeStringBuilder
                                 .append("   ").append(subjects.getGrades(i).get(j).getmGrade()).append(" (").append(subjects.getGrades(i).get(j).getmDate()).append(")\n")
                                 .append("   ").append(subjects.getGrades(i).get(j).getmCode()).append(", ").append(subjects.getGrades(i).get(j).getmText()).append("\n");
@@ -227,64 +228,37 @@ public class Generator {
 
             System.out.println(temp);
 
-            stringBuilder.append(temp.substring(temp.indexOf("<nobr>") + 14, temp.indexOf("</nobr>"))).append("\n");
-
-            Matcher rowMatcher = Pattern.compile("<td nowrap class=\"st1\"(.*?)</td>(.*?)dyżury").matcher(temp);
+            Matcher rowMatcher = Pattern.compile("<tr>(.|\\n)*?</tr>").matcher(temp);
             while (rowMatcher.find()) {
-                System.out.println("znaleziono");
+                String row = rowMatcher.group();
+                String element = "";
 
-                String masterTeacherString = rowMatcher.group();
-                stringBuilder.append(masterTeacherString).append("\n").append("===============================\n");
-
-
-
+                if (row.contains("Zastępstwa")) {
+                    element = row.substring(row.indexOf("<nobr>") + 14, row.indexOf("</nobr>"));
+                    stringBuilder.append(element).append("\n");
+                } else {
+                    Matcher matcher = Pattern.compile("\">(.*?)</td>").matcher(row);
+                    int index = 0;
+                    while (matcher.find()) {
+                        String tempElement = matcher.group().replace("\"> ", "").replace(" </td>", "");
+                        if(!tempElement.equals("lekcja") && !tempElement.equals("opis") && !tempElement.equals("zastępca"))  {
+                            if(index == 0) {
+                                element = tempElement;
+                            } else if(index == 1) {
+                                element = element + " -> " + tempElement;
+                            } else if(index == 2) {
+                                element = element + " -> " + tempElement + "\n";
+                            }
+                            index++;
+                        }
+                    }
+                    stringBuilder.append(element);
+                }
+                Log.w("UWAGA", "szczegóły: " + element);
             }
-
-
-            /*<tr>
-                <td nowrap class="st7" align="LEFT"> 3 </td>
-                <td nowrap class="st8" align="LEFT"> 2 bg - 202 </td>
-                <td nowrap class="st9" align="LEFT"> Magdalena Ostrokulska </td>
-            </tr>
-            <tr>
-                <td nowrap class="st10" align="LEFT" bgcolor="#F7F3D9"> 4 </td>
-                <td nowrap class="st11" align="LEFT" bgcolor="#F7F3D9"> 2 bg - 202 </td>
-                <td nowrap class="st12" align="LEFT" bgcolor="#F7F3D9"> Magdalena Ostrokulska </td>
-            </tr> */
-
-
-
-
-            /*Matcher gradeMatcher = Pattern.compile("[1-6]{1}</span>").matcher(temp);
-            Matcher dateMatcher = Pattern.compile("Data: \\d{2}\\.\\d{2}\\.\\d{4}").matcher(temp);
-            Matcher textMatcher = Pattern.compile("Opis:(.*?)<br/>").matcher(temp);
-            Matcher codeMatcher = Pattern.compile("Kod:(.*?)<br/>").matcher(temp);
-
-            while (gradeMatcher.find()) {
-                tempGrade = gradeMatcher.group().substring(0, 1);
-
-                if(dateMatcher.find()) {
-                    tempDate = dateMatcher.group().substring(6);
-                }
-
-                if(textMatcher.find()) {
-                    tempText = textMatcher.group().substring(6);
-                    tempText = tempText.replace("<br/>", "");
-                    tempText = tempText.replaceAll("&quot;", "'");
-                }
-
-                if(codeMatcher.find()) {
-                    tempCode = codeMatcher.group().substring(5);
-                    tempCode = tempCode.replace("<br/>", "");
-                }
-            }*/
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
         return stringBuilder.toString();
     }
 }
