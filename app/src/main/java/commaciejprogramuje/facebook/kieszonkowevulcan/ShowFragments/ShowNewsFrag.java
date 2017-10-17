@@ -1,5 +1,8 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments;
 
+import java.util.ArrayList;
+import java.util.StringTokenizer;
+
 import commaciejprogramuje.facebook.kieszonkowevulcan.DataFragmentGenerator.Generator;
 import commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity;
 import commaciejprogramuje.facebook.kieszonkowevulcan.NewsFragment;
@@ -17,7 +20,11 @@ public class ShowNewsFrag {
             newsFragment = NewsFragment.newInstance(Generator.dataForNewsFragment(mainActivity.getSubjects()));
         } else {
             mainActivity.noInternetReaction.noInternetReaction(mainActivity);
-            newsFragment = NewsFragment.newInstance("Włącz internet i odśwież przyciskiem!");
+            ArrayList<String> tempArray = new ArrayList<>();
+            for (int i = 0; i < 16; i++) {
+                tempArray.add("Włącz internet i odśwież przyciskiem!");
+            }
+            newsFragment = NewsFragment.newInstance(tempArray);
         }
         mainActivity.replaceFrag.replace(mainActivity, newsFragment);
     }

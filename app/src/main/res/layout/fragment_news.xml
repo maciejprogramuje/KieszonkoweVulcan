@@ -1,23 +1,19 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="commaciejprogramuje.facebook.kieszonkowevulcan.NewsFragment"
-    android:layout_margin="8dp">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent">
 
-    <ScrollView
+    <LinearLayout
+        android:id="@+id/scroll_view_fragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="8dp"
         android:fillViewport="true"
-        android:scrollbars="vertical">
+        android:scrollbars="vertical"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/news_fragment_textview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="News fragment" />
 
-    </ScrollView>
 
-</LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

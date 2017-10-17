@@ -8,6 +8,7 @@ import org.jsoup.nodes.Document;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -24,7 +25,64 @@ public class Generator {
     private static int currentMonthInt;
     private static int previousMonthInt;
 
-    public static String dataForNewsFragment(Subjects subjects) {
+    public static ArrayList<String> dataForNewsFragment(Subjects subjects) {
+        ArrayList<String> dataArray = new ArrayList<>();
+
+        //generate one string with all subjects data
+        for (int i = 0; i < subjects.size(); i++) {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            stringBuilder.append(subjects.getName(i).toUpperCase());
+            if (!subjects.getAverage(i).equals("-")) {
+                stringBuilder.append(" (").append(subjects.getAverage(i)).append(")\n");
+            }
+
+            if (subjects.getGrades(i).size() > 0) {
+                StringBuilder newestGradeStringBuilder = new StringBuilder();
+                Calendar oldGradeDateCal = Calendar.getInstance();
+                try {
+                    String dateString = subjects.getGrades(i).get(0).getmDate();
+                    Date date = (new SimpleDateFormat("dd.MM.yyyy", Locale.US).parse(dateString));
+                    oldGradeDateCal.setTime(date);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                for (int j = 0; j < subjects.getGrades(i).size(); j++) {
+                    Calendar newGradeDateCal = Calendar.getInstance();
+                    try {
+                        String dateString = subjects.getGrades(i).get(j).getmDate();
+                        Date date = (new SimpleDateFormat("dd.MM.yyyy", Locale.US).parse(dateString));
+                        newGradeDateCal.setTime(date);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                    if (newGradeDateCal.after(oldGradeDateCal)) {
+                        oldGradeDateCal = newGradeDateCal;
+                        newestGradeStringBuilder = new StringBuilder();
+                        newestGradeStringBuilder
+                                .append("   ").append(subjects.getGrades(i).get(j).getmGrade()).append(" (").append(subjects.getGrades(i).get(j).getmDate()).append(")\n")
+                                .append("   ").append(subjects.getGrades(i).get(j).getmCode()).append(", ").append(subjects.getGrades(i).get(j).getmText()).append("\n");
+                    } else if (newGradeDateCal.equals(oldGradeDateCal)) {
+                        newestGradeStringBuilder
+                                .append("   ").append(subjects.getGrades(i).get(j).getmGrade()).append(" (").append(subjects.getGrades(i).get(j).getmDate()).append(")\n")
+                                .append("   ").append(subjects.getGrades(i).get(j).getmCode()).append(", ").append(subjects.getGrades(i).get(j).getmText()).append("\n");
+                    }
+                }
+                stringBuilder.append(newestGradeStringBuilder).append("\n");
+            } else {
+                stringBuilder.append("\n   --- brak ocen ---\n\n");
+            }
+
+            dataArray.add(stringBuilder.toString());
+        }
+
+        return dataArray;
+    }
+
+
+    /*public static String dataForNewsFragment(Subjects subjects) {
 
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("===== NEWS =====\n\n");
@@ -74,7 +132,7 @@ public class Generator {
             }
         }
         return stringBuilder.toString();
-    }
+    }*/
 
     public static String dataForGradesFragment(Subjects subjects) {
         StringBuilder stringBuilder = new StringBuilder();
