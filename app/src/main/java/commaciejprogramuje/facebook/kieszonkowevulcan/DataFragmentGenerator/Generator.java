@@ -75,7 +75,7 @@ public class Generator {
 
                 stringBuilder.append(newestGradeStringBuilder);
             } else {
-                stringBuilder.append("\n   --- brak ocen ---");
+                stringBuilder.append("\n--- brak ocen ---");
             }
 
             dataArray.add(stringBuilder.toString());
