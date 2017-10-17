@@ -41,9 +41,8 @@ public class NewsFragment extends Fragment {
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             layoutParams.setMargins(0, 0, 0, 1);
             textView.setLayoutParams(layoutParams);
-            textView.setPadding(16, 16, 16, 15);
+            textView.setPadding(16, 16, 16, 16);
             textView.setText("textView nr " + i);
-            //textView.setBackgroundColor(ContextCompat.getColor(scrollViewFragment.getContext(), R.color.colorPrimaryLight));
             textView.setBackgroundColor(ContextCompat.getColor(scrollViewFragment.getContext(), android.R.color.white));
 
             textViewArray.add(textView);
