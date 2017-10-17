@@ -41,6 +41,7 @@ public class NewsFragment extends Fragment {
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             layoutParams.setMargins(0, 8, 0, 8);
             textView.setLayoutParams(layoutParams);
+            textView.setPadding(16, 8, 16, 8);
             textView.setText("textView nr " + i);
             textView.setBackgroundColor(ContextCompat.getColor(scrollViewFragment.getContext(), R.color.colorPrimaryLight));
 

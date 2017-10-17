@@ -34,7 +34,7 @@ public class Generator {
 
             stringBuilder.append(subjects.getName(i).toUpperCase());
             if (!subjects.getAverage(i).equals("-")) {
-                stringBuilder.append(" (").append(subjects.getAverage(i)).append(")\n");
+                stringBuilder.append(" (").append(subjects.getAverage(i)).append(")");
             }
 
             if (subjects.getGrades(i).size() > 0) {
@@ -62,12 +62,14 @@ public class Generator {
                         oldGradeDateCal = newGradeDateCal;
                         newestGradeStringBuilder = new StringBuilder();
                         newestGradeStringBuilder
-                                .append("   ").append(subjects.getGrades(i).get(j).getmGrade()).append(" (").append(subjects.getGrades(i).get(j).getmDate()).append(")\n")
-                                .append("   ").append(subjects.getGrades(i).get(j).getmCode()).append(", ").append(subjects.getGrades(i).get(j).getmText());
+                                .append("\n")
+                                .append(subjects.getGrades(i).get(j).getmGrade()).append(" (").append(subjects.getGrades(i).get(j).getmDate()).append(")\n")
+                                .append(subjects.getGrades(i).get(j).getmCode()).append(", ").append(subjects.getGrades(i).get(j).getmText());
                     } else if (newGradeDateCal.equals(oldGradeDateCal)) {
                         newestGradeStringBuilder
-                                .append("   ").append(subjects.getGrades(i).get(j).getmGrade()).append(" (").append(subjects.getGrades(i).get(j).getmDate()).append(")\n")
-                                .append("   ").append(subjects.getGrades(i).get(j).getmCode()).append(", ").append(subjects.getGrades(i).get(j).getmText());
+                                .append("\n")
+                                .append(subjects.getGrades(i).get(j).getmGrade()).append(" (").append(subjects.getGrades(i).get(j).getmDate()).append(")\n")
+                                .append(subjects.getGrades(i).get(j).getmCode()).append(", ").append(subjects.getGrades(i).get(j).getmText());
                     }
                 }
 
@@ -81,59 +83,6 @@ public class Generator {
 
         return dataArray;
     }
-
-
-    /*public static String dataForNewsFragment(Subjects subjects) {
-
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("===== NEWS =====\n\n");
-
-        for (int i = 0; i < subjects.size(); i++) {
-            stringBuilder.append(subjects.getName(i).toUpperCase());
-            if (!subjects.getAverage(i).equals("-")) {
-                stringBuilder.append(" (").append(subjects.getAverage(i)).append(")\n");
-            }
-
-            if (subjects.getGrades(i).size() > 0) {
-                StringBuilder newestGradeStringBuilder = new StringBuilder();
-                Calendar oldGradeDateCal = Calendar.getInstance();
-                try {
-                    String dateString = subjects.getGrades(i).get(0).getmDate();
-                    Date date = (new SimpleDateFormat("dd.MM.yyyy", Locale.US).parse(dateString));
-                    oldGradeDateCal.setTime(date);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
-                for (int j = 0; j < subjects.getGrades(i).size(); j++) {
-                    Calendar newGradeDateCal = Calendar.getInstance();
-                    try {
-                        String dateString = subjects.getGrades(i).get(j).getmDate();
-                        Date date = (new SimpleDateFormat("dd.MM.yyyy", Locale.US).parse(dateString));
-                        newGradeDateCal.setTime(date);
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-
-                    if (newGradeDateCal.after(oldGradeDateCal)) {
-                        oldGradeDateCal = newGradeDateCal;
-                        newestGradeStringBuilder = new StringBuilder();
-                        newestGradeStringBuilder
-                                .append("   ").append(subjects.getGrades(i).get(j).getmGrade()).append(" (").append(subjects.getGrades(i).get(j).getmDate()).append(")\n")
-                                .append("   ").append(subjects.getGrades(i).get(j).getmCode()).append(", ").append(subjects.getGrades(i).get(j).getmText()).append("\n");
-                    } else if (newGradeDateCal.equals(oldGradeDateCal)) {
-                        newestGradeStringBuilder
-                                .append("   ").append(subjects.getGrades(i).get(j).getmGrade()).append(" (").append(subjects.getGrades(i).get(j).getmDate()).append(")\n")
-                                .append("   ").append(subjects.getGrades(i).get(j).getmCode()).append(", ").append(subjects.getGrades(i).get(j).getmText()).append("\n");
-                    }
-                }
-                stringBuilder.append(newestGradeStringBuilder).append("\n");
-            } else {
-                stringBuilder.append("\n   --- brak ocen ---\n\n");
-            }
-        }
-        return stringBuilder.toString();
-    }*/
 
     public static String dataForGradesFragment(Subjects subjects) {
         StringBuilder stringBuilder = new StringBuilder();
