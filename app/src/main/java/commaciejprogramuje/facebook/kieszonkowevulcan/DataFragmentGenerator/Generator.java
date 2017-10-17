@@ -1,8 +1,6 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan.DataFragmentGenerator;
 
 import android.util.Log;
-import android.view.View;
-import android.webkit.WebView;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -17,7 +15,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import commaciejprogramuje.facebook.kieszonkowevulcan.GradesUtils.Subjects;
-import commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity;
 
 /**
  * Created by m.szymczyk on 2017-10-13.
@@ -219,8 +216,7 @@ public class Generator {
         return null;
     }
 
-    public static String dataForTeachersFragment(MainActivity mainActivity) {
-        //http://zastepstwa.g16-lublin.eu/
+    public static String dataForTeachersFragment() {
         StringBuilder stringBuilder = new StringBuilder();
         try {
             Document document = Jsoup.connect("http://zastepstwa.g16-lublin.eu/").get();
@@ -240,21 +236,47 @@ public class Generator {
                     Matcher matcher = Pattern.compile("\">(.*?)</td>").matcher(row);
                     int index = 0;
                     while (matcher.find()) {
-                        String tempElement = matcher.group().replace("\"> ", "").replace(" </td>", "");
-                        if(!tempElement.equals("lekcja") && !tempElement.equals("opis") && !tempElement.equals("zastępca"))  {
-                            if(index == 0) {
-                                element = tempElement;
-                            } else if(index == 1) {
-                                element = element + " -> " + tempElement;
-                            } else if(index == 2) {
-                                element = element + " -> " + tempElement + "\n";
+                        String tempElement = matcher.group().replace("\"> ", "").replace(" </td>", "").replace("&" + "nbsp;", "");
+
+                        Log.w("UWAGA", "szczegóły: [" + tempElement + "]");
+
+                        if (!tempElement.equals("lekcja")
+                                && !tempElement.equals("opis")
+                                && !tempElement.equals("zastępca")
+                                && !tempElement.equals("po lekcji")
+                                && !tempElement.equals("miejsce")) {
+                            if (index == 0 && !tempElement.equals("")) {
+                                    element = tempElement;
+
+                            } else if (index == 1) {
+                                if(!tempElement.equals("")) {
+                                    element = element + " -> " + tempElement;
+                                }
+                            } else if (index == 2) {
+                                if(tempElement.equals("")) {
+                                    element += "\n";
+                                } else {
+                                    element = element + " -> " + tempElement + "\n";
+                                }
                             }
                             index++;
                         }
                     }
-                    stringBuilder.append(element);
+                    if (index == 1) {
+                        stringBuilder.append("\n");
+                    }
+
+                    if (!element.contains("->  ->")) {
+                        stringBuilder.append(element);
+                    }
+
+                    if (index == 1) {
+                        stringBuilder.append("\n");
+                    }
+
+
                 }
-                Log.w("UWAGA", "szczegóły: " + element);
+                //Log.w("UWAGA", "szczegóły: " + element);
             }
         } catch (IOException e) {
             e.printStackTrace();

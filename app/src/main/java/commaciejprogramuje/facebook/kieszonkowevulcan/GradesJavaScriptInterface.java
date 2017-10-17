@@ -58,13 +58,18 @@ public class GradesJavaScriptInterface {
         String temp = html.substring(html.indexOf(subject));
         temp = temp.substring(0, temp.indexOf("</tr>"));
 
-        Matcher gradeMatcher = Pattern.compile("[1-6]{1}</span>").matcher(temp);
+        Matcher gradeMatcher = Pattern.compile("[1-6]{1}[\\+]*[\\-]*</span>").matcher(temp);
         Matcher dateMatcher = Pattern.compile("Data: \\d{2}\\.\\d{2}\\.\\d{4}").matcher(temp);
         Matcher textMatcher = Pattern.compile("Opis:(.*?)<br/>").matcher(temp);
         Matcher codeMatcher = Pattern.compile("Kod:(.*?)<br/>").matcher(temp);
 
         while (gradeMatcher.find()) {
-            tempGrade = gradeMatcher.group().substring(0, 1);
+            String tempGradeString = gradeMatcher.group().substring(0, 2);
+            if(tempGradeString.contains("<")) {
+                tempGrade = gradeMatcher.group().substring(0, 1);
+            } else {
+                tempGrade = tempGradeString;
+            }
 
             if(dateMatcher.find()) {
                 tempDate = dateMatcher.group().substring(6);

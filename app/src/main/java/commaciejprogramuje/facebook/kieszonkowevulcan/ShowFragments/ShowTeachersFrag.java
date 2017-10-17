@@ -18,7 +18,7 @@ public class ShowTeachersFrag {
     public void show() {
         TeacherFragment teacherFragment;
         if (mainActivity.checkInternetConn.checkInternetConnection(mainActivity)) {
-            teacherFragment = TeacherFragment.newInstance(Generator.dataForTeachersFragment(mainActivity));
+            teacherFragment = TeacherFragment.newInstance(Generator.dataForTeachersFragment());
         } else {
             mainActivity.noInternetReaction.noInternetReaction(mainActivity);
             teacherFragment = TeacherFragment.newInstance("Włącz internet i odśwież przyciskiem!");
