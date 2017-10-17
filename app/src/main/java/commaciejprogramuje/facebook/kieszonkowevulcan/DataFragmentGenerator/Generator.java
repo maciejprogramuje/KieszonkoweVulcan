@@ -63,16 +63,17 @@ public class Generator {
                         newestGradeStringBuilder = new StringBuilder();
                         newestGradeStringBuilder
                                 .append("   ").append(subjects.getGrades(i).get(j).getmGrade()).append(" (").append(subjects.getGrades(i).get(j).getmDate()).append(")\n")
-                                .append("   ").append(subjects.getGrades(i).get(j).getmCode()).append(", ").append(subjects.getGrades(i).get(j).getmText()).append("\n");
+                                .append("   ").append(subjects.getGrades(i).get(j).getmCode()).append(", ").append(subjects.getGrades(i).get(j).getmText());
                     } else if (newGradeDateCal.equals(oldGradeDateCal)) {
                         newestGradeStringBuilder
                                 .append("   ").append(subjects.getGrades(i).get(j).getmGrade()).append(" (").append(subjects.getGrades(i).get(j).getmDate()).append(")\n")
-                                .append("   ").append(subjects.getGrades(i).get(j).getmCode()).append(", ").append(subjects.getGrades(i).get(j).getmText()).append("\n");
+                                .append("   ").append(subjects.getGrades(i).get(j).getmCode()).append(", ").append(subjects.getGrades(i).get(j).getmText());
                     }
                 }
-                stringBuilder.append(newestGradeStringBuilder).append("\n");
+
+                stringBuilder.append(newestGradeStringBuilder);
             } else {
-                stringBuilder.append("\n   --- brak ocen ---\n\n");
+                stringBuilder.append("\n   --- brak ocen ---");
             }
 
             dataArray.add(stringBuilder.toString());

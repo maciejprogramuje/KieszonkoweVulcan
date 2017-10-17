@@ -1,8 +1,10 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,8 +38,11 @@ public class NewsFragment extends Fragment {
 
         for (int i = 0; i < 16; i++) {
             TextView textView = new TextView(scrollViewFragment.getContext());
-            textView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            layoutParams.setMargins(0, 8, 0, 8);
+            textView.setLayoutParams(layoutParams);
             textView.setText("textView nr " + i);
+            textView.setBackgroundColor(ContextCompat.getColor(scrollViewFragment.getContext(), R.color.colorPrimaryLight));
 
             textViewArray.add(textView);
 
