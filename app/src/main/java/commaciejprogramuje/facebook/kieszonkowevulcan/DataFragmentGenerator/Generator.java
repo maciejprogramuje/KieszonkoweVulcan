@@ -25,65 +25,6 @@ public class Generator {
     private static int currentMonthInt;
     private static int previousMonthInt;
 
-    public static ArrayList<String> dataForNewsFragment(Subjects subjects) {
-        ArrayList<String> dataArray = new ArrayList<>();
-
-        //generate one string with all subjects data
-        for (int i = 0; i < subjects.size(); i++) {
-            StringBuilder stringBuilder = new StringBuilder();
-
-            stringBuilder.append(subjects.getName(i));
-            if (!subjects.getAverage(i).equals("-")) {
-                stringBuilder.append(" (").append(subjects.getAverage(i)).append(")");
-            }
-
-            if (subjects.getGrades(i).size() > 0) {
-                StringBuilder newestGradeStringBuilder = new StringBuilder();
-                Calendar oldGradeDateCal = Calendar.getInstance();
-                try {
-                    String dateString = subjects.getGrades(i).get(0).getmDate();
-                    Date date = (new SimpleDateFormat("dd.MM.yyyy", Locale.US).parse(dateString));
-                    oldGradeDateCal.setTime(date);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
-                for (int j = 0; j < subjects.getGrades(i).size(); j++) {
-                    Calendar newGradeDateCal = Calendar.getInstance();
-                    try {
-                        String dateString = subjects.getGrades(i).get(j).getmDate();
-                        Date date = (new SimpleDateFormat("dd.MM.yyyy", Locale.US).parse(dateString));
-                        newGradeDateCal.setTime(date);
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-
-                    if (newGradeDateCal.after(oldGradeDateCal)) {
-                        oldGradeDateCal = newGradeDateCal;
-                        newestGradeStringBuilder = new StringBuilder();
-                        newestGradeStringBuilder
-                                .append("XXX")
-                                .append(subjects.getGrades(i).get(j).getmGrade()).append(" (").append(subjects.getGrades(i).get(j).getmDate()).append(")\n")
-                                .append(subjects.getGrades(i).get(j).getmCode()).append(", ").append(subjects.getGrades(i).get(j).getmText());
-                    } else if (newGradeDateCal.equals(oldGradeDateCal)) {
-                        newestGradeStringBuilder
-                                .append("XXX")
-                                .append(subjects.getGrades(i).get(j).getmGrade()).append(" (").append(subjects.getGrades(i).get(j).getmDate()).append(")\n")
-                                .append(subjects.getGrades(i).get(j).getmCode()).append(", ").append(subjects.getGrades(i).get(j).getmText());
-                    }
-                }
-
-                stringBuilder.append(newestGradeStringBuilder);
-            } else {
-                stringBuilder.append("XXX").append("--- brak ocen ---");
-            }
-
-            dataArray.add(stringBuilder.toString());
-        }
-
-        return dataArray;
-    }
-
     public static String dataForGradesFragment(Subjects subjects) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("===== OCENY =====\n\n");

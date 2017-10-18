@@ -53,4 +53,8 @@ public class Subjects implements Serializable {
     public int size() {
         return subjects.size();
     }
+
+    public Subject getSubject(int index) {
+        return subjects.get(index);
+    }
 }

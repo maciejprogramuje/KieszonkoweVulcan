@@ -15,17 +15,11 @@ public class ShowNewsFrag {
     }
 
     public void show() {
-        NewsFragment newsFragment;
         if (mainActivity.checkInternetConn.checkInternetConnection(mainActivity)) {
-            newsFragment = NewsFragment.newInstance(Generator.dataForNewsFragment(mainActivity.getSubjects()));
+            NewsFragment newsFragment = NewsFragment.newInstance(mainActivity.getSubjects());
+            mainActivity.replaceFrag.replace(mainActivity, newsFragment);
         } else {
             mainActivity.noInternetReaction.noInternetReaction(mainActivity);
-            ArrayList<String> tempArray = new ArrayList<>();
-            for (int i = 0; i < 16; i++) {
-                tempArray.add("Włącz internet i odśwież przyciskiem!");
-            }
-            newsFragment = NewsFragment.newInstance(tempArray);
         }
-        mainActivity.replaceFrag.replace(mainActivity, newsFragment);
     }
 }

@@ -100,8 +100,6 @@ public class GradesJavaScriptInterface {
             while (m.find()) {
                 averageGradesStringBuilder.append(m.group().replace("</td>", ""));
             }
-        } else {
-            averageGradesStringBuilder.append("-");
         }
         return averageGradesStringBuilder.toString();
     }

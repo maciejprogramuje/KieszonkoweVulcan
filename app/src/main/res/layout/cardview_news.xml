@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    card_view:cardBackgroundColor="@android:color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/card_circle"
+            android:src="@drawable/ic_circle_white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:textColor="@color/colorPrimary"
+            android:paddingLeft="16dp">
+
+            <TextView
+                android:id="@+id/card_subject_avg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Subject"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/card_grade_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="grade date"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/card_code_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="code text"
+                android:textSize="13sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>
