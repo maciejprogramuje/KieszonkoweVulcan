@@ -32,7 +32,7 @@ public class Generator {
         for (int i = 0; i < subjects.size(); i++) {
             StringBuilder stringBuilder = new StringBuilder();
 
-            stringBuilder.append(subjects.getName(i).toUpperCase());
+            stringBuilder.append(subjects.getName(i));
             if (!subjects.getAverage(i).equals("-")) {
                 stringBuilder.append(" (").append(subjects.getAverage(i)).append(")");
             }
@@ -62,12 +62,12 @@ public class Generator {
                         oldGradeDateCal = newGradeDateCal;
                         newestGradeStringBuilder = new StringBuilder();
                         newestGradeStringBuilder
-                                .append("\n")
+                                .append("XXX")
                                 .append(subjects.getGrades(i).get(j).getmGrade()).append(" (").append(subjects.getGrades(i).get(j).getmDate()).append(")\n")
                                 .append(subjects.getGrades(i).get(j).getmCode()).append(", ").append(subjects.getGrades(i).get(j).getmText());
                     } else if (newGradeDateCal.equals(oldGradeDateCal)) {
                         newestGradeStringBuilder
-                                .append("\n")
+                                .append("XXX")
                                 .append(subjects.getGrades(i).get(j).getmGrade()).append(" (").append(subjects.getGrades(i).get(j).getmDate()).append(")\n")
                                 .append(subjects.getGrades(i).get(j).getmCode()).append(", ").append(subjects.getGrades(i).get(j).getmText());
                     }
@@ -75,7 +75,7 @@ public class Generator {
 
                 stringBuilder.append(newestGradeStringBuilder);
             } else {
-                stringBuilder.append("\n--- brak ocen ---");
+                stringBuilder.append("XXX").append("--- brak ocen ---");
             }
 
             dataArray.add(stringBuilder.toString());

@@ -1,13 +1,12 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan;
 
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -15,14 +14,15 @@ import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.Cards;
 
 public class NewsFragment extends Fragment {
     public static final String NEWS_KEY = "news";
+
     @InjectView(R.id.scroll_view_fragment)
     LinearLayout scrollViewFragment;
 
-
-    private ArrayList<TextView> textViewArray;
+    private ArrayList<LinearLayout> linearLayoutArray;
 
     public NewsFragment() {
         // Required empty public constructor
@@ -34,20 +34,12 @@ public class NewsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_news, container, false);
         ButterKnife.inject(this, view);
 
-        textViewArray = new ArrayList<>();
+        linearLayoutArray = new ArrayList<>();
 
         for (int i = 0; i < 16; i++) {
-            TextView textView = new TextView(scrollViewFragment.getContext());
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            layoutParams.setMargins(0, 0, 0, 1);
-            textView.setLayoutParams(layoutParams);
-            textView.setPadding(16, 16, 16, 16);
-            textView.setText("textView nr " + i);
-            textView.setBackgroundColor(ContextCompat.getColor(scrollViewFragment.getContext(), android.R.color.white));
-
-            textViewArray.add(textView);
-
-            scrollViewFragment.addView(textView);
+            LinearLayout tempLinearLayout = Cards.generateNewsCards(scrollViewFragment);
+            linearLayoutArray.add(tempLinearLayout);
+            scrollViewFragment.addView(tempLinearLayout);
         }
         return view;
     }
@@ -60,7 +52,33 @@ public class NewsFragment extends Fragment {
             ArrayList<String> gradesArray = getArguments().getStringArrayList(NEWS_KEY);
 
             for (int i = 0; i < 16; i++) {
-                textViewArray.get(i).setText(gradesArray.get(i));
+                String[] input = gradesArray.get(i).split("XXX");
+
+                LinearLayout tempLinearLayout = (LinearLayout) linearLayoutArray.get(i).getChildAt(1);
+                TextView subjectTextView = (TextView) tempLinearLayout.getChildAt(0);
+                TextView textTextView = (TextView) tempLinearLayout.getChildAt(1);
+
+                subjectTextView.setText(input[0]);
+
+                textTextView.setText(input[1]);
+                for (int j = 2; j < input.length; j++) {
+                    textTextView.setText(textTextView.getText() + "\n" + input[j]);
+                }
+
+
+                ImageView tempImageView = (ImageView) linearLayoutArray.get(i).getChildAt(0);
+                if(input[0].contains("(")) {
+                    Double avg = Double.valueOf(input[0].substring(input[0].indexOf("(") + 1, input[0].indexOf(")")).replace(",", "."));
+                    if(avg < 3.00) {
+                        tempImageView.setImageResource(R.drawable.ic_circle_red);
+                    } else if (avg < 4.00) {
+                        tempImageView.setImageResource(R.drawable.ic_circle_yellow);
+                    } else if(avg < 5.00) {
+                        tempImageView.setImageResource(R.drawable.ic_circle_green);
+                    } else {
+                        tempImageView.setImageResource(R.drawable.ic_circle_blue);
+                    }
+                }
             }
         }
     }
