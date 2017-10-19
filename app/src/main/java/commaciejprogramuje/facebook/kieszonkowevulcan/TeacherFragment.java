@@ -52,4 +52,10 @@ public class TeacherFragment extends Fragment {
         super.onDestroyView();
         ButterKnife.reset(this);
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity) getActivity()).setActionBarTitle("Zastępstwa");
+    }
 }

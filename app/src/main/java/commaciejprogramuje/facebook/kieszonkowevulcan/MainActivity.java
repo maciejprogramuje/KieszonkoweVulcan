@@ -241,4 +241,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public Subjects getSubjects() {
         return subjects;
     }
+
+    public void setActionBarTitle(String title) {
+        getSupportActionBar().setTitle(title);
+    }
 }

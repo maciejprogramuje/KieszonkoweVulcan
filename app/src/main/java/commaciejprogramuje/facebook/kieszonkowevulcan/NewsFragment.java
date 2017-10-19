@@ -75,4 +75,10 @@ public class NewsFragment extends Fragment {
         ButterKnife.reset(this);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity) getActivity()).setActionBarTitle("Nowe oceny");
+    }
+
 }

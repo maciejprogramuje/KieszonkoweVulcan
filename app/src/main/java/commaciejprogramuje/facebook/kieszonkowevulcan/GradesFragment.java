@@ -72,4 +72,10 @@ public class GradesFragment extends Fragment {
         super.onDestroyView();
         ButterKnife.reset(this);
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity) getActivity()).setActionBarTitle("Oceny");
+    }
 }
