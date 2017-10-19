@@ -46,6 +46,7 @@ public class GradesJavaScriptInterface {
         // wypełnij subjects danymi
         mainActivity.subjects.setGrades(subjectIndex, getGrades(htmlAsString, tempName));
         mainActivity.subjects.setAverage(subjectIndex, getAverageGrades(htmlAsString, tempName));
+        mainActivity.subjects.setNewestDate(subjectIndex);
     }
 
     private List<Grade> getGrades(String html, String subject) {

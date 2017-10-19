@@ -6,20 +6,24 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.Collections;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import commaciejprogramuje.facebook.kieszonkowevulcan.GradesUtils.Subjects;
-import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.NewsAdapter;
+import commaciejprogramuje.facebook.kieszonkowevulcan.Adapters.NewsAdapter;
 
 public class NewsFragment extends Fragment {
     public static final String NEWS_KEY = "news";
 
     @InjectView(R.id.news_recycler_view)
     RecyclerView newsRecyclerView;
+    private NewsAdapter newsAdapter;
 
     public NewsFragment() {
         // Required empty public constructor
@@ -44,8 +48,16 @@ public class NewsFragment extends Fragment {
 
         if (getArguments() != null) {
             Subjects subjects = (Subjects) getArguments().getSerializable(NEWS_KEY);
-            newsRecyclerView.setAdapter(new NewsAdapter(subjects));
+
+            newsAdapter = new NewsAdapter(subjects);
+            newsRecyclerView.setAdapter(newsAdapter);
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        newsAdapter.notifyDataSetChanged();
     }
 
     public static NewsFragment newInstance(Subjects subjects) {

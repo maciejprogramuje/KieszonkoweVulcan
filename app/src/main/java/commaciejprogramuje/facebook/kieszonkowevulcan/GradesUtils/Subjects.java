@@ -1,5 +1,8 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan.GradesUtils;
 
+import android.content.Context;
+import android.util.Log;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,11 +53,19 @@ public class Subjects implements Serializable {
         subjects.get(index).setSubjectAverage(averageString);
     }
 
+    public void setNewestDate(int index) {
+        subjects.get(index).setNewestDate();
+    }
+
     public int size() {
         return subjects.size();
     }
 
     public Subject getSubject(int index) {
         return subjects.get(index);
+    }
+
+    public List<Subject> getSubjects() {
+        return subjects;
     }
 }
