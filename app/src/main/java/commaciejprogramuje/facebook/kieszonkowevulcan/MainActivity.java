@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if(login.isEmpty() || password.isEmpty()) {
                 showLoginFrag.showLoginFragment();
             } else {
-                showHelloFrag.showHelloFragment("Logowanie...");
+                showHelloFrag.showHelloFragment();
                 loadGrades(login, password);
             }
         }
@@ -226,7 +226,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         editor.putString(PASSWORD_DATA_KEY, password);
         editor.apply();
 
-        showHelloFrag.showHelloFragment("Trwa łącznie z bazą danych...");
+        showHelloFrag.showHelloFragment();
         loadGrades(login, password);
     }
 

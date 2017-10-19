@@ -10,8 +10,8 @@ public class ShowHelloFrag {
         this.mainActivity = mainActivity;
     }
 
-    public void showHelloFragment(String helloText) {
-        HelloFragment helloFragment = HelloFragment.newInstance(helloText);
+    public void showHelloFragment() {
+        HelloFragment helloFragment = HelloFragment.newInstance();
         mainActivity.replaceFrag.replace(mainActivity, helloFragment);
     }
 }

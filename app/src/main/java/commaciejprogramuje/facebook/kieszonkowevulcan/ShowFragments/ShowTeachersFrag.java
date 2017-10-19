@@ -1,6 +1,7 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments;
 
 import commaciejprogramuje.facebook.kieszonkowevulcan.DataFragmentGenerator.Generator;
+import commaciejprogramuje.facebook.kieszonkowevulcan.HelloFragment;
 import commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity;
 import commaciejprogramuje.facebook.kieszonkowevulcan.TeacherFragment;
 
@@ -16,13 +17,11 @@ public class ShowTeachersFrag {
     }
 
     public void show() {
-        TeacherFragment teacherFragment;
         if (mainActivity.checkInternetConn.checkInternetConnection(mainActivity)) {
-            teacherFragment = TeacherFragment.newInstance(Generator.dataForTeachersFragment());
+            TeacherFragment teacherFragment = TeacherFragment.newInstance(Generator.dataForTeachersFragment());
+            mainActivity.replaceFrag.replace(mainActivity, teacherFragment);
         } else {
             mainActivity.noInternetReaction.noInternetReaction(mainActivity);
-            teacherFragment = TeacherFragment.newInstance("Włącz internet i odśwież przyciskiem!");
         }
-        mainActivity.replaceFrag.replace(mainActivity, teacherFragment);
     }
 }

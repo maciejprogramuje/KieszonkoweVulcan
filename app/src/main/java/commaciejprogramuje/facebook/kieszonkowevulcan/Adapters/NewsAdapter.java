@@ -23,18 +23,20 @@ public class NewsAdapter extends RecyclerView.Adapter {
 
     private class NewsViewHolder extends RecyclerView.ViewHolder {
         ImageView circleImageView;
-        TextView subjectAvgTextView;
+        TextView subjectTextView;
         TextView gradeTextView;
         TextView codeTextTextView;
         TextView dateTextView;
+        TextView avgTextView;
 
         NewsViewHolder(View itemView) {
             super(itemView);
             circleImageView = itemView.findViewById(R.id.card_circle);
-            subjectAvgTextView = itemView.findViewById(R.id.card_subject_avg);
+            subjectTextView = itemView.findViewById(R.id.card_subject_avg);
             gradeTextView = itemView.findViewById(R.id.card_grade_date);
             codeTextTextView = itemView.findViewById(R.id.card_code_text);
             dateTextView = itemView.findViewById(R.id.card_date);
+            avgTextView = itemView.findViewById(R.id.card_avg);
         }
     }
 
@@ -54,11 +56,17 @@ public class NewsAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Subject subject = mSubjects.getSubject(position);
 
+        ((NewsViewHolder) holder).subjectTextView.setText(subject.getSubjectName());
+
         String tempAvg = subject.getSubjectAverage();
         if (tempAvg.equals("")) {
-            ((NewsViewHolder) holder).subjectAvgTextView.setText(subject.getSubjectName());
+            ((NewsViewHolder) holder).avgTextView.setText("");
+        } else if (tempAvg.length() == 1) {
+            ((NewsViewHolder) holder).avgTextView.setText(String.format("%s,00", tempAvg));
+        } else if(tempAvg.length() == 3) {
+            ((NewsViewHolder) holder).avgTextView.setText(String.format("%s0", tempAvg));
         } else {
-            ((NewsViewHolder) holder).subjectAvgTextView.setText(subject.getSubjectName() + " (" + subject.getSubjectAverage() + ")");
+            ((NewsViewHolder) holder).avgTextView.setText(tempAvg);
         }
 
         String tempGrade = "";
@@ -79,43 +87,34 @@ public class NewsAdapter extends RecyclerView.Adapter {
         } else {
             tempGrade = "--- brak ocen ---";
         }
-
         ((NewsViewHolder) holder).gradeTextView.setText(tempGrade);
 
-        if(subject.getNewestDate().equals("01.01.1970")) {
+
+        if (subject.getNewestDate().equals("01.01.1970")) {
             ((NewsViewHolder) holder).dateTextView.setText("");
         } else {
-            ((NewsViewHolder) holder).dateTextView.setText(subject.getNewestDate());
+            ((NewsViewHolder) holder).dateTextView.setText(subject.getNewestDate().substring(0, 5));
         }
+
 
         ((NewsViewHolder) holder).codeTextTextView.setText(tempCodeText);
 
-
-        //((NewsViewHolder) holder).circleImageView = subject.getCircle();
-
-        int resource = 0;
-        if (!subject.getSubjectAverage().equals("")) {
-
-            Double avg = Double.valueOf(subject.getSubjectAverage().replace(",", "."));
-            if (avg < 3.00) {
-                Log.w("UWAGA", "red");
+        int resource;
+        if (!tempGrade.equals("--- brak ocen ---")) {
+            int gradeInt = Integer.valueOf(tempGrade.substring(0, 1));
+            if (gradeInt < 3.00) {
                 resource = R.drawable.ic_circle_red;
-            } else if (avg < 4.00) {
-                Log.w("UWAGA", "yellow");
+            } else if (gradeInt < 4.00) {
                 resource = R.drawable.ic_circle_yellow;
-            } else if (avg < 5.00) {
-                Log.w("UWAGA", "green");
+            } else if (gradeInt < 5.00) {
                 resource = R.drawable.ic_circle_green;
             } else {
-                Log.w("UWAGA", "blue");
                 resource = R.drawable.ic_circle_blue;
             }
         } else {
             Log.w("UWAGA", "white");
             resource = R.drawable.ic_circle_white;
         }
-
-
         ((NewsViewHolder) holder).circleImageView.setImageResource(resource);
     }
 

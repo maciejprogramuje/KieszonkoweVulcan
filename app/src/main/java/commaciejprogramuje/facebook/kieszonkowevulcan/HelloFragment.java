@@ -37,10 +37,9 @@ public class HelloFragment extends Fragment {
         }
     }
 
-    public static HelloFragment newInstance(String helloText) {
+    public static HelloFragment newInstance() {
         HelloFragment fragment = new HelloFragment();
         Bundle args = new Bundle();
-        args.putString(HELLO_KEY, helloText);
         fragment.setArguments(args);
         return fragment;
     }

@@ -3,11 +3,16 @@ package commaciejprogramuje.facebook.kieszonkowevulcan.Utils;
 import android.content.Context;
 import android.widget.Toast;
 
+import commaciejprogramuje.facebook.kieszonkowevulcan.HelloFragment;
+import commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity;
+
 public class NoInternetReaction {
     public NoInternetReaction() {
     }
 
-    public void noInternetReaction(Context context) {
-        Toast.makeText(context, "Włącz internet!", Toast.LENGTH_LONG).show();
+    public void noInternetReaction(MainActivity mainActivity) {
+        Toast.makeText(mainActivity, "Włącz internet!", Toast.LENGTH_LONG).show();
+        HelloFragment helloFragment = HelloFragment.newInstance();
+        mainActivity.replaceFrag.replace(mainActivity, helloFragment);
     }
 }
