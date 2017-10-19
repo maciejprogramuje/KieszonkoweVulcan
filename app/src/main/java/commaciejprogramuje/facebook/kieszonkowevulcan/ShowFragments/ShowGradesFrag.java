@@ -14,7 +14,7 @@ public class ShowGradesFrag {
 
     public void show() {
         if (mainActivity.checkInternetConn.checkInternetConnection(mainActivity)) {
-            GradesFragment gradesFragment = GradesFragment.newInstance(Generator.dataForGradesFragment(mainActivity.getSubjects()));
+            GradesFragment gradesFragment = GradesFragment.newInstance(mainActivity.getSubjects());
             mainActivity.replaceFrag.replace(mainActivity, gradesFragment);
         } else {
             mainActivity.noInternetReaction.noInternetReaction(mainActivity);

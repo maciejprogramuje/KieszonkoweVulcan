@@ -23,6 +23,7 @@ public class NewsFragment extends Fragment {
 
     @InjectView(R.id.news_recycler_view)
     RecyclerView newsRecyclerView;
+
     private NewsAdapter newsAdapter;
 
     public NewsFragment() {

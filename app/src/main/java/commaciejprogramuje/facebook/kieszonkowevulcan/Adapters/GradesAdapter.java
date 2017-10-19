@@ -1,0 +1,109 @@
+package commaciejprogramuje.facebook.kieszonkowevulcan.Adapters;
+
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import commaciejprogramuje.facebook.kieszonkowevulcan.GradesUtils.Subject;
+import commaciejprogramuje.facebook.kieszonkowevulcan.GradesUtils.Subjects;
+import commaciejprogramuje.facebook.kieszonkowevulcan.R;
+
+/**
+ * Created by m.szymczyk on 2017-10-19.
+ */
+
+public class GradesAdapter extends RecyclerView.Adapter {
+    private Subjects mSubjects;
+
+    private class GradesViewHolder extends RecyclerView.ViewHolder {
+        ImageView circleImageView;
+        TextView subjectTextView;
+        TextView gradeCodeTextTextView;
+        TextView avgTextView;
+
+        GradesViewHolder(View itemView) {
+            super(itemView);
+            circleImageView = itemView.findViewById(R.id.card_grades_circle);
+            subjectTextView = itemView.findViewById(R.id.card_grades_subject);
+            gradeCodeTextTextView = itemView.findViewById(R.id.card_grades_grades);
+            avgTextView = itemView.findViewById(R.id.card_grades_avg);
+        }
+    }
+
+    public GradesAdapter(Subjects pSubjects) {
+        //Collections.sort(pSubjects.getSubjects());
+        //Collections.reverse(pSubjects.getSubjects());
+        mSubjects = pSubjects;
+    }
+
+
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_grades, parent, false);
+        return new GradesViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        Subject subject = mSubjects.getSubject(position);
+
+        ((GradesViewHolder) holder).subjectTextView.setText(subject.getSubjectName());
+
+        String tempAvg = subject.getSubjectAverage();
+        if (tempAvg.equals("")) {
+            ((GradesViewHolder) holder).avgTextView.setText("");
+        } else if (tempAvg.length() == 1) {
+            ((GradesViewHolder) holder).avgTextView.setText(String.format("%s,00", tempAvg));
+        } else if (tempAvg.length() == 3) {
+            ((GradesViewHolder) holder).avgTextView.setText(String.format("%s0", tempAvg));
+        } else {
+            ((GradesViewHolder) holder).avgTextView.setText(tempAvg);
+        }
+
+        String gradeDateCodeText = "";
+
+        if (subject.getSubjectGrades().size() > 0) {
+            for (int i = 0; i < subject.getSubjectGrades().size(); i++) {
+
+                gradeDateCodeText = gradeDateCodeText
+                        + subject.getSubjectGrades().get(i).getmGrade()
+                        + " (" + subject.getSubjectGrades().get(i).getmDate().substring(0, 5) + ") "
+                        + subject.getSubjectGrades().get(i).getmCode() + " - "
+                        + subject.getSubjectGrades().get(i).getmText();
+
+                if (i < subject.getSubjectGrades().size() - 1) {
+                    gradeDateCodeText += "\n";
+                }
+            }
+        } else {
+            gradeDateCodeText = "--- brak ocen ---";
+        }
+        ((GradesViewHolder) holder).gradeCodeTextTextView.setText(gradeDateCodeText);
+
+
+        if (!tempAvg.equals("")) {
+            Double avgDouble = Double.valueOf(tempAvg.replace(",", "."));
+            if (avgDouble < 3.00) {
+                ((GradesViewHolder) holder).circleImageView.setImageResource(R.drawable.ic_circle_red);
+            } else if (avgDouble < 4.00) {
+                ((GradesViewHolder) holder).circleImageView.setImageResource(R.drawable.ic_circle_yellow);
+            } else if (avgDouble < 5.00) {
+                ((GradesViewHolder) holder).circleImageView.setImageResource(R.drawable.ic_circle_green);
+            } else {
+                ((GradesViewHolder) holder).circleImageView.setImageResource(R.drawable.ic_circle_blue);
+            }
+        } else {
+            ((GradesViewHolder) holder).circleImageView.setImageResource(R.drawable.ic_circle_white);
+        }
+
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return mSubjects.size();
+    }
+}

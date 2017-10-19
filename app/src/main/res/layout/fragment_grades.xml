@@ -1,21 +1,13 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="commaciejprogramuje.facebook.kieszonkowevulcan.GradesFragment"
-    android:layout_margin="8dp">
+    android:background="@color/colorPrimary"
+    android:scrollbars="vertical">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fillViewport="true"
-        android:scrollbars="vertical">
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/grades_recycler_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </android.support.v7.widget.RecyclerView>
 
-        <TextView
-            android:id="@+id/grades_fragment_textview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="grades_fragment_textview" />
-
-    </ScrollView>
-</FrameLayout>
+</ScrollView>

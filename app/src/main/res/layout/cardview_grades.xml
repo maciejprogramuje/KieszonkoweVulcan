@@ -5,7 +5,6 @@
     android:layout_height="wrap_content"
     card_view:cardBackgroundColor="@android:color/white">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,7 +16,7 @@
             android:padding="16dp">
 
             <ImageView
-                android:id="@+id/card_news_circle"
+                android:id="@+id/card_grades_circle"
                 android:src="@drawable/ic_circle_white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -31,7 +30,7 @@
                 android:layout_weight="1">
 
                 <TextView
-                    android:id="@+id/card_news_subject_avg"
+                    android:id="@+id/card_grades_subject"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Subject"
@@ -39,17 +38,10 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/card_news_grade_date"
+                    android:id="@+id/card_grades_grades"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="grade date"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:id="@+id/card_news_code_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="code text"
                     android:textSize="13sp" />
 
             </LinearLayout>
@@ -60,15 +52,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/card_news_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="00.00"
-                    android:gravity="top|end"
-                    android:textSize="12sp"/>
-
-                <TextView
-                    android:id="@+id/card_news_avg"
+                    android:id="@+id/card_grades_avg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0.00"

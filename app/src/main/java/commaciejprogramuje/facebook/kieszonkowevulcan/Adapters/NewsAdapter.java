@@ -31,12 +31,12 @@ public class NewsAdapter extends RecyclerView.Adapter {
 
         NewsViewHolder(View itemView) {
             super(itemView);
-            circleImageView = itemView.findViewById(R.id.card_circle);
-            subjectTextView = itemView.findViewById(R.id.card_subject_avg);
-            gradeTextView = itemView.findViewById(R.id.card_grade_date);
-            codeTextTextView = itemView.findViewById(R.id.card_code_text);
-            dateTextView = itemView.findViewById(R.id.card_date);
-            avgTextView = itemView.findViewById(R.id.card_avg);
+            circleImageView = itemView.findViewById(R.id.card_news_circle);
+            subjectTextView = itemView.findViewById(R.id.card_news_subject_avg);
+            gradeTextView = itemView.findViewById(R.id.card_news_grade_date);
+            codeTextTextView = itemView.findViewById(R.id.card_news_code_text);
+            dateTextView = itemView.findViewById(R.id.card_news_date);
+            avgTextView = itemView.findViewById(R.id.card_news_avg);
         }
     }
 
@@ -75,14 +75,14 @@ public class NewsAdapter extends RecyclerView.Adapter {
         if (subject.getSubjectGrades().size() > 0) {
             for (int i = 0; i < subject.getSubjectGrades().size(); i++) {
                 if (subject.getSubjectGrades().get(i).getmDate().equals(subject.getNewestDate())) {
-                    tempGrade = tempGrade + subject.getSubjectGrades().get(i).getmGrade() + ", ";
-                    tempCodeText = tempCodeText + subject.getSubjectGrades().get(i).getmCode() + " - " + subject.getSubjectGrades().get(i).getmText() + ", ";
-                }
-            }
+                    tempGrade = tempGrade + subject.getSubjectGrades().get(i).getmGrade();
+                    tempCodeText = tempCodeText + subject.getSubjectGrades().get(i).getmCode() + " - " + subject.getSubjectGrades().get(i).getmText();
 
-            if (tempGrade.charAt(tempGrade.length() - 2) == ',') {
-                tempGrade = tempGrade.substring(0, tempGrade.length() - 2);
-                tempCodeText = tempCodeText.substring(0, tempCodeText.length() - 2);
+                    if (i < subject.getSubjectGrades().size() - 1) {
+                        tempGrade += ", ";
+                        tempCodeText += "\n";
+                    }
+                }
             }
         } else {
             tempGrade = "--- brak ocen ---";
@@ -96,26 +96,22 @@ public class NewsAdapter extends RecyclerView.Adapter {
             ((NewsViewHolder) holder).dateTextView.setText(subject.getNewestDate().substring(0, 5));
         }
 
-
         ((NewsViewHolder) holder).codeTextTextView.setText(tempCodeText);
 
-        int resource;
         if (!tempGrade.equals("--- brak ocen ---")) {
             int gradeInt = Integer.valueOf(tempGrade.substring(0, 1));
             if (gradeInt < 3.00) {
-                resource = R.drawable.ic_circle_red;
+                ((NewsViewHolder) holder).circleImageView.setImageResource(R.drawable.ic_circle_red);
             } else if (gradeInt < 4.00) {
-                resource = R.drawable.ic_circle_yellow;
+                ((NewsViewHolder) holder).circleImageView.setImageResource(R.drawable.ic_circle_yellow);
             } else if (gradeInt < 5.00) {
-                resource = R.drawable.ic_circle_green;
+                ((NewsViewHolder) holder).circleImageView.setImageResource(R.drawable.ic_circle_green);
             } else {
-                resource = R.drawable.ic_circle_blue;
+                ((NewsViewHolder) holder).circleImageView.setImageResource(R.drawable.ic_circle_blue);
             }
         } else {
-            Log.w("UWAGA", "white");
-            resource = R.drawable.ic_circle_white;
+            ((NewsViewHolder) holder).circleImageView.setImageResource(R.drawable.ic_circle_white);
         }
-        ((NewsViewHolder) holder).circleImageView.setImageResource(resource);
     }
 
     @Override
