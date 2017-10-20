@@ -54,7 +54,7 @@ public class NewsAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        Subject subject = mSubjects.getSubject(position);
+        Subject subject = mSubjects.getOneFromSubjects(position);
 
         ((NewsViewHolder) holder).subjectTextView.setText(subject.getSubjectName());
 
@@ -101,13 +101,13 @@ public class NewsAdapter extends RecyclerView.Adapter {
         if (!tempGrade.equals("--- brak ocen ---")) {
             int gradeInt = Integer.valueOf(tempGrade.substring(0, 1));
             if (gradeInt < 3.00) {
-                ((NewsViewHolder) holder).circleImageView.setImageResource(R.drawable.ic_circle_red);
+                ((NewsViewHolder) holder).circleImageView.setImageResource(R.drawable.ic_circle_red_new);
             } else if (gradeInt < 4.00) {
-                ((NewsViewHolder) holder).circleImageView.setImageResource(R.drawable.ic_circle_yellow);
+                ((NewsViewHolder) holder).circleImageView.setImageResource(R.drawable.ic_circle_yellow_new);
             } else if (gradeInt < 5.00) {
-                ((NewsViewHolder) holder).circleImageView.setImageResource(R.drawable.ic_circle_green);
+                ((NewsViewHolder) holder).circleImageView.setImageResource(R.drawable.ic_circle_green_new);
             } else {
-                ((NewsViewHolder) holder).circleImageView.setImageResource(R.drawable.ic_circle_blue);
+                ((NewsViewHolder) holder).circleImageView.setImageResource(R.drawable.ic_circle_blue_new);
             }
         } else {
             ((NewsViewHolder) holder).circleImageView.setImageResource(R.drawable.ic_circle_white);

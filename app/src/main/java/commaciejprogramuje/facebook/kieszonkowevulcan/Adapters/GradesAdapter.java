@@ -48,7 +48,7 @@ public class GradesAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        Subject subject = mSubjects.getSubject(position);
+        Subject subject = mSubjects.getOneFromSubjects(position);
 
         ((GradesViewHolder) holder).subjectTextView.setText(subject.getSubjectName());
 
@@ -66,7 +66,7 @@ public class GradesAdapter extends RecyclerView.Adapter {
         String gradeDateCodeText = "";
 
         if (subject.getSubjectGrades().size() > 0) {
-            for (int i = 0; i < subject.getSubjectGrades().size(); i++) {
+            for (int i = subject.getSubjectGrades().size() - 1; i >= 0; i--) {
 
                 gradeDateCodeText = gradeDateCodeText
                         + subject.getSubjectGrades().get(i).getmGrade()
@@ -74,7 +74,7 @@ public class GradesAdapter extends RecyclerView.Adapter {
                         + subject.getSubjectGrades().get(i).getmCode() + " - "
                         + subject.getSubjectGrades().get(i).getmText();
 
-                if (i < subject.getSubjectGrades().size() - 1) {
+                if (i > 0) {
                     gradeDateCodeText += "\n";
                 }
             }
@@ -87,13 +87,13 @@ public class GradesAdapter extends RecyclerView.Adapter {
         if (!tempAvg.equals("")) {
             Double avgDouble = Double.valueOf(tempAvg.replace(",", "."));
             if (avgDouble < 3.00) {
-                ((GradesViewHolder) holder).circleImageView.setImageResource(R.drawable.ic_circle_red);
+                ((GradesViewHolder) holder).circleImageView.setImageResource(R.drawable.ic_circle_red_avg);
             } else if (avgDouble < 4.00) {
-                ((GradesViewHolder) holder).circleImageView.setImageResource(R.drawable.ic_circle_yellow);
+                ((GradesViewHolder) holder).circleImageView.setImageResource(R.drawable.ic_circle_yellow_avg);
             } else if (avgDouble < 5.00) {
-                ((GradesViewHolder) holder).circleImageView.setImageResource(R.drawable.ic_circle_green);
+                ((GradesViewHolder) holder).circleImageView.setImageResource(R.drawable.ic_circle_green_avg);
             } else {
-                ((GradesViewHolder) holder).circleImageView.setImageResource(R.drawable.ic_circle_blue);
+                ((GradesViewHolder) holder).circleImageView.setImageResource(R.drawable.ic_circle_blue_avg);
             }
         } else {
             ((GradesViewHolder) holder).circleImageView.setImageResource(R.drawable.ic_circle_white);

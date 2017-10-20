@@ -12,9 +12,10 @@ import java.util.List;
  */
 
 public class Subjects implements Serializable {
-    private List<Subject> subjects = new ArrayList<>();
+    private List<Subject> subjects;
 
     public Subjects() {
+        subjects = new ArrayList<>();
         subjects.add(new Subject("Język polski")); // 0
         subjects.add(new Subject("Język angielski")); // 1
         subjects.add(new Subject("Język niemiecki")); // 2
@@ -61,11 +62,11 @@ public class Subjects implements Serializable {
         return subjects.size();
     }
 
-    public Subject getSubject(int index) {
-        return subjects.get(index);
-    }
-
     public List<Subject> getSubjects() {
         return subjects;
+    }
+
+    public Subject getOneFromSubjects(int index) {
+        return subjects.get(index);
     }
 }

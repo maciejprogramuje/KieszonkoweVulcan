@@ -13,4 +13,23 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="avg">0.00</string>
+    <string name="money">+00.00 zł</string>
+    <string name="j_polski">Język polski</string>
+    <string name="j_angielski">Język angielski</string>
+    <string name="j_niemiecki">Język niemiecki</string>
+    <string name="muzyka">Muzyka</string>
+    <string name="wiedza_o_spoleczenstwie">Wiedza o społeczeństwie</string>
+    <string name="historia">Historia</string>
+    <string name="geografia">Geografia</string>
+    <string name="biologia">Biologia</string>
+    <string name="chemia">Chemia</string>
+    <string name="fizyka">Fizyka</string>
+    <string name="matematyka">Matematyka</string>
+    <string name="informatyka">Informatyka</string>
+    <string name="edukacja_dla_bezpieczenstwa">Edukacja dla bezpieczeństwa</string>
+    <string name="zajecia_techniczne">Zajęcia techniczne</string>
+    <string name="wychowanie_do_zycia_w_rodzinie">Wychowanie do życia w rodzinie</string>
+    <string name="etyka">Etyka</string>
+    <string name="_0zl">0 zł</string>
 </resources>

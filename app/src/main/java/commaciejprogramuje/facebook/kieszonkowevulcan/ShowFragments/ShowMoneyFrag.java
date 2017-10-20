@@ -14,7 +14,7 @@ public class ShowMoneyFrag {
 
     public void show() {
         if (mainActivity.checkInternetConn.checkInternetConnection(mainActivity)) {
-            MoneyFragment moneyFragment = MoneyFragment.newInstance(Generator.dataForMoneyFragment(mainActivity.getSubjects()));
+            MoneyFragment moneyFragment = MoneyFragment.newInstance(mainActivity.getSubjects());
             mainActivity.replaceFrag.replace(mainActivity, moneyFragment);
         } else {
             mainActivity.noInternetReaction.noInternetReaction(mainActivity);

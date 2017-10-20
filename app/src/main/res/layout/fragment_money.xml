@@ -1,23 +1,726 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="commaciejprogramuje.facebook.kieszonkowevulcan.MoneyFragment"
-    android:layout_margin="8dp"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fillViewport="true"
-        android:scrollbars="vertical">
+        android:background="@color/colorPrimaryLight">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Kieszonkowe"
+                android:paddingBottom="8dp"
+                android:paddingTop="16dp"
+                android:paddingStart="32dp"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/money_extra_current"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="z premią za "
+                android:paddingStart="32dp"
+                android:textSize="13dp"
+                android:paddingBottom="8dp"/>
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/money_fragment_textview"
-            android:layout_width="match_parent"
+            android:id="@+id/money_sum_current"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Money fragment" />
+            android:paddingEnd="32dp"
+            android:gravity="center_vertical"
+            android:textSize="24sp"
+            android:text="00 zł"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/colorPrimary" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryLight">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Kieszonkowe"
+                android:paddingBottom="8dp"
+                android:paddingTop="16dp"
+                android:paddingStart="32dp"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/money_extra_previous"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="z premią za "
+                android:paddingStart="32dp"
+                android:textSize="13sp"
+                android:paddingBottom="8dp"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/money_sum_previous"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingEnd="32dp"
+            android:gravity="center_vertical"
+            android:textSize="24sp"
+            android:text="00 zł"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/colorPrimary" />
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:paddingStart="24dp"
+                    android:paddingEnd="24dp"
+                    android:text="@string/j_polski"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/money_jezyk_polski_avg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/money_jezyk_polski_money"
+                    android:layout_width="115dp"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical|end"
+                    android:paddingEnd="24dp"
+                    android:text="@string/_0zl"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/colorPrimary" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:paddingEnd="24dp"
+                    android:paddingStart="24dp"
+                    android:text="@string/j_angielski"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/money_jezyk_angielski_avg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/money_jezyk_angielski_money"
+                    android:layout_width="115dp"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical|end"
+                    android:paddingEnd="24dp"
+                    android:text="@string/_0zl"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/colorPrimary" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:paddingStart="24dp"
+                    android:paddingEnd="24dp"
+                    android:text="@string/j_niemiecki"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/money_jezyk_niemiecki_avg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/money_jezyk_niemiecki_money"
+                    android:layout_width="115dp"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical|end"
+                    android:paddingEnd="24dp"
+                    android:text="@string/_0zl"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/colorPrimary" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:paddingStart="24dp"
+                    android:paddingEnd="24dp"
+                    android:text="@string/muzyka"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/money_muzyka_avg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/money_muzyka_money"
+                    android:layout_width="115dp"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical|end"
+                    android:paddingEnd="24dp"
+                    android:text="@string/_0zl"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/colorPrimary" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:paddingStart="24dp"
+                    android:paddingEnd="24dp"
+                    android:text="@string/historia"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/money_historia_avg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/money_historia_money"
+                    android:layout_width="115dp"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical|end"
+                    android:paddingEnd="24dp"
+                    android:text="@string/_0zl"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/colorPrimary" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:paddingStart="24dp"
+                    android:paddingEnd="24dp"
+                    android:text="@string/wiedza_o_spoleczenstwie"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/money_wiedza_o_spoleczenstwie_avg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/money_wiedza_o_spoleczenstwie_money"
+                    android:layout_width="115dp"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical|end"
+                    android:paddingEnd="24dp"
+                    android:text="@string/_0zl"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/colorPrimary" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:paddingStart="24dp"
+                    android:paddingEnd="24dp"
+                    android:text="@string/geografia"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/money_geografia_avg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/money_geografia_money"
+                    android:layout_width="115dp"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical|end"
+                    android:paddingEnd="24dp"
+                    android:text="@string/_0zl"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/colorPrimary" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:paddingEnd="24dp"
+                    android:paddingStart="24dp"
+                    android:text="@string/biologia"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/money_biologia_avg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/money_biologia_money"
+                    android:layout_width="115dp"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical|end"
+                    android:paddingEnd="24dp"
+                    android:text="@string/_0zl"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/colorPrimary" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:paddingStart="24dp"
+                    android:paddingEnd="24dp"
+                    android:text="@string/chemia"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/money_chemia_avg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/money_chemia_money"
+                    android:layout_width="115dp"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical|end"
+                    android:paddingEnd="24dp"
+                    android:text="@string/_0zl"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/colorPrimary" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:paddingStart="24dp"
+                    android:paddingEnd="24dp"
+                    android:text="@string/fizyka"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/money_fizyka_avg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/money_fizyka_money"
+                    android:layout_width="115dp"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical|end"
+                    android:paddingEnd="24dp"
+                    android:text="@string/_0zl"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/colorPrimary" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:paddingStart="24dp"
+                    android:paddingEnd="24dp"
+                    android:text="@string/matematyka"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/money_matematyka_avg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/money_matematyka_money"
+                    android:layout_width="115dp"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical|end"
+                    android:paddingEnd="24dp"
+                    android:text="@string/_0zl"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/colorPrimary" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:paddingStart="24dp"
+                    android:paddingEnd="24dp"
+                    android:text="@string/informatyka"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/money_informatyka_avg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/money_informatyka_money"
+                    android:layout_width="115dp"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical|end"
+                    android:paddingEnd="24dp"
+                    android:text="@string/_0zl"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/colorPrimary" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:paddingStart="24dp"
+                    android:paddingEnd="24dp"
+                    android:text="@string/edukacja_dla_bezpieczenstwa"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/money_edukacja_dla_bezpieczenstwa_avg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/money_edukacja_dla_bezpieczenstwa_money"
+                    android:layout_width="115dp"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical|end"
+                    android:paddingEnd="24dp"
+                    android:text="@string/_0zl"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/colorPrimary" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:paddingStart="24dp"
+                    android:paddingEnd="24dp"
+                    android:text="@string/zajecia_techniczne"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/money_zajecia_techniczne_avg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/money_zajecia_techniczne_money"
+                    android:layout_width="115dp"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical|end"
+                    android:paddingEnd="24dp"
+                    android:text="@string/_0zl"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/colorPrimary" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:paddingStart="24dp"
+                    android:paddingEnd="24dp"
+                    android:text="@string/wychowanie_do_zycia_w_rodzinie"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/money_wychowanie_do_zycia_avg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/money_wychowanie_do_zycia_money"
+                    android:layout_width="115dp"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical|end"
+                    android:paddingEnd="24dp"
+                    android:text="@string/_0zl"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/colorPrimary" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:paddingStart="24dp"
+                    android:paddingEnd="24dp"
+                    android:text="@string/etyka"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/money_etyka_avg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/money_etyka_money"
+                    android:layout_width="115dp"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical|end"
+                    android:paddingEnd="24dp"
+                    android:text="@string/_0zl"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/colorPrimary" />
+
+        </LinearLayout>
+
 
     </ScrollView>
 
 </LinearLayout>
+
+
+
