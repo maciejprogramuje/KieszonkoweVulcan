@@ -1,6 +1,5 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan.Utils;
 
-import android.content.Context;
 import android.widget.Toast;
 
 import commaciejprogramuje.facebook.kieszonkowevulcan.HelloFragment;

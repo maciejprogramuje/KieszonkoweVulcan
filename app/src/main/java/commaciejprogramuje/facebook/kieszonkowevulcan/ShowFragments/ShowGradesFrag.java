@@ -1,8 +1,6 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments;
 
-import commaciejprogramuje.facebook.kieszonkowevulcan.DataFragmentGenerator.Generator;
 import commaciejprogramuje.facebook.kieszonkowevulcan.GradesFragment;
-import commaciejprogramuje.facebook.kieszonkowevulcan.HelloFragment;
 import commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity;
 
 public class ShowGradesFrag {

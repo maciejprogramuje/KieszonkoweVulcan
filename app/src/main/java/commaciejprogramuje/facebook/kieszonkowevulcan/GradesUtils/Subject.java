@@ -1,9 +1,6 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan.GradesUtils;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.Log;
-import android.widget.ImageView;
 
 import java.io.Serializable;
 import java.text.ParseException;
@@ -13,8 +10,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
-import commaciejprogramuje.facebook.kieszonkowevulcan.R;
 
 /**
  * Created by m.szymczyk on 2017-10-11.

@@ -2,8 +2,6 @@ package commaciejprogramuje.facebook.kieszonkowevulcan;
 
 import android.app.ProgressDialog;
 import android.util.Log;
-import android.view.View;
-import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 

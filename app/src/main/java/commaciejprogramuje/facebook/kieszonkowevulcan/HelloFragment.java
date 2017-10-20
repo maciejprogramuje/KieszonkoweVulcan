@@ -7,10 +7,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 public class HelloFragment extends Fragment {
     public static final String HELLO_KEY = "hello";

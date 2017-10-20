@@ -6,17 +6,14 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.Collections;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import commaciejprogramuje.facebook.kieszonkowevulcan.GradesUtils.Subjects;
 import commaciejprogramuje.facebook.kieszonkowevulcan.Adapters.NewsAdapter;
+import commaciejprogramuje.facebook.kieszonkowevulcan.GradesUtils.Subjects;
 
 public class NewsFragment extends Fragment {
     public static final String NEWS_KEY = "news";

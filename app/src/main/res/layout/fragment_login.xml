@@ -12,26 +12,26 @@
         android:gravity="center"
         android:paddingTop="16dp"
         android:paddingBottom="16dp"
-        android:text="Podaj login i hasło\ndo dziennika elektrinicznego\nfirmy Vulcan" />
+        android:text="@string/podaj_login" />
     <EditText
         android:id="@+id/login_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:hint="login" />
+        android:hint="@string/login" />
 
     <EditText
         android:id="@+id/password_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="hasło"
+        android:hint="@string/haslo"
         android:inputType="textPassword" />
 
     <Button
         android:id="@+id/login_button"
-        android:text="Zaloguj!"
+        android:text="@string/zaloguj"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="loginOnClick"/>
@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:paddingTop="16dp"
-        android:text="UWAGA:\nAplikacja działa tylko dla uczniów\nbyłego Gimnazjum nr 16 w Lublinie!" />
+        android:text="@string/uwaga_aplikacja" />
 
 
 

@@ -17,7 +17,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Kieszonkowe"
+                android:text="@string/kieszonkowe"
                 android:paddingBottom="8dp"
                 android:paddingTop="16dp"
                 android:paddingStart="32dp"
@@ -28,9 +28,9 @@
                 android:id="@+id/money_extra_current"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="z premią za "
+                android:text="@string/z_premia_za"
                 android:paddingStart="32dp"
-                android:textSize="13dp"
+                android:textSize="13sp"
                 android:paddingBottom="8dp"/>
         </LinearLayout>
 
@@ -41,7 +41,7 @@
             android:paddingEnd="32dp"
             android:gravity="center_vertical"
             android:textSize="24sp"
-            android:text="00 zł"/>
+            android:text="@string/_0zl"/>
 
     </LinearLayout>
 
@@ -64,7 +64,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Kieszonkowe"
+                android:text="@string/kieszonkowe"
                 android:paddingBottom="8dp"
                 android:paddingTop="16dp"
                 android:paddingStart="32dp"
@@ -75,7 +75,7 @@
                 android:id="@+id/money_extra_previous"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="z premią za "
+                android:text="@string/z_premia_za"
                 android:paddingStart="32dp"
                 android:textSize="13sp"
                 android:paddingBottom="8dp"/>
@@ -88,7 +88,7 @@
             android:paddingEnd="32dp"
             android:gravity="center_vertical"
             android:textSize="24sp"
-            android:text="00 zł"/>
+            android:text="@string/_0zl"/>
 
     </LinearLayout>
 

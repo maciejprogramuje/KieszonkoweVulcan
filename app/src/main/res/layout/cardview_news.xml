@@ -20,7 +20,8 @@
                 android:id="@+id/card_news_circle"
                 android:src="@drawable/ic_circle_white"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/desc_circle" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -34,7 +35,6 @@
                     android:id="@+id/card_news_subject_avg"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Subject"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -42,14 +42,12 @@
                     android:id="@+id/card_news_grade_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="grade date"
                     android:textSize="13sp" />
 
                 <TextView
                     android:id="@+id/card_news_code_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="code text"
                     android:textSize="13sp" />
 
             </LinearLayout>
@@ -63,15 +61,13 @@
                     android:id="@+id/card_news_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="00.00"
                     android:gravity="top|end"
                     android:textSize="12sp"/>
 
                 <TextView
                     android:id="@+id/card_news_avg"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0.00"
+                    android:layout_height="0dp"
                     android:textSize="16sp"
                     android:gravity="bottom|end"
                     android:layout_weight="1"/>

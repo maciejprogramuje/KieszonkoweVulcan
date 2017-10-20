@@ -1,6 +1,5 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments;
 
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 

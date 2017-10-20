@@ -3,13 +3,17 @@ package commaciejprogramuje.facebook.kieszonkowevulcan;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -93,8 +97,9 @@ public class MoneyFragment extends Fragment {
     @InjectView(R.id.money_etyka_money)
     TextView moneyEtykaMoney;
 
-    ArrayList<TextView> avgsTextView = new ArrayList<>();
-    ArrayList<TextView> moneyTextView = new ArrayList<>();
+    ArrayList<TextView> avgsTextViewArray = new ArrayList<>();
+    ArrayList<TextView> moneyTextViewArray = new ArrayList<>();
+    private ArrayList<Subject> sortedSubjectsArray;
 
     public MoneyFragment() {
         // Required empty public constructor
@@ -116,231 +121,98 @@ public class MoneyFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        int money = 0;
+        int extraMoneyCurrentMonth = 30;
+        int extraMoneyPreviousMonth = 30;
+
         if (getArguments() != null) {
-            Subjects subjects = (Subjects) getArguments().getSerializable(GRADES_KEY);
+            Subjects tempSubjects = (Subjects) getArguments().getSerializable(GRADES_KEY);
 
-            ArrayList<Subject> sortedSubjects = new ArrayList<>();
+            sortedSubjectsArray = new ArrayList<>();
+            generateSubjectsArrayInOriginOrder(tempSubjects);
 
-            int index = 0;
-            while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Język polski")) {
-                index++;
-            }
-            sortedSubjects.add(subjects.getOneFromSubjects(index));
+            for (int i = 0; i < tempSubjects.size(); i++) {
+                int currentMonthInt = 0;
+                int previousMonthInt = 0;
 
-            index = 0;
-            while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Język angielski")) {
-                index++;
-            }
-            sortedSubjects.add(subjects.getOneFromSubjects(index));
-
-            index = 0;
-            while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Język niemiecki")) {
-                index++;
-            }
-            sortedSubjects.add(subjects.getOneFromSubjects(index));
-
-            index = 0;
-            while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Muzyka")) {
-                index++;
-            }
-            sortedSubjects.add(subjects.getOneFromSubjects(index));
-
-            index = 0;
-            while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Historia")) {
-                index++;
-            }
-            sortedSubjects.add(subjects.getOneFromSubjects(index));
-
-            index = 0;
-            while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Wiedza o społeczeństwie")) {
-                index++;
-            }
-            sortedSubjects.add(subjects.getOneFromSubjects(index));
-
-            index = 0;
-            while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Geografia")) {
-                index++;
-            }
-            sortedSubjects.add(subjects.getOneFromSubjects(index));
-
-            index = 0;
-            while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Biologia")) {
-                index++;
-            }
-            sortedSubjects.add(subjects.getOneFromSubjects(index));
-
-            index = 0;
-            while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Chemia")) {
-                index++;
-            }
-            sortedSubjects.add(subjects.getOneFromSubjects(index));
-
-            index = 0;
-            while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Fizyka")) {
-                index++;
-            }
-            sortedSubjects.add(subjects.getOneFromSubjects(index));
-
-            index = 0;
-            while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Matematyka")) {
-                index++;
-            }
-            sortedSubjects.add(subjects.getOneFromSubjects(index));
-
-            index = 0;
-            while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Informatyka")) {
-                index++;
-            }
-            sortedSubjects.add(subjects.getOneFromSubjects(index));
-
-            index = 0;
-            while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Edukacja dla bezpieczeństwa")) {
-                index++;
-            }
-            sortedSubjects.add(subjects.getOneFromSubjects(index));
-
-            index = 0;
-            while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Zajęcia techniczne")) {
-                index++;
-            }
-            sortedSubjects.add(subjects.getOneFromSubjects(index));
-
-            index = 0;
-            while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Wychowanie do życia w rodzinie")) {
-                index++;
-            }
-            sortedSubjects.add(subjects.getOneFromSubjects(index));
-
-            index = 0;
-            while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Etyka")) {
-                index++;
-            }
-            sortedSubjects.add(subjects.getOneFromSubjects(index));
-
-
-            for (int i = 0; i < subjects.size(); i++) {
-                String tempAvg = sortedSubjects.get(i).getSubjectAverage();
+                String tempAvg = sortedSubjectsArray.get(i).getSubjectAverage();
                 if (!tempAvg.equals("")) {
                     if (tempAvg.length() == 1) {
                         tempAvg += ".00";
                     } else if (tempAvg.length() == 3) {
                         tempAvg += "0";
                     }
-                    avgsTextView.get(i).setText(tempAvg);
-                }
+                    avgsTextViewArray.get(i).setText(tempAvg);
 
-            }
-
-
-
-            /*for (int i = 0; i < subjects.size(); i++) {
-                if (!subjects.getAverage(i).equals("")) {
-
-                    double subjectAvg = Double.valueOf(subjects.getAverage(i).replace(",", "."));
+                    double subjectAvg = Double.valueOf(tempAvg.replace(",", "."));
                     if (subjectAvg > 4.5) {
                         money += 15;
-                        stringBuilder.append(" +15 zł\n");
+                        moneyTextViewArray.get(i).setText("+15 zł");
                     } else if (subjectAvg > 3.75) {
                         money += 10;
-                        stringBuilder.append(" +10 zł\n");
+                        moneyTextViewArray.get(i).setText("+10 zł");
                     } else if (subjectAvg > 3.5) {
                         money += 0;
-                        stringBuilder.append(" 0 zł\n");
+                        moneyTextViewArray.get(i).setText("0 zł");
                     } else if (subjectAvg >= 3) {
                         money -= 5;
-                        stringBuilder.append(" -5 zł\n");
+                        moneyTextViewArray.get(i).setText("-5 zł");
                     } else if (subjectAvg < 3) {
                         money -= 10;
-                        stringBuilder.append(" -10 zł\n");
+                        moneyTextViewArray.get(i).setText("-10 zł");
                     }
                 } else {
-                    stringBuilder.append("b.d. -> 0 zł\n");
-                }*/
-
-
-
-
-
-
-            /*int money = 0;
-            int extraMoneyCurrentMonth = 30;
-            int extraMoneyPreviousMonth = 30;
-
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append("===== KIESZONKOWE =====\n\n");
-
-            for (int i = 0; i < subjects.size(); i++) {
-                stringBuilder.append(subjects.getName(i).toUpperCase()).append(" -> ");
-
-                if (!subjects.getAverage(i).equals("")) {
-                    stringBuilder.append(subjects.getAverage(i)).append(" -> ");
-
-                    double subjectAvg = Double.valueOf(subjects.getAverage(i).replace(",", "."));
-                    if (subjectAvg > 4.5) {
-                        money += 15;
-                        stringBuilder.append(" +15 zł\n");
-                    } else if (subjectAvg > 3.75) {
-                        money += 10;
-                        stringBuilder.append(" +10 zł\n");
-                    } else if (subjectAvg > 3.5) {
-                        money += 0;
-                        stringBuilder.append(" 0 zł\n");
-                    } else if (subjectAvg >= 3) {
-                        money -= 5;
-                        stringBuilder.append(" -5 zł\n");
-                    } else if (subjectAvg < 3) {
-                        money -= 10;
-                        stringBuilder.append(" -10 zł\n");
-                    }
-                } else {
-                    stringBuilder.append("b.d. -> 0 zł\n");
+                    moneyTextViewArray.get(i).setText("0 zł");
                 }
 
-                if (subjects.getGrades(i).size() > 0) {
-                    for (int j = 0; j < subjects.getGrades(i).size(); j++) {
-                        Calendar gradeDateCal = Calendar.getInstance();
-                        Calendar curDateCal = Calendar.getInstance();
-                        currentMonthInt = curDateCal.get(Calendar.MONTH);
-                        try {
-                            String dateString = subjects.getGrades(i).get(j).getmDate();
-                            Date date = (new SimpleDateFormat("dd.MM.yyyy", Locale.US).parse(dateString));
-                            gradeDateCal.setTime(date);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
+
+                for (int j = 0; j <  sortedSubjectsArray.get(i).getSubjectGrades().size(); j++) {
+                    Calendar gradeDateCal = Calendar.getInstance();
+                    Calendar curDateCal = Calendar.getInstance();
+                    currentMonthInt = curDateCal.get(Calendar.MONTH);
+                    try {
+                        String dateString = sortedSubjectsArray.get(i).getSubjectGrades().get(j).getmDate();
+                        Date date = (new SimpleDateFormat("dd.MM.yyyy", Locale.US).parse(dateString));
+                        gradeDateCal.setTime(date);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                    if (gradeDateCal.get(Calendar.MONTH) == curDateCal.get(Calendar.MONTH)) {
+                        if (sortedSubjectsArray.get(i).getSubjectGrades().get(j).getmGrade().equals("1")
+                                || sortedSubjectsArray.get(i).getSubjectGrades().get(j).getmGrade().equals("2")) {
+                            extraMoneyCurrentMonth = 0;
+                        } else if (sortedSubjectsArray.get(i).getSubjectGrades().get(j).getmGrade().equals("3") && extraMoneyCurrentMonth > 0) {
+                            extraMoneyCurrentMonth -= 10;
                         }
+                    }
 
-                        if (gradeDateCal.get(Calendar.MONTH) == curDateCal.get(Calendar.MONTH)) {
-                            if (subjects.getGrades(i).get(j).getmGrade().equals("1") || subjects.getGrades(i).get(j).getmGrade().equals("2")) {
-                                extraMoneyCurrentMonth = 0;
-                            } else if (subjects.getGrades(i).get(j).getmGrade().equals("3") && extraMoneyCurrentMonth > 0) {
-                                extraMoneyCurrentMonth -= 10;
-                            }
-                        }
+                    curDateCal.add(Calendar.MONTH, -1);
+                    previousMonthInt = curDateCal.get(Calendar.MONTH);
 
-                        curDateCal.add(Calendar.MONTH, -1);
-                        previousMonthInt = curDateCal.get(Calendar.MONTH);
-
-                        if (gradeDateCal.get(Calendar.MONTH) == curDateCal.get(Calendar.MONTH)) {
-                            if (subjects.getGrades(i).get(j).getmGrade().equals("1") || subjects.getGrades(i).get(j).getmGrade().equals("2")) {
-                                extraMoneyPreviousMonth = 0;
-                            } else if (subjects.getGrades(i).get(j).getmGrade().equals("3") && extraMoneyPreviousMonth > 0) {
-                                extraMoneyPreviousMonth -= 10;
-                            }
+                    if (gradeDateCal.get(Calendar.MONTH) == curDateCal.get(Calendar.MONTH)) {
+                        if (sortedSubjectsArray.get(i).getSubjectGrades().get(j).getmGrade().equals("1")
+                                || sortedSubjectsArray.get(i).getSubjectGrades().get(j).getmGrade().equals("2")) {
+                            extraMoneyPreviousMonth = 0;
+                        } else if (sortedSubjectsArray.get(i).getSubjectGrades().get(j).getmGrade().equals("3") && extraMoneyPreviousMonth > 0) {
+                            extraMoneyPreviousMonth -= 10;
                         }
                     }
                 }
+
+                String tempMoneyExtraCurrentString = "z premią za " + getMonthName(currentMonthInt);
+                String tempMoneyExtraPreviousString = "z premią za " + getMonthName(previousMonthInt);
+
+
+                moneyExtraCurrent.setText(tempMoneyExtraCurrentString);
+                moneyExtraPrevious.setText(tempMoneyExtraPreviousString);
+
+                String tempMoneySumCurrentString = (money + extraMoneyCurrentMonth) + " zł";
+                String tempMoneySumPreviousString = (money + extraMoneyPreviousMonth) + " zł";
+
+                moneySumCurrent.setText(tempMoneySumCurrentString);
+                moneySumPrevious.setText(tempMoneySumPreviousString);
             }
-            stringBuilder.append("\n===============================\n")
-                    .append("=== SUMA KWOT: ").append(money).append(" zł\n")
-                    .append("===============================\n")
-                    .append("=== PREMIA ZA ").append(getMonthName(currentMonthInt)).append(": ").append(extraMoneyCurrentMonth).append(" zł\n")
-                    .append("=== KIESZONKOWE Z PREMIĄ: ").append(money + extraMoneyCurrentMonth).append(" zł\n")
-                    .append("===============================\n")
-                    .append("=== PREMIA ZA ").append(getMonthName(previousMonthInt)).append(": ").append(extraMoneyPreviousMonth).append(" zł\n")
-                    .append("=== KIESZONKOWE Z PREMIĄ: ").append(money + extraMoneyPreviousMonth).append(" zł\n")
-                    .append("===============================\n");
-            return stringBuilder.toString();*/
-
         }
     }
 
@@ -365,41 +237,169 @@ public class MoneyFragment extends Fragment {
     }
 
     private void generateAvgsTextViewArray() {
-        avgsTextView.add(moneyJezykPolskiAvg);
-        avgsTextView.add(moneyJezykAngielskiAvg);
-        avgsTextView.add(moneyJezykNiemieckiAvg);
-        avgsTextView.add(moneyMuzykaAvg);
-        avgsTextView.add(moneyHistoriaAvg);
-        avgsTextView.add(moneyWiedzaOSpoleczenstwieAvg);
-        avgsTextView.add(moneyGeografiaAvg);
-        avgsTextView.add(moneyBiologiaAvg);
-        avgsTextView.add(moneyChemiaAvg);
-        avgsTextView.add(moneyFizykaAvg);
-        avgsTextView.add(moneyMatematykaAvg);
-        avgsTextView.add(moneyInformatykaAvg);
-        avgsTextView.add(moneyEdukacjaDlaBezpieczenstwaAvg);
-        avgsTextView.add(moneyZajeciaTechniczneAvg);
-        avgsTextView.add(moneyWychowanieDoZyciaAvg);
-        avgsTextView.add(moneyEtykaAvg);
+        avgsTextViewArray.add(moneyJezykPolskiAvg);
+        avgsTextViewArray.add(moneyJezykAngielskiAvg);
+        avgsTextViewArray.add(moneyJezykNiemieckiAvg);
+        avgsTextViewArray.add(moneyMuzykaAvg);
+        avgsTextViewArray.add(moneyHistoriaAvg);
+        avgsTextViewArray.add(moneyWiedzaOSpoleczenstwieAvg);
+        avgsTextViewArray.add(moneyGeografiaAvg);
+        avgsTextViewArray.add(moneyBiologiaAvg);
+        avgsTextViewArray.add(moneyChemiaAvg);
+        avgsTextViewArray.add(moneyFizykaAvg);
+        avgsTextViewArray.add(moneyMatematykaAvg);
+        avgsTextViewArray.add(moneyInformatykaAvg);
+        avgsTextViewArray.add(moneyEdukacjaDlaBezpieczenstwaAvg);
+        avgsTextViewArray.add(moneyZajeciaTechniczneAvg);
+        avgsTextViewArray.add(moneyWychowanieDoZyciaAvg);
+        avgsTextViewArray.add(moneyEtykaAvg);
     }
 
     private void generateMoneyTextViewArray() {
-        moneyTextView.add(moneyJezykPolskiMoney);
-        moneyTextView.add(moneyJezykAngielskiMoney);
-        moneyTextView.add(moneyJezykNiemieckiMoney);
-        moneyTextView.add(moneyMuzykaMoney);
-        moneyTextView.add(moneyHistoriaMoney);
-        moneyTextView.add(moneyWiedzaOSpoleczenstwieMoney);
-        moneyTextView.add(moneyGeografiaMoney);
-        moneyTextView.add(moneyBiologiaMoney);
-        moneyTextView.add(moneyChemiaMoney);
-        moneyTextView.add(moneyFizykaMoney);
-        moneyTextView.add(moneyMatematykaMoney);
-        moneyTextView.add(moneyInformatykaMoney);
-        moneyTextView.add(moneyEdukacjaDlaBezpieczenstwaMoney);
-        moneyTextView.add(moneyZajeciaTechniczneMoney);
-        moneyTextView.add(moneyWychowanieDoZyciaMoney);
-        moneyTextView.add(moneyEtykaMoney);
+        moneyTextViewArray.add(moneyJezykPolskiMoney);
+        moneyTextViewArray.add(moneyJezykAngielskiMoney);
+        moneyTextViewArray.add(moneyJezykNiemieckiMoney);
+        moneyTextViewArray.add(moneyMuzykaMoney);
+        moneyTextViewArray.add(moneyHistoriaMoney);
+        moneyTextViewArray.add(moneyWiedzaOSpoleczenstwieMoney);
+        moneyTextViewArray.add(moneyGeografiaMoney);
+        moneyTextViewArray.add(moneyBiologiaMoney);
+        moneyTextViewArray.add(moneyChemiaMoney);
+        moneyTextViewArray.add(moneyFizykaMoney);
+        moneyTextViewArray.add(moneyMatematykaMoney);
+        moneyTextViewArray.add(moneyInformatykaMoney);
+        moneyTextViewArray.add(moneyEdukacjaDlaBezpieczenstwaMoney);
+        moneyTextViewArray.add(moneyZajeciaTechniczneMoney);
+        moneyTextViewArray.add(moneyWychowanieDoZyciaMoney);
+        moneyTextViewArray.add(moneyEtykaMoney);
+    }
+
+    private void generateSubjectsArrayInOriginOrder(Subjects subjects) {
+        int index = 0;
+        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Język polski")) {
+            index++;
+        }
+        sortedSubjectsArray.add(subjects.getOneFromSubjects(index));
+
+        index = 0;
+        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Język angielski")) {
+            index++;
+        }
+        sortedSubjectsArray.add(subjects.getOneFromSubjects(index));
+
+        index = 0;
+        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Język niemiecki")) {
+            index++;
+        }
+        sortedSubjectsArray.add(subjects.getOneFromSubjects(index));
+
+        index = 0;
+        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Muzyka")) {
+            index++;
+        }
+        sortedSubjectsArray.add(subjects.getOneFromSubjects(index));
+
+        index = 0;
+        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Historia")) {
+            index++;
+        }
+        sortedSubjectsArray.add(subjects.getOneFromSubjects(index));
+
+        index = 0;
+        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Wiedza o społeczeństwie")) {
+            index++;
+        }
+        sortedSubjectsArray.add(subjects.getOneFromSubjects(index));
+
+        index = 0;
+        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Geografia")) {
+            index++;
+        }
+        sortedSubjectsArray.add(subjects.getOneFromSubjects(index));
+
+        index = 0;
+        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Biologia")) {
+            index++;
+        }
+        sortedSubjectsArray.add(subjects.getOneFromSubjects(index));
+
+        index = 0;
+        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Chemia")) {
+            index++;
+        }
+        sortedSubjectsArray.add(subjects.getOneFromSubjects(index));
+
+        index = 0;
+        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Fizyka")) {
+            index++;
+        }
+        sortedSubjectsArray.add(subjects.getOneFromSubjects(index));
+
+        index = 0;
+        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Matematyka")) {
+            index++;
+        }
+        sortedSubjectsArray.add(subjects.getOneFromSubjects(index));
+
+        index = 0;
+        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Informatyka")) {
+            index++;
+        }
+        sortedSubjectsArray.add(subjects.getOneFromSubjects(index));
+
+        index = 0;
+        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Edukacja dla bezpieczeństwa")) {
+            index++;
+        }
+        sortedSubjectsArray.add(subjects.getOneFromSubjects(index));
+
+        index = 0;
+        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Zajęcia techniczne")) {
+            index++;
+        }
+        sortedSubjectsArray.add(subjects.getOneFromSubjects(index));
+
+        index = 0;
+        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Wychowanie do życia w rodzinie")) {
+            index++;
+        }
+        sortedSubjectsArray.add(subjects.getOneFromSubjects(index));
+
+        index = 0;
+        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Etyka")) {
+            index++;
+        }
+        sortedSubjectsArray.add(subjects.getOneFromSubjects(index));
+    }
+
+    private static String getMonthName(int num) {
+        switch (num) {
+            case 0:
+                return "STYCZEŃ";
+            case 1:
+                return "LUTY";
+            case 2:
+                return "MARZEC";
+            case 3:
+                return "KWIECIEŃ";
+            case 4:
+                return "MAJ";
+            case 5:
+                return "CZERWIEC";
+            case 6:
+                return "LIPIEC";
+            case 7:
+                return "SIERPIEŃ";
+            case 8:
+                return "WRZESIEŃ";
+            case 9:
+                return "PAŹDZIERNIK";
+            case 10:
+                return "LISTOPAD";
+            case 11:
+                return "GRUDZIEŃ";
+        }
+        return null;
     }
 }
 

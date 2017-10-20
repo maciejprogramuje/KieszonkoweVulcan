@@ -10,8 +10,6 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="avg">0.00</string>
     <string name="money">+00.00 zł</string>
@@ -32,4 +30,16 @@
     <string name="wychowanie_do_zycia_w_rodzinie">Wychowanie do życia w rodzinie</string>
     <string name="etyka">Etyka</string>
     <string name="_0zl">0 zł</string>
+    <string name="description_navigation_image">navigation_image</string>
+    <string name="kieszonkowe">Kieszonkowe</string>
+    <string name="z_premia_za">z premią za</string>
+    <string name="podaj_login">Podaj login i hasło do dziennika elektronicznego firmy Vulcan</string>
+    <string name="login">login</string>
+    <string name="haslo">hasło</string>
+    <string name="zaloguj">Zaloguj!</string>
+    <string name="uwaga_aplikacja">UWAGA: Aplikacja działa tylko dla uczniów byłego Gimnazjum nr 16 w Lublinie!</string>
+    <string name="desc_hello_image">hello image</string>
+    <string name="desc_circle">circle</string>
+
+    <string name="url_to_zastepstwa">http://zastepstwa.g16-lublin.eu/</string>
 </resources>
