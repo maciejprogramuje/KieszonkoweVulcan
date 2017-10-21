@@ -23,7 +23,7 @@ import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import commaciejprogramuje.facebook.kieszonkowevulcan.GradesUtils.Subjects;
+import commaciejprogramuje.facebook.kieszonkowevulcan.SchoolUtils.Subjects;
 import commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments.ReplaceFrag;
 import commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments.ShowGradesFrag;
 import commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments.ShowHelloFrag;
@@ -244,5 +244,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void setActionBarTitle(String title) {
         getSupportActionBar().setTitle(title);
+    }
+
+    public void setActionBarSubtitle(String subtitle) {
+        getSupportActionBar().setSubtitle(subtitle);
     }
 }

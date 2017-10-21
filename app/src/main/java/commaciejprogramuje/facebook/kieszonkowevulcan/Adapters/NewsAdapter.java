@@ -9,8 +9,8 @@ import android.widget.TextView;
 
 import java.util.Collections;
 
-import commaciejprogramuje.facebook.kieszonkowevulcan.GradesUtils.Subject;
-import commaciejprogramuje.facebook.kieszonkowevulcan.GradesUtils.Subjects;
+import commaciejprogramuje.facebook.kieszonkowevulcan.SchoolUtils.Subject;
+import commaciejprogramuje.facebook.kieszonkowevulcan.SchoolUtils.Subjects;
 import commaciejprogramuje.facebook.kieszonkowevulcan.R;
 
 /**

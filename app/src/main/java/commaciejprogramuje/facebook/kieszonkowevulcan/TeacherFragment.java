@@ -4,19 +4,28 @@ package commaciejprogramuje.facebook.kieszonkowevulcan;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+
+import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import commaciejprogramuje.facebook.kieszonkowevulcan.Adapters.TeachersAdapter;
+import commaciejprogramuje.facebook.kieszonkowevulcan.SchoolUtils.Teacher;
 
 public class TeacherFragment extends Fragment {
     public static final String TEACHERS_KEY = "teachers";
+    public static final String SUBSTITUTE_DATE_KEY = "substituteDate";
 
-    @InjectView(R.id.teachers_fragment_textview)
-    TextView teachersFragmentTextview;
+    @InjectView(R.id.teacher_recycler_view)
+    RecyclerView teacherRecyclerView;
+
+    String tempSubstituteDate;
 
     public TeacherFragment() {
         // Required empty public constructor
@@ -27,24 +36,33 @@ public class TeacherFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_teacher, container, false);
         ButterKnife.inject(this, view);
-        return view;
-    }
 
-    public static TeacherFragment newInstance(String teachersData) {
-        TeacherFragment fragment = new TeacherFragment();
-        Bundle args = new Bundle();
-        args.putString(TEACHERS_KEY, teachersData);
-        fragment.setArguments(args);
-        return fragment;
+        teacherRecyclerView.setHasFixedSize(true);
+        teacherRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        teacherRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (getArguments() != null) {
-            String teachers = getArguments().getString(TEACHERS_KEY);
-            teachersFragmentTextview.setText(teachers);
+            ArrayList<Teacher> teachersArray = (ArrayList<Teacher>) getArguments().getSerializable(TEACHERS_KEY);
+            tempSubstituteDate = getArguments().getString(SUBSTITUTE_DATE_KEY);
+
+            TeachersAdapter teachersAdapter = new TeachersAdapter(teachersArray);
+            teacherRecyclerView.setAdapter(teachersAdapter);
         }
+    }
+
+    public static TeacherFragment newInstance(ArrayList<Teacher> teachersArray, String substituteDate) {
+        TeacherFragment fragment = new TeacherFragment();
+        Bundle args = new Bundle();
+        args.putSerializable(TEACHERS_KEY, teachersArray);
+        args.putString(SUBSTITUTE_DATE_KEY, substituteDate);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -57,5 +75,6 @@ public class TeacherFragment extends Fragment {
     public void onResume() {
         super.onResume();
         ((MainActivity) getActivity()).setActionBarTitle("Zastępstwa");
+        ((MainActivity) getActivity()).setActionBarSubtitle(tempSubstituteDate);
     }
 }

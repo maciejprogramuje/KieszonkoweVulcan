@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import commaciejprogramuje.facebook.kieszonkowevulcan.Adapters.NewsAdapter;
-import commaciejprogramuje.facebook.kieszonkowevulcan.GradesUtils.Subjects;
+import commaciejprogramuje.facebook.kieszonkowevulcan.SchoolUtils.Subjects;
 
 public class NewsFragment extends Fragment {
     public static final String NEWS_KEY = "news";
@@ -43,10 +43,8 @@ public class NewsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         if (getArguments() != null) {
             Subjects subjects = (Subjects) getArguments().getSerializable(NEWS_KEY);
-
             newsAdapter = new NewsAdapter(subjects);
             newsRecyclerView.setAdapter(newsAdapter);
         }

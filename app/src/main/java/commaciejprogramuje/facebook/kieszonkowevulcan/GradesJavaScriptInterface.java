@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import commaciejprogramuje.facebook.kieszonkowevulcan.GradesUtils.Grade;
+import commaciejprogramuje.facebook.kieszonkowevulcan.SchoolUtils.Grade;
 
 /**
  * Created by m.szymczyk on 2017-10-09.
