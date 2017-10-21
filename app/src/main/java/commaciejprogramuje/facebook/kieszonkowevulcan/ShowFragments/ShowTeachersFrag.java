@@ -46,7 +46,7 @@ public class ShowTeachersFrag {
             Document document = Jsoup.connect("http://zastepstwa.g16-lublin.eu/").get();
             String temp = document.body().toString();
 
-            System.out.println(temp);
+            //System.out.println(temp);
 
             // set date
             Matcher dateMatcher = Pattern.compile("Zastępstwa(.|\\n)*?\\d{2}\\.\\d{2}\\.\\d{4}").matcher(temp);
@@ -71,17 +71,35 @@ public class ShowTeachersFrag {
 
                 Matcher oneRowMatcher = Pattern.compile("\">(.*?)</td>").matcher(sectionElement);
                 String element = "";
+                int index = 0;
                 while (oneRowMatcher.find()) {
-                    String oneRow = oneRowMatcher.group();
-                    if (oneRow.contains("dyżury")) {
-                        substitute = element;
-                        element = "";
-                    } else {
-                        element = element + "\n" + oneRow;
-                    }
+                    String oneRow = oneRowMatcher.group().replace("\"> ", "").replace(" </td>", "").replace("&" + "nbsp;", "");
+                    if(!oneRow.contains("lekcja") && !oneRow.contains("opis") && !oneRow.contains("zastępca") && !oneRow.contains("po lekcji") && !oneRow.contains("miejsce")
+                            && !oneRow.contains("poniedziałek") && !oneRow.contains("wtorek") && !oneRow.contains("środa") && !oneRow.contains("czwartek") && !oneRow.contains("piątek")) {
+                        if (oneRow.contains("dyżury")) {
+                            substitute = element.substring(0, element.length() - 1);
+                            element = "";
+                        } else {
+                            if (index == 0 || index % 3 == 0) {
+                                element = element + oneRow;
+                            } else if (index == 1 ) {
+                                element = element + " -> " + oneRow;
+                            } else if (index == 2 && !oneRow.equals("")) {
+                                element = element + " -> " + oneRow + "\n";
+                            } else if (index == 2 && oneRow.equals("")) {
+                                element = element + "\n";
+                            }
 
-                    onDuty = element;
+                            Log.w("UWAGA", "index=" +index +", oneRow=" + oneRow);
+                            index++;
+
+                            if(index == 3) {
+                                index = 0;
+                            }
+                        }
+                    }
                 }
+                onDuty = element.substring(0, element.length() - 1);
 
                 teacherArray.add(new Teacher(name, substitute, onDuty));
             }
