@@ -11,12 +11,14 @@ public class Grade implements Serializable {
     private String mDate;
     private String mText;
     private String mCode;
+    private String mWeight;
 
-    public Grade(String mGrade, String mDate, String mText, String mCode) {
+    public Grade(String mGrade, String mDate, String mText, String mCode, String mWeight) {
         this.mGrade = mGrade;
         this.mDate = mDate;
         this.mText = mText;
         this.mCode = mCode;
+        this.mWeight = mWeight;
     }
 
     public String getmGrade() {
@@ -49,5 +51,13 @@ public class Grade implements Serializable {
 
     public void setmCode(String mCode) {
         this.mCode = mCode;
+    }
+
+    public String getmWeight() {
+        return mWeight;
+    }
+
+    public void setmWeight(String mWeight) {
+        this.mWeight = mWeight;
     }
 }

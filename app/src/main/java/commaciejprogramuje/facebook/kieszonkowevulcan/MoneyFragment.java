@@ -179,10 +179,13 @@ public class MoneyFragment extends Fragment {
                     }
 
                     if (gradeDateCal.get(Calendar.MONTH) == curDateCal.get(Calendar.MONTH)) {
-                        if (sortedSubjectsArray.get(i).getSubjectGrades().get(j).getmGrade().equals("1")
-                                || sortedSubjectsArray.get(i).getSubjectGrades().get(j).getmGrade().equals("2")) {
+                        if ((sortedSubjectsArray.get(i).getSubjectGrades().get(j).getmGrade().equals("1")
+                                || sortedSubjectsArray.get(i).getSubjectGrades().get(j).getmGrade().equals("2"))
+                                && !sortedSubjectsArray.get(i).getSubjectGrades().get(j).getmWeight().equals("0")) {
                             extraMoneyCurrentMonth = 0;
-                        } else if (sortedSubjectsArray.get(i).getSubjectGrades().get(j).getmGrade().equals("3") && extraMoneyCurrentMonth > 0) {
+                        } else if (sortedSubjectsArray.get(i).getSubjectGrades().get(j).getmGrade().equals("3")
+                                && !sortedSubjectsArray.get(i).getSubjectGrades().get(j).getmWeight().equals("0")
+                                && extraMoneyCurrentMonth > 0) {
                             extraMoneyCurrentMonth -= 10;
                         }
                     }
@@ -191,10 +194,13 @@ public class MoneyFragment extends Fragment {
                     previousMonthInt = curDateCal.get(Calendar.MONTH);
 
                     if (gradeDateCal.get(Calendar.MONTH) == curDateCal.get(Calendar.MONTH)) {
-                        if (sortedSubjectsArray.get(i).getSubjectGrades().get(j).getmGrade().equals("1")
-                                || sortedSubjectsArray.get(i).getSubjectGrades().get(j).getmGrade().equals("2")) {
+                        if ((sortedSubjectsArray.get(i).getSubjectGrades().get(j).getmGrade().equals("1")
+                                || sortedSubjectsArray.get(i).getSubjectGrades().get(j).getmGrade().equals("2"))
+                                && !sortedSubjectsArray.get(i).getSubjectGrades().get(j).getmWeight().equals("0")) {
                             extraMoneyPreviousMonth = 0;
-                        } else if (sortedSubjectsArray.get(i).getSubjectGrades().get(j).getmGrade().equals("3") && extraMoneyPreviousMonth > 0) {
+                        } else if (sortedSubjectsArray.get(i).getSubjectGrades().get(j).getmGrade().equals("3")
+                                && !sortedSubjectsArray.get(i).getSubjectGrades().get(j).getmWeight().equals("0")
+                                && extraMoneyPreviousMonth > 0) {
                             extraMoneyPreviousMonth -= 10;
                         }
                     }

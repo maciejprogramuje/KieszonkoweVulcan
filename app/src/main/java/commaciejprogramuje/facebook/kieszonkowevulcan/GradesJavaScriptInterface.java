@@ -55,6 +55,7 @@ public class GradesJavaScriptInterface {
         String tempDate = "";
         String tempText = "";
         String tempCode = "";
+        String tempWeight = "";
 
         String temp = html.substring(html.indexOf(subject));
         temp = temp.substring(0, temp.indexOf("</tr>"));
@@ -63,6 +64,7 @@ public class GradesJavaScriptInterface {
         Matcher dateMatcher = Pattern.compile("Data: \\d{2}\\.\\d{2}\\.\\d{4}").matcher(temp);
         Matcher textMatcher = Pattern.compile("Opis:(.*?)<br/>").matcher(temp);
         Matcher codeMatcher = Pattern.compile("Kod:(.*?)<br/>").matcher(temp);
+        Matcher weightMather = Pattern.compile("Waga:(.*?)<br/>").matcher(temp);
 
         while (gradeMatcher.find()) {
             String tempGradeString = gradeMatcher.group().substring(0, 2);
@@ -87,7 +89,12 @@ public class GradesJavaScriptInterface {
                 tempCode = tempCode.replace("<br/>", "");
             }
 
-            tempGrades.add(new Grade(tempGrade, tempDate, tempText, tempCode));
+            if(weightMather.find()) {
+                tempWeight = weightMather.group().substring(6);
+                tempWeight = tempWeight.replace(",00<br/>", "");
+            }
+
+            tempGrades.add(new Grade(tempGrade, tempDate, tempText, tempCode, tempWeight));
         }
         return tempGrades;
     }

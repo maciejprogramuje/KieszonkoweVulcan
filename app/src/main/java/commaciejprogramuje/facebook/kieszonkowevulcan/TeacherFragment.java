@@ -68,6 +68,7 @@ public class TeacherFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        ((MainActivity) getActivity()).setActionBarSubtitle("");
         ButterKnife.reset(this);
     }
 

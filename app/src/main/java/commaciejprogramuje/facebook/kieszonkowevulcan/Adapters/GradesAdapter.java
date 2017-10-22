@@ -71,7 +71,8 @@ public class GradesAdapter extends RecyclerView.Adapter {
                 gradeDateCodeText = gradeDateCodeText
                         + subject.getSubjectGrades().get(i).getmGrade()
                         + " (" + subject.getSubjectGrades().get(i).getmDate().substring(0, 5) + ") "
-                        + subject.getSubjectGrades().get(i).getmCode() + " - "
+                        + subject.getSubjectGrades().get(i).getmCode() + ", w:"
+                        + subject.getSubjectGrades().get(i).getmWeight() + " - "
                         + subject.getSubjectGrades().get(i).getmText();
 
                 if (i > 0) {
