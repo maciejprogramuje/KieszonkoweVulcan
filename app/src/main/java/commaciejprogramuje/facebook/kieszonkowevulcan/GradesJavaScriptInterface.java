@@ -40,11 +40,11 @@ class GradesJavaScriptInterface {
     @JavascriptInterface
     @SuppressWarnings("unused")
     public void processHTML(String html) {
-        Log.w("UWAGA", "parsuję stronę...");
+        //Log.w("UWAGA", "parsuję stronę...");
         int numOfSubjects = mainActivity.subjects.size();
         // read old data
         if (fileExists(mainActivity.getApplicationContext(), KIESZONKOWE_FILE)) {
-            Log.w("UWAGA", "plik istnieje " + KIESZONKOWE_FILE);
+            //Log.w("UWAGA", "plik istnieje " + KIESZONKOWE_FILE);
             oldSubjects = readSubjectsFromFile(mainActivity.getApplicationContext(), KIESZONKOWE_FILE);
             if (oldSubjects != null) {
                 oldSubjectsArray = SubjectsInOriginOrder.generate(oldSubjects);
@@ -59,7 +59,7 @@ class GradesJavaScriptInterface {
 
         //compare
         if (oldSubjects != null) {
-            Log.w("UWAGA", "porównanie");
+            //Log.w("UWAGA", "porównanie");
 
             String toastMessage = "";
 
@@ -67,7 +67,7 @@ class GradesJavaScriptInterface {
                 int oldLength = oldSubjectsArray.get(i).getSubjectGrades().size();
                 int newLength = newSubjectsArray.get(i).getSubjectGrades().size();
 
-                Log.w("UWAGA", "Sprawdzam zmiany (" + oldSubjectsArray.get(i).getSubjectName() + ")");
+                //Log.w("UWAGA", "Sprawdzam zmiany (" + oldSubjectsArray.get(i).getSubjectName() + ")");
                 String message1 = "";
                 for (int j = 0; j < oldLength; j++) {
                     if (isDifference(oldSubjectsArray.get(i).getSubjectGrades().get(j), newSubjectsArray.get(i).getSubjectGrades().get(j))) {
@@ -80,14 +80,14 @@ class GradesJavaScriptInterface {
                                 ": " + newSubjectsArray.get(i).getSubjectGrades().get(j).getmGrade() + //ocena
                                 " (" + newSubjectsArray.get(i).getSubjectGrades().get(j).getmDate() + ")" + //data
                                 " , " + newSubjectsArray.get(i).getSubjectGrades().get(j).getmCode() + "\n";// kod
-                        Log.w("UWAGA", message1);
+                        //Log.w("UWAGA", message1);
                         toastMessage += message1;
                     } else {
-                        Log.w("UWAGA", "  - brak zmian!");
+                        //Log.w("UWAGA", "  - brak zmian!");
                     }
                 }
 
-                Log.w("UWAGA", "Sprawdzam nowości...");
+                //Log.w("UWAGA", "Sprawdzam nowości...");
                 String message2 = "";
                 if (newLength > oldLength) {
                     for (int j = 0; j < newLength - oldLength; j++) {
@@ -101,7 +101,7 @@ class GradesJavaScriptInterface {
                         toastMessage += message2;
                     }
                 } else {
-                    Log.w("UWAGA", "  - brak nowości!");
+                    //Log.w("UWAGA", "  - brak nowości!");
                 }
             }
 
@@ -110,8 +110,8 @@ class GradesJavaScriptInterface {
             }
 
             Toast.makeText(mainActivity.getApplicationContext(), toastMessage, Toast.LENGTH_LONG).show();
-            Log.w("UWAGA", "toast: " + toastMessage);
-            Log.w("UWAGA", "porównanie - koniec");
+            //Log.w("UWAGA", "toast: " + toastMessage);
+            //Log.w("UWAGA", "porównanie - koniec");
         }
 
         // write new data as old data
@@ -147,7 +147,7 @@ class GradesJavaScriptInterface {
             Log.w("UWAGA", "warunek 5");
             return true;
         } else {
-            Log.w("UWAGA", "warunek F");
+            //Log.w("UWAGA", "warunek F");
             return false;
         }
     }

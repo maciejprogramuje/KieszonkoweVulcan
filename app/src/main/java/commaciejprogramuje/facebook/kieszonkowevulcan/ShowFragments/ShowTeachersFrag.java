@@ -37,37 +37,72 @@ public class ShowTeachersFrag {
 
     private ArrayList<Teacher> getTeacherArray() {
         ArrayList<Teacher> teacherArray = new ArrayList<>();
-        String name = "name";
-        String substitute = "substitute";
-        String onDuty = "on duty";
+        String name = "";
+        String substitute = "";
 
         try {
             Document document = Jsoup.connect("http://zastepstwa.g16-lublin.eu/").get();
             String temp = document.body().toString();
 
-            //System.out.println(temp);
-
             // set date
-            Matcher dateMatcher = Pattern.compile("Zastępstwa(.|\\n)*?\\d{2}\\.\\d{2}\\.\\d{4}").matcher(temp);
-            while (dateMatcher.find()) {
-                String dateElement = dateMatcher.group();
-                dateElement = temp.substring(temp.indexOf("<nobr>") + 32, temp.indexOf("</nobr>"));
-                substituteDate = dateElement;
-            }
+            substituteDate = temp.substring(temp.indexOf("<nobr>") + 32, temp.indexOf("</nobr>"));
 
             // iterate by teacher section
-            Matcher sectionMatcher = Pattern.compile("st1\"(.*)\\d{2}.\\d{2}\\.\\d{4}(.|\\n)*?(st19|</body>)").matcher(temp);
+            Matcher sectionMatcher = Pattern.compile("colspan=\"3\"(.|\\n)*?(st1\"|</body>)").matcher(temp);
             while (sectionMatcher.find()) {
                 String sectionElement = sectionMatcher.group();
 
-                //<td nowrap class="st1" colspan="3" align="LEFT" bgcolor="#FFDFBF"> Izabela Sałuch / 24.10.2017 wtorek </td>
-                Matcher nameMatcher = Pattern.compile("st1\"(.*?)\\d{2}.\\d{2}\\.\\d{4}(.*?)</td>").matcher(sectionElement);
-                if (nameMatcher.find()) {
-                    String nameElement = nameMatcher.group();
-                    nameElement = nameElement.substring(nameElement.indexOf(">") + 2, nameElement.indexOf("<") - 1);
-                    name = nameElement;
+                if(!sectionElement.contains("dyżury")) {
+                    Matcher nameMatcher = Pattern.compile(">(.*?)\\d{2,4}[\\.\\/-]\\d{2}[\\.\\/-]\\d{2,4}(.*?)</td>").matcher(sectionElement);
+                    if (nameMatcher.find()) {
+                        String nameElement = nameMatcher.group();
+                        name = nameElement.substring(nameElement.indexOf(">") + 2, nameElement.indexOf("<") - 1);
+                    }
+
+                    Matcher oneRowMatcher = Pattern.compile("\">(.*?)</td>").matcher(sectionElement);
+                    substitute = "";
+                    int index = 0;
+
+                    while (oneRowMatcher.find()) {
+                        String oneRow = oneRowMatcher.group().replace("\"> ", "").replace(" </td>", "").replace("&" + "nbsp;", "");
+
+                        if (!oneRow.contains("lekcja") && !oneRow.contains("opis") && !oneRow.contains("zastępca") && !oneRow.contains("po lekcji") && !oneRow.contains("miejsce") && !oneRow.contains("dyżury")
+                                && !oneRow.contains("poniedziałek") && !oneRow.contains("wtorek") && !oneRow.contains("środa") && !oneRow.contains("czwartek") && !oneRow.contains("piątek")) {
+                            if (index == 0 && !oneRow.equals("")) {
+                                substitute = substitute + oneRow;
+                            } else if (index == 1 && !oneRow.equals("")) {
+                                substitute = substitute + " -> " + oneRow;
+                            } else if (index == 2 && !oneRow.equals("")) {
+                                substitute = substitute + " -> " + oneRow + "\n";
+                            } else if (index == 2 && oneRow.equals("")) {
+                                substitute = substitute + "\n";
+                            }
+                            index++;
+                            if (index == 3) {
+                                index = 0;
+                            }
+                        }
+                    }
+                    while (substitute.endsWith("\n")) {
+                        substitute = substitute.substring(0, substitute.length() - 1);
+                    }
+
+                    if (name != "") {
+                        teacherArray.add(new Teacher(name, substitute));
+                    }
                 }
 
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return teacherArray;
+    }
+}
+
+
+                /*
                 Matcher oneRowMatcher = Pattern.compile("\">(.*?)</td>").matcher(sectionElement);
                 String element = "";
                 int index = 0;
@@ -98,14 +133,7 @@ public class ShowTeachersFrag {
                         }
                     }
                 }
-                onDuty = element.substring(0, element.length() - 1);
+                onDuty = element.substring(0, element.length() - 1);*/
 
-                teacherArray.add(new Teacher(name, substitute, onDuty));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        return teacherArray;
-    }
-}
+

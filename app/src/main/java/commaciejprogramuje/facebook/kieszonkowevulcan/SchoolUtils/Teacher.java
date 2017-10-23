@@ -9,12 +9,10 @@ import java.io.Serializable;
 public class Teacher implements Serializable {
     private String nameTeacher;
     private String substituteTeacher;
-    private String onDutyTeacher;
 
-    public Teacher(String nameTeacher, String substituteTeacher, String onDutyTeacher) {
+    public Teacher(String nameTeacher, String substituteTeacher) {
         this.nameTeacher = nameTeacher;
         this.substituteTeacher = substituteTeacher;
-        this.onDutyTeacher = onDutyTeacher;
     }
 
     public String getNameTeacher() {
@@ -31,13 +29,5 @@ public class Teacher implements Serializable {
 
     public void setSubstituteTeacher(String substituteTeacher) {
         this.substituteTeacher = substituteTeacher;
-    }
-
-    public String getOnDutyTeacher() {
-        return onDutyTeacher;
-    }
-
-    public void setOnDutyTeacher(String onDutyTeacher) {
-        this.onDutyTeacher = onDutyTeacher;
     }
 }

@@ -21,13 +21,11 @@ public class TeachersAdapter extends RecyclerView.Adapter {
     private class TeachersViewHolder extends RecyclerView.ViewHolder {
         TextView nameTextView;
         TextView substituteTextView;
-        TextView onDutyTextView;
 
         TeachersViewHolder(View itemView) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.card_teacher_name);
             substituteTextView = itemView.findViewById(R.id.card_teacher_substitute);
-            onDutyTextView = itemView.findViewById(R.id.card_teacher_onduty);
         }
     }
 
@@ -47,9 +45,6 @@ public class TeachersAdapter extends RecyclerView.Adapter {
 
         ((TeachersViewHolder) holder).nameTextView.setText(teacher.getNameTeacher());
         ((TeachersViewHolder) holder).substituteTextView.setText(teacher.getSubstituteTeacher());
-        ((TeachersViewHolder) holder).onDutyTextView.setText(teacher.getOnDutyTeacher());
-
-
     }
 
     @Override
