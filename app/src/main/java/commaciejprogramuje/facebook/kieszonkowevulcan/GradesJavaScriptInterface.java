@@ -67,7 +67,7 @@ class GradesJavaScriptInterface {
                 int oldLength = oldSubjectsArray.get(i).getSubjectGrades().size();
                 int newLength = newSubjectsArray.get(i).getSubjectGrades().size();
 
-                /*Log.w("UWAGA", "Sprawdzam zmiany (" + oldSubjectsArray.get(i).getSubjectName() + ")");
+                Log.w("UWAGA", "Sprawdzam zmiany (" + oldSubjectsArray.get(i).getSubjectName() + ")");
                 String message1 = "";
                 for (int j = 0; j < oldLength; j++) {
                     if (isDifference(oldSubjectsArray.get(i).getSubjectGrades().get(j), newSubjectsArray.get(i).getSubjectGrades().get(j))) {
@@ -85,7 +85,7 @@ class GradesJavaScriptInterface {
                     } else {
                         Log.w("UWAGA", "  - brak zmian!");
                     }
-                }*/
+                }
 
                 Log.w("UWAGA", "Sprawdzam nowości...");
                 String message2 = "";
@@ -131,11 +131,25 @@ class GradesJavaScriptInterface {
     }
 
     private boolean isDifference(Grade oldGrade, Grade newGrade) {
-        return !oldGrade.getmGrade().equals(newGrade.getmGrade())
-                || !oldGrade.getmDate().equals(newGrade.getmDate())
-                || !oldGrade.getmCode().equals(newGrade.getmCode())
-                || !oldGrade.getmText().equals(newGrade.getmText())
-                || !oldGrade.getmWeight().equals(newGrade.getmWeight());
+        if(!oldGrade.getmGrade().equals(newGrade.getmGrade())) {
+            Log.w("UWAGA", "warunek 1");
+            return true;
+        } else if(!oldGrade.getmDate().equals(newGrade.getmDate())) {
+            Log.w("UWAGA", "warunek 2");
+            return true;
+        } else if(!oldGrade.getmCode().equals(newGrade.getmCode())) {
+            Log.w("UWAGA", "warunek 3");
+            return true;
+        } else if(!oldGrade.getmText().equals(newGrade.getmText())) {
+            Log.w("UWAGA", "warunek 4");
+            return true;
+        } else if(!oldGrade.getmWeight().equals(newGrade.getmWeight())) {
+            Log.w("UWAGA", "warunek 5");
+            return true;
+        } else {
+            Log.w("UWAGA", "warunek F");
+            return false;
+        }
     }
 
     private static boolean fileExists(Context context, String filename) {
