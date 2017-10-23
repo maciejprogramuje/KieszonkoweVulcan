@@ -34,8 +34,6 @@ public class GradesAdapter extends RecyclerView.Adapter {
     }
 
     public GradesAdapter(Subjects pSubjects) {
-        //Collections.sort(pSubjects.getSubjects());
-        //Collections.reverse(pSubjects.getSubjects());
         mSubjects = pSubjects;
     }
 

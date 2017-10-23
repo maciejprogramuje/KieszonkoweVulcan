@@ -35,7 +35,7 @@ public class Subjects implements Serializable {
         return subjects.get(index).getSubjectName();
     }
 
-    public List<Grade> getGrades(int index) {
+    public List<Grade> getGradesFromOneSubject(int index) {
         return subjects.get(index).getSubjectGrades();
     }
 

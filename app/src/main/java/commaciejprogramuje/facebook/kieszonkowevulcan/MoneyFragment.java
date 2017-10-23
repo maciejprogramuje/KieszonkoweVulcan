@@ -19,6 +19,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import commaciejprogramuje.facebook.kieszonkowevulcan.SchoolUtils.Subject;
 import commaciejprogramuje.facebook.kieszonkowevulcan.SchoolUtils.Subjects;
+import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.SubjectsInOriginOrder;
 
 
 public class MoneyFragment extends Fragment {
@@ -99,7 +100,6 @@ public class MoneyFragment extends Fragment {
 
     ArrayList<TextView> avgsTextViewArray = new ArrayList<>();
     ArrayList<TextView> moneyTextViewArray = new ArrayList<>();
-    private ArrayList<Subject> sortedSubjectsArray;
 
     public MoneyFragment() {
         // Required empty public constructor
@@ -128,8 +128,7 @@ public class MoneyFragment extends Fragment {
         if (getArguments() != null) {
             Subjects tempSubjects = (Subjects) getArguments().getSerializable(GRADES_KEY);
 
-            sortedSubjectsArray = new ArrayList<>();
-            generateSubjectsArrayInOriginOrder(tempSubjects);
+            ArrayList<Subject> sortedSubjectsArray = SubjectsInOriginOrder.generate(tempSubjects);
 
             for (int i = 0; i < tempSubjects.size(); i++) {
                 int currentMonthInt = 0;
@@ -278,104 +277,6 @@ public class MoneyFragment extends Fragment {
         moneyTextViewArray.add(moneyZajeciaTechniczneMoney);
         moneyTextViewArray.add(moneyWychowanieDoZyciaMoney);
         moneyTextViewArray.add(moneyEtykaMoney);
-    }
-
-    private void generateSubjectsArrayInOriginOrder(Subjects subjects) {
-        int index = 0;
-        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Język polski")) {
-            index++;
-        }
-        sortedSubjectsArray.add(subjects.getOneFromSubjects(index));
-
-        index = 0;
-        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Język angielski")) {
-            index++;
-        }
-        sortedSubjectsArray.add(subjects.getOneFromSubjects(index));
-
-        index = 0;
-        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Język niemiecki")) {
-            index++;
-        }
-        sortedSubjectsArray.add(subjects.getOneFromSubjects(index));
-
-        index = 0;
-        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Muzyka")) {
-            index++;
-        }
-        sortedSubjectsArray.add(subjects.getOneFromSubjects(index));
-
-        index = 0;
-        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Historia")) {
-            index++;
-        }
-        sortedSubjectsArray.add(subjects.getOneFromSubjects(index));
-
-        index = 0;
-        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Wiedza o społeczeństwie")) {
-            index++;
-        }
-        sortedSubjectsArray.add(subjects.getOneFromSubjects(index));
-
-        index = 0;
-        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Geografia")) {
-            index++;
-        }
-        sortedSubjectsArray.add(subjects.getOneFromSubjects(index));
-
-        index = 0;
-        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Biologia")) {
-            index++;
-        }
-        sortedSubjectsArray.add(subjects.getOneFromSubjects(index));
-
-        index = 0;
-        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Chemia")) {
-            index++;
-        }
-        sortedSubjectsArray.add(subjects.getOneFromSubjects(index));
-
-        index = 0;
-        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Fizyka")) {
-            index++;
-        }
-        sortedSubjectsArray.add(subjects.getOneFromSubjects(index));
-
-        index = 0;
-        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Matematyka")) {
-            index++;
-        }
-        sortedSubjectsArray.add(subjects.getOneFromSubjects(index));
-
-        index = 0;
-        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Informatyka")) {
-            index++;
-        }
-        sortedSubjectsArray.add(subjects.getOneFromSubjects(index));
-
-        index = 0;
-        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Edukacja dla bezpieczeństwa")) {
-            index++;
-        }
-        sortedSubjectsArray.add(subjects.getOneFromSubjects(index));
-
-        index = 0;
-        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Zajęcia techniczne")) {
-            index++;
-        }
-        sortedSubjectsArray.add(subjects.getOneFromSubjects(index));
-
-        index = 0;
-        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Wychowanie do życia w rodzinie")) {
-            index++;
-        }
-        sortedSubjectsArray.add(subjects.getOneFromSubjects(index));
-
-        index = 0;
-        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Etyka")) {
-            index++;
-        }
-        sortedSubjectsArray.add(subjects.getOneFromSubjects(index));
     }
 
     private static String getMonthName(int num) {

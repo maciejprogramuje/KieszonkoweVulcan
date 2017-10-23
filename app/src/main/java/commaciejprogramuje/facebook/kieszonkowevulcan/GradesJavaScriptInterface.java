@@ -1,38 +1,128 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan;
 
+import android.app.Activity;
+import android.content.Context;
+import android.util.Log;
 import android.webkit.JavascriptInterface;
+import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import commaciejprogramuje.facebook.kieszonkowevulcan.SchoolUtils.Grade;
+import commaciejprogramuje.facebook.kieszonkowevulcan.SchoolUtils.Subject;
+import commaciejprogramuje.facebook.kieszonkowevulcan.SchoolUtils.Subjects;
+import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.SubjectsInOriginOrder;
 
 /**
  * Created by m.szymczyk on 2017-10-09.
  */
 
-public class GradesJavaScriptInterface {
+class GradesJavaScriptInterface {
+    public static final String KIESZONKOWE_FILE = "kieszonkoweVulcanGrades.dat";
     private MainActivity mainActivity;
+    private ArrayList<Subject> oldSubjectsArray;
+    private ArrayList<Subject> newSubjectsArray;
+    private Subjects oldSubjects;
 
-    public GradesJavaScriptInterface(MainActivity mainActivity) {
+    GradesJavaScriptInterface(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
     }
 
     @JavascriptInterface
     @SuppressWarnings("unused")
     public void processHTML(String html) {
-        for(int i = 0; i < mainActivity.subjects.size(); i++) {
-            set(html, i);
+        Log.w("UWAGA", "parsuję stronę...");
+        int numOfSubjects = mainActivity.subjects.size();
+        // read old data
+        if (fileExists(mainActivity.getApplicationContext(), KIESZONKOWE_FILE)) {
+            Log.w("UWAGA", "plik istnieje " + KIESZONKOWE_FILE);
+            oldSubjects = readSubjectsFromFile(mainActivity.getApplicationContext(), KIESZONKOWE_FILE);
+            if (oldSubjects != null) {
+                oldSubjectsArray = SubjectsInOriginOrder.generate(oldSubjects);
+            }
         }
+
+        // generate new data
+        for (int i = 0; i < numOfSubjects; i++) {
+            set(html, i);
+            newSubjectsArray = SubjectsInOriginOrder.generate(mainActivity.subjects);
+        }
+
+        //compare
+        if (oldSubjects != null) {
+            Log.w("UWAGA", "porównanie");
+
+            String toastMessage = "";
+
+            for (int i = 0; i < numOfSubjects; i++) {
+                int oldLength = oldSubjectsArray.get(i).getSubjectGrades().size();
+                int newLength = newSubjectsArray.get(i).getSubjectGrades().size();
+
+                /*Log.w("UWAGA", "Sprawdzam zmiany (" + oldSubjectsArray.get(i).getSubjectName() + ")");
+                String message1 = "";
+                for (int j = 0; j < oldLength; j++) {
+                    if (isDifference(oldSubjectsArray.get(i).getSubjectGrades().get(j), newSubjectsArray.get(i).getSubjectGrades().get(j))) {
+                        message1 = message1 + "ZMIANA OCENY:\n" +
+                                "Stara ocena: " + oldSubjectsArray.get(i).getSubjectName() + //przedmiot
+                                ": " + oldSubjectsArray.get(i).getSubjectGrades().get(j).getmGrade() + //ocena
+                                " (" + oldSubjectsArray.get(i).getSubjectGrades().get(j).getmDate() + ")" + //data
+                                " , " + oldSubjectsArray.get(i).getSubjectGrades().get(j).getmCode() + "\n" + // kod
+                                "Nowa ocena: " + mainActivity.subjects.getName(i) + //przedmiot
+                                ": " + newSubjectsArray.get(i).getSubjectGrades().get(j).getmGrade() + //ocena
+                                " (" + newSubjectsArray.get(i).getSubjectGrades().get(j).getmDate() + ")" + //data
+                                " , " + newSubjectsArray.get(i).getSubjectGrades().get(j).getmCode() + "\n";// kod
+                        Log.w("UWAGA", message1);
+                        toastMessage += message1;
+                    } else {
+                        Log.w("UWAGA", "  - brak zmian!");
+                    }
+                }*/
+
+                Log.w("UWAGA", "Sprawdzam nowości...");
+                String message2 = "";
+                if (newLength > oldLength) {
+                    for (int j = 0; j < newLength - oldLength; j++) {
+                        message2 = "NOWA OCENA:\n" +
+                                newSubjectsArray.get(i).getSubjectName() +
+                                ": " + newSubjectsArray.get(i).getSubjectGrades().get(oldLength + j).getmGrade() +
+                                " (" + newSubjectsArray.get(i).getSubjectGrades().get(oldLength + j).getmDate() + ")" +
+                                " , " + newSubjectsArray.get(i).getSubjectGrades().get(oldLength + j).getmCode() + " " +
+                                newSubjectsArray.get(i).getSubjectGrades().get(oldLength + j).getmText();
+                        Log.w("UWAGA", message2);
+                        toastMessage += message2;
+                    }
+                } else {
+                    Log.w("UWAGA", "  - brak nowości!");
+                }
+            }
+
+            if(toastMessage == "") {
+                toastMessage = "Brak nowych ocen!";
+            }
+
+            Toast.makeText(mainActivity.getApplicationContext(), toastMessage, Toast.LENGTH_LONG).show();
+            Log.w("UWAGA", "toast: " + toastMessage);
+            Log.w("UWAGA", "porównanie - koniec");
+        }
+
+        // write new data as old data
+        writeSubjectsToFile(mainActivity.getApplicationContext(), mainActivity.subjects, KIESZONKOWE_FILE);
 
         mainActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 mainActivity.progressDialog.dismiss();
 
-                if(mainActivity.getSupportFragmentManager().findFragmentById(R.id.main_container) instanceof HelloFragment) {
+                if (mainActivity.getSupportFragmentManager().findFragmentById(R.id.main_container) instanceof HelloFragment) {
                     mainActivity.navigationView.setCheckedItem(R.id.nav_news);
                     mainActivity.onNavigationItemSelected(mainActivity.navigationView.getMenu().findItem(R.id.nav_news));
                 }
@@ -40,16 +130,72 @@ public class GradesJavaScriptInterface {
         });
     }
 
+    private boolean isDifference(Grade oldGrade, Grade newGrade) {
+        return !oldGrade.getmGrade().equals(newGrade.getmGrade())
+                || !oldGrade.getmDate().equals(newGrade.getmDate())
+                || !oldGrade.getmCode().equals(newGrade.getmCode())
+                || !oldGrade.getmText().equals(newGrade.getmText())
+                || !oldGrade.getmWeight().equals(newGrade.getmWeight());
+    }
+
+    private static boolean fileExists(Context context, String filename) {
+        File file = context.getFileStreamPath(filename);
+        return !(file == null || !file.exists());
+    }
+
+    private Subjects readSubjectsFromFile(Context context, String filename) {
+        ObjectInputStream objectIn = null;
+        Subjects rSubjects = null;
+        try {
+            FileInputStream fileIn = context.getApplicationContext().openFileInput(filename);
+            objectIn = new ObjectInputStream(fileIn);
+            rSubjects = (Subjects) objectIn.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            Log.w("UWAGA", "problem z plikiem");
+            oldSubjects = null;
+        } finally {
+            if (objectIn != null) {
+                try {
+                    objectIn.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return rSubjects;
+    }
+
+    private static void writeSubjectsToFile(Context context, Subjects mSubjects, String filename) {
+        ObjectOutputStream objectOut = null;
+        try {
+            FileOutputStream fileOut = context.openFileOutput(filename, Activity.MODE_PRIVATE);
+            objectOut = new ObjectOutputStream(fileOut);
+            objectOut.writeObject(mSubjects);
+            fileOut.getFD().sync();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (objectOut != null) {
+                try {
+                    objectOut.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
     private void set(String htmlAsString, int subjectIndex) {
         // ustal nazwę przedmiotu
-        String tempName = mainActivity.subjects.getName(subjectIndex);;
+        String tempName = mainActivity.subjects.getName(subjectIndex);
+        ;
         // wypełnij subjects danymi
-        mainActivity.subjects.setGrades(subjectIndex, getGrades(htmlAsString, tempName));
-        mainActivity.subjects.setAverage(subjectIndex, getAverageGrades(htmlAsString, tempName));
+        mainActivity.subjects.setGrades(subjectIndex, getGradesFromPage(htmlAsString, tempName));
+        mainActivity.subjects.setAverage(subjectIndex, getAverageGradesFromPage(htmlAsString, tempName));
         mainActivity.subjects.setNewestDate(subjectIndex);
     }
 
-    private List<Grade> getGrades(String html, String subject) {
+    private List<Grade> getGradesFromPage(String html, String subject) {
         List<Grade> tempGrades = new ArrayList<>();
         String tempGrade = "";
         String tempDate = "";
@@ -68,28 +214,28 @@ public class GradesJavaScriptInterface {
 
         while (gradeMatcher.find()) {
             String tempGradeString = gradeMatcher.group().substring(0, 2);
-            if(tempGradeString.contains("<")) {
+            if (tempGradeString.contains("<")) {
                 tempGrade = gradeMatcher.group().substring(0, 1);
             } else {
                 tempGrade = tempGradeString;
             }
 
-            if(dateMatcher.find()) {
+            if (dateMatcher.find()) {
                 tempDate = dateMatcher.group().substring(6);
             }
 
-            if(textMatcher.find()) {
+            if (textMatcher.find()) {
                 tempText = textMatcher.group().substring(6);
                 tempText = tempText.replace("<br/>", "");
                 tempText = tempText.replaceAll("&quot;", "'");
             }
 
-            if(codeMatcher.find()) {
+            if (codeMatcher.find()) {
                 tempCode = codeMatcher.group().substring(5);
                 tempCode = tempCode.replace("<br/>", "");
             }
 
-            if(weightMather.find()) {
+            if (weightMather.find()) {
                 tempWeight = weightMather.group().substring(6);
                 tempWeight = tempWeight.replace(",00<br/>", "");
             }
@@ -99,7 +245,7 @@ public class GradesJavaScriptInterface {
         return tempGrades;
     }
 
-    private String getAverageGrades(String html, String subject) {
+    private String getAverageGradesFromPage(String html, String subject) {
         StringBuilder averageGradesStringBuilder = new StringBuilder("");
         String temp = html.substring(html.indexOf(subject));
         temp = temp.substring(0, temp.indexOf("</tr>"));
