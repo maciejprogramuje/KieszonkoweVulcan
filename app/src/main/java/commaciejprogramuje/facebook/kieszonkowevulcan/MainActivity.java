@@ -71,6 +71,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private String login = "";
     private String password = "";
     private MyWebViewClientGrades myWebViewClientGrades;
+    private AlarmManager alarmManager;
+    private PendingIntent pendingIntent;
+    public static final int ALARM_INTERVAL = 1000 * 15;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,10 +105,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         Intent alarmIntent = new Intent(MainActivity.this, MyAlarm.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, alarmIntent, 0);
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        int alarmInterval = 1000 * 15;
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), alarmInterval, pendingIntent);
+        pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, alarmIntent, 0);
+        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), ALARM_INTERVAL, pendingIntent);
 
 
         Intent intent = getIntent();
@@ -157,10 +159,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.logout_settings) {
             deleteCredentials.delete();
             return true;
+        } else if(id == R.id.turnoff_alarm_settings) {
+            alarmManager.cancel(pendingIntent);
+            return true;
+        } else if(id == R.id.turnon_alarm_settings) {
+            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), ALARM_INTERVAL, pendingIntent);
+            return true;
         } else if (id == R.id.exit_settings) {
             this.finishAndRemoveTask();
             System.exit(0);
-            return true;
         }
         return super.onOptionsItemSelected(item);
     }

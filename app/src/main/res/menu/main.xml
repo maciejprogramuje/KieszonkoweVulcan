@@ -8,6 +8,18 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/turnoff_alarm_settings"
+        android:orderInCategory="100"
+        android:title="Wyłącz powiadamianie"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/turnon_alarm_settings"
+        android:orderInCategory="100"
+        android:title="Włącz powiadamianie"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/exit_settings"
         android:orderInCategory="100"
         android:title="Zamknij aplikację"
