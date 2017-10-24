@@ -15,6 +15,7 @@ import commaciejprogramuje.facebook.kieszonkowevulcan.School.Grade;
 import commaciejprogramuje.facebook.kieszonkowevulcan.School.Subject;
 import commaciejprogramuje.facebook.kieszonkowevulcan.School.Subjects;
 import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.DataFile;
+import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.NewGradeNotification;
 import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.SubjectsInOriginOrder;
 
 /**
@@ -82,10 +83,15 @@ class GradesJavaScriptInterface {
                 }
             }
 
-            if(toastMessage == "") {
+            if(toastMessage.equals("")) {
                 toastMessage = "Brak nowych ocen!";
+            } else {
+
+                NewGradeNotification.show(mainActivity.getApplicationContext(), toastMessage); ///////////////////////////////
+
             }
 
+            NewGradeNotification.show(mainActivity.getApplicationContext(), toastMessage); // usunąć, tylko na czas testów
             Toast.makeText(mainActivity.getApplicationContext(), toastMessage, Toast.LENGTH_LONG).show();
         }
 

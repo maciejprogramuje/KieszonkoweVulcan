@@ -31,6 +31,6 @@ public class DeleteCredentials {
         editor.putString(MainActivity.PASSWORD_DATA_KEY, "");
         editor.apply();
 
-        mainActivity.showLoginFrag.showLoginFragment();
+        mainActivity.showLoginFrag.show();
     }
 }

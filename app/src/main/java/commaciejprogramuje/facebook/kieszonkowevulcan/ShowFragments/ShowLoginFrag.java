@@ -10,7 +10,7 @@ public class ShowLoginFrag {
         this.mainActivity = mainActivity;
     }
 
-    public void showLoginFragment() {
+    public void show() {
         LoginFragment loginFragment = LoginFragment.newInstance();
         mainActivity.replaceFrag.replace(mainActivity, loginFragment);
     }

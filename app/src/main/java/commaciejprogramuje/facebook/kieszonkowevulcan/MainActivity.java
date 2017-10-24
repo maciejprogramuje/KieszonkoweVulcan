@@ -3,6 +3,7 @@ package commaciejprogramuje.facebook.kieszonkowevulcan;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -20,6 +21,8 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.Toast;
 
+import java.io.IOException;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -31,14 +34,21 @@ import commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments.ShowLoginFra
 import commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments.ShowMoneyFrag;
 import commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments.ShowNewsFrag;
 import commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments.ShowTeachersFrag;
-import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.*;
+import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.DataFile;
+import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.DeleteCredentials;
+import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.InternetUtils;
+import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.NewGradeNotification;
+import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.SubjectsInOriginOrder;
+import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.WaitMessages;
+
+import static commaciejprogramuje.facebook.kieszonkowevulcan.GradesJavaScriptInterface.KIESZONKOWE_FILE;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, LoginFragment.OnFragmentInteractionListener {
     public static final String LOGIN_DATA_KEY = "loginData";
     public static final String PASSWORD_DATA_KEY = "passwordData";
 
     private final DeleteCredentials deleteCredentials = new DeleteCredentials(this);
-    private final ShowNewsFrag ShowNewsFrag = new ShowNewsFrag(this);
+    private final ShowNewsFrag showNewsFrag = new ShowNewsFrag(this);
     private final ShowGradesFrag showGradesFrag = new ShowGradesFrag(this);
     private final ShowMoneyFrag showMoneyFrag = new ShowMoneyFrag(this);
     public final ShowLoginFrag showLoginFrag = new ShowLoginFrag(this);
@@ -82,19 +92,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         browser.setVisibility(View.INVISIBLE);
         waitMessages = new WaitMessages();
         progressDialog = createProgressDialog();
-        subjects = new Subjects();
 
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         login = sharedPref.getString(LOGIN_DATA_KEY, "");
         password = sharedPref.getString(PASSWORD_DATA_KEY, "");
 
-        if(!InternetUtils.isConnection(this)) {
+        Intent intent = getIntent();
+
+        if (!InternetUtils.isConnection(this)) {
             InternetUtils.noConnectionReaction(MainActivity.this);
         } else {
-            if(login.isEmpty() || password.isEmpty()) {
-                showLoginFrag.showLoginFragment();
+            if (login.isEmpty() || password.isEmpty()) {
+                showLoginFrag.show();
+            } else if (intent.hasExtra(NewGradeNotification.FROM_NOTIFICATION_KEY)
+                    && DataFile.isExists(this, KIESZONKOWE_FILE)) {
+                try {
+                    subjects = DataFile.read(this, KIESZONKOWE_FILE);
+                } catch (IOException | ClassNotFoundException e) {
+                    showHelloFrag.show();
+                    loadGrades(login, password);
+                }
+                if (subjects != null) {
+                    subjects.setSubjectsArray(SubjectsInOriginOrder.generate(subjects));
+                }
+                showNewsFrag.show();
             } else {
-                showHelloFrag.showHelloFragment();
+                showHelloFrag.show();
+                subjects = new Subjects();
                 loadGrades(login, password);
             }
         }
@@ -123,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.logout_settings) {
             deleteCredentials.delete();
             return true;
-        } else if(id == R.id.exit_settings) {
+        } else if (id == R.id.exit_settings) {
             this.finishAndRemoveTask();
             System.exit(0);
             return true;
@@ -137,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle bottom_navigation_money_activity view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_news) {
-            ShowNewsFrag.show();
+            showNewsFrag.show();
         } else if (id == R.id.nav_grades) {
             showGradesFrag.show();
         } else if (id == R.id.nav_money) {
@@ -162,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         pd.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
-                if(myWebViewClientGrades.isProblem()) {
+                if (myWebViewClientGrades.isProblem()) {
                     Log.w("UWAGA", "wystąpił problem");
                     Toast.makeText(MainActivity.this, "Mamy problem z logowaniem!\n\n\nZapewne błędny login lub hasło.\nSpróbuj ponownie", Toast.LENGTH_LONG).show();
                     deleteCredentials.delete();
@@ -172,7 +196,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_grades));
                 } else if (navigationView.getMenu().findItem(R.id.nav_money).isChecked()) {
                     onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_money));
-                } else if(navigationView.getMenu().findItem(R.id.nav_teachers).isChecked()) {
+                } else if (navigationView.getMenu().findItem(R.id.nav_teachers).isChecked()) {
                     onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_teachers));
                 }
             }
@@ -183,7 +207,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @OnClick(R.id.fab)
     public void onViewClicked() {
-        if(!InternetUtils.isConnection(this)) {
+        if (!InternetUtils.isConnection(this)) {
             InternetUtils.noConnectionReaction(MainActivity.this);
         } else {
             loadGrades(login, password);
@@ -210,7 +234,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onFragmentInteraction(String login, String password) {
         Log.w("UWAGA", login + ", " + password);
 
-        if(login.isEmpty() || password.isEmpty()) {
+        if (login.isEmpty() || password.isEmpty()) {
             login = "a";
             password = "a";
         }
@@ -221,7 +245,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         editor.putString(PASSWORD_DATA_KEY, password);
         editor.apply();
 
-        showHelloFrag.showHelloFragment();
+        showHelloFrag.show();
         loadGrades(login, password);
     }
 

@@ -40,8 +40,8 @@ public class NewsAdapter extends RecyclerView.Adapter {
     }
 
     public NewsAdapter(Subjects pSubjects) {
-        Collections.sort(pSubjects.getSubjects());
-        Collections.reverse(pSubjects.getSubjects());
+        Collections.sort(pSubjects.getSubjectsArray());
+        Collections.reverse(pSubjects.getSubjectsArray());
         mSubjects = pSubjects;
     }
 

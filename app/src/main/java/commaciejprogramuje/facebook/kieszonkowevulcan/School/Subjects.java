@@ -59,8 +59,12 @@ public class Subjects implements Serializable {
         return subjects.size();
     }
 
-    public List<Subject> getSubjects() {
+    public List<Subject> getSubjectsArray() {
         return subjects;
+    }
+
+    public void setSubjectsArray(List<Subject> subjects) {
+        this.subjects = subjects;
     }
 
     public Subject getOneFromSubjects(int index) {
