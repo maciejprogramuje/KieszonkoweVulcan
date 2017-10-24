@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import commaciejprogramuje.facebook.kieszonkowevulcan.Adapters.NewsAdapter;
-import commaciejprogramuje.facebook.kieszonkowevulcan.SchoolUtils.Subjects;
+import commaciejprogramuje.facebook.kieszonkowevulcan.School.Subjects;
 
 public class NewsFragment extends Fragment {
     public static final String NEWS_KEY = "news";

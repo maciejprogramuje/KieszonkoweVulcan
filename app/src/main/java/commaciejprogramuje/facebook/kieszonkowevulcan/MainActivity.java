@@ -23,7 +23,7 @@ import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import commaciejprogramuje.facebook.kieszonkowevulcan.SchoolUtils.Subjects;
+import commaciejprogramuje.facebook.kieszonkowevulcan.School.Subjects;
 import commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments.ReplaceFrag;
 import commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments.ShowGradesFrag;
 import commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments.ShowHelloFrag;
@@ -31,10 +31,7 @@ import commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments.ShowLoginFra
 import commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments.ShowMoneyFrag;
 import commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments.ShowNewsFrag;
 import commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments.ShowTeachersFrag;
-import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.CheckInternetConn;
-import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.DeleteCredentials;
-import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.NoInternetReaction;
-import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.WaitMessages;
+import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.*;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, LoginFragment.OnFragmentInteractionListener {
     public static final String LOGIN_DATA_KEY = "loginData";
@@ -47,8 +44,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public final ShowLoginFrag showLoginFrag = new ShowLoginFrag(this);
     private final ShowHelloFrag showHelloFrag = new ShowHelloFrag(this);
     private final ShowTeachersFrag showTeachersFrag = new ShowTeachersFrag(this);
-    public final CheckInternetConn checkInternetConn = new CheckInternetConn();
-    public final NoInternetReaction noInternetReaction = new NoInternetReaction();
     public final ReplaceFrag replaceFrag = new ReplaceFrag();
 
     @InjectView(R.id.tempWebView)
@@ -93,8 +88,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         login = sharedPref.getString(LOGIN_DATA_KEY, "");
         password = sharedPref.getString(PASSWORD_DATA_KEY, "");
 
-        if (!checkInternetConn.checkInternetConnection(this)) {
-            noInternetReaction.noInternetReaction(MainActivity.this);
+        if(!InternetUtils.isConnection(this)) {
+            InternetUtils.noConnectionReaction(MainActivity.this);
         } else {
             if(login.isEmpty() || password.isEmpty()) {
                 showLoginFrag.showLoginFragment();
@@ -188,8 +183,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @OnClick(R.id.fab)
     public void onViewClicked() {
-        if (!checkInternetConn.checkInternetConnection(this)) {
-            noInternetReaction.noInternetReaction(MainActivity.this);
+        if(!InternetUtils.isConnection(this)) {
+            InternetUtils.noConnectionReaction(MainActivity.this);
         } else {
             loadGrades(login, password);
         }

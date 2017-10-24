@@ -1,25 +1,20 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan;
 
-import android.app.Activity;
-import android.content.Context;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
 import android.widget.Toast;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import commaciejprogramuje.facebook.kieszonkowevulcan.SchoolUtils.Grade;
-import commaciejprogramuje.facebook.kieszonkowevulcan.SchoolUtils.Subject;
-import commaciejprogramuje.facebook.kieszonkowevulcan.SchoolUtils.Subjects;
+import commaciejprogramuje.facebook.kieszonkowevulcan.HtmlParsers.Grades;
+import commaciejprogramuje.facebook.kieszonkowevulcan.School.Grade;
+import commaciejprogramuje.facebook.kieszonkowevulcan.School.Subject;
+import commaciejprogramuje.facebook.kieszonkowevulcan.School.Subjects;
+import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.DataFile;
 import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.SubjectsInOriginOrder;
 
 /**
@@ -43,9 +38,13 @@ class GradesJavaScriptInterface {
         //Log.w("UWAGA", "parsuję stronę...");
         int numOfSubjects = mainActivity.subjects.size();
         // read old data
-        if (fileExists(mainActivity.getApplicationContext(), KIESZONKOWE_FILE)) {
-            //Log.w("UWAGA", "plik istnieje " + KIESZONKOWE_FILE);
-            oldSubjects = readSubjectsFromFile(mainActivity.getApplicationContext(), KIESZONKOWE_FILE);
+        if (DataFile.isExists(mainActivity.getApplicationContext(), KIESZONKOWE_FILE)) {
+            try {
+                oldSubjects = DataFile.read(mainActivity.getApplicationContext(), KIESZONKOWE_FILE);
+            } catch (IOException | ClassNotFoundException e) {
+                Log.w("UWAGA", "problem z plikiem");
+                oldSubjects = null;
+            }
             if (oldSubjects != null) {
                 oldSubjectsArray = SubjectsInOriginOrder.generate(oldSubjects);
             }
@@ -91,7 +90,7 @@ class GradesJavaScriptInterface {
         }
 
         // write new data as old data
-        writeSubjectsToFile(mainActivity.getApplicationContext(), mainActivity.subjects, KIESZONKOWE_FILE);
+        DataFile.write(mainActivity.getApplicationContext(), mainActivity.subjects, KIESZONKOWE_FILE);
 
         mainActivity.runOnUiThread(new Runnable() {
             @Override
@@ -106,122 +105,12 @@ class GradesJavaScriptInterface {
         });
     }
 
-    private static boolean fileExists(Context context, String filename) {
-        File file = context.getFileStreamPath(filename);
-        return !(file == null || !file.exists());
-    }
-
-    private Subjects readSubjectsFromFile(Context context, String filename) {
-        ObjectInputStream objectIn = null;
-        Subjects rSubjects = null;
-        try {
-            FileInputStream fileIn = context.getApplicationContext().openFileInput(filename);
-            objectIn = new ObjectInputStream(fileIn);
-            rSubjects = (Subjects) objectIn.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            Log.w("UWAGA", "problem z plikiem");
-            oldSubjects = null;
-        } finally {
-            if (objectIn != null) {
-                try {
-                    objectIn.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return rSubjects;
-    }
-
-    private static void writeSubjectsToFile(Context context, Subjects mSubjects, String filename) {
-        ObjectOutputStream objectOut = null;
-        try {
-            FileOutputStream fileOut = context.openFileOutput(filename, Activity.MODE_PRIVATE);
-            objectOut = new ObjectOutputStream(fileOut);
-            objectOut.writeObject(mSubjects);
-            fileOut.getFD().sync();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (objectOut != null) {
-                try {
-                    objectOut.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
     private void set(String htmlAsString, int subjectIndex) {
         // ustal nazwę przedmiotu
         String tempName = mainActivity.subjects.getName(subjectIndex);
         // wypełnij subjects danymi
-        mainActivity.subjects.setGrades(subjectIndex, getGradesFromPage(htmlAsString, tempName));
-        mainActivity.subjects.setAverage(subjectIndex, getAverageGradesFromPage(htmlAsString, tempName));
+        mainActivity.subjects.setGrades(subjectIndex, Grades.getArray(htmlAsString, tempName));
+        mainActivity.subjects.setAverage(subjectIndex, Grades.getAverage(htmlAsString, tempName));
         mainActivity.subjects.setNewestDate(subjectIndex);
-    }
-
-    private List<Grade> getGradesFromPage(String html, String subject) {
-        List<Grade> tempGrades = new ArrayList<>();
-        String tempGrade = "";
-        String tempDate = "";
-        String tempText = "";
-        String tempCode = "";
-        String tempWeight = "";
-
-        String temp = html.substring(html.indexOf(subject));
-        temp = temp.substring(0, temp.indexOf("</tr>"));
-
-        Matcher gradeMatcher = Pattern.compile("[1-6]{1}[\\+]*[\\-]*</span>").matcher(temp);
-        Matcher dateMatcher = Pattern.compile("Data: \\d{2}\\.\\d{2}\\.\\d{4}").matcher(temp);
-        Matcher textMatcher = Pattern.compile("Opis:(.*?)<br/>").matcher(temp);
-        Matcher codeMatcher = Pattern.compile("Kod:(.*?)<br/>").matcher(temp);
-        Matcher weightMather = Pattern.compile("Waga:(.*?)<br/>").matcher(temp);
-
-        while (gradeMatcher.find()) {
-            String tempGradeString = gradeMatcher.group().substring(0, 2);
-            if (tempGradeString.contains("<")) {
-                tempGrade = gradeMatcher.group().substring(0, 1);
-            } else {
-                tempGrade = tempGradeString;
-            }
-
-            if (dateMatcher.find()) {
-                tempDate = dateMatcher.group().substring(6);
-            }
-
-            if (textMatcher.find()) {
-                tempText = textMatcher.group().substring(6);
-                tempText = tempText.replace("<br/>", "");
-                tempText = tempText.replaceAll("&quot;", "'");
-            }
-
-            if (codeMatcher.find()) {
-                tempCode = codeMatcher.group().substring(5);
-                tempCode = tempCode.replace("<br/>", "");
-            }
-
-            if (weightMather.find()) {
-                tempWeight = weightMather.group().substring(6);
-                tempWeight = tempWeight.replace(",00<br/>", "");
-            }
-
-            tempGrades.add(new Grade(tempGrade, tempDate, tempText, tempCode, tempWeight));
-        }
-        return tempGrades;
-    }
-
-    private String getAverageGradesFromPage(String html, String subject) {
-        StringBuilder averageGradesStringBuilder = new StringBuilder("");
-        String temp = html.substring(html.indexOf(subject));
-        temp = temp.substring(0, temp.indexOf("</tr>"));
-        if (temp.contains("</span></td>")) {
-            Matcher m = Pattern.compile("[1-6]{1}[,]?[0-9]?[0-9]?</td>").matcher(temp);
-            while (m.find()) {
-                averageGradesStringBuilder.append(m.group().replace("</td>", ""));
-            }
-        }
-        return averageGradesStringBuilder.toString();
     }
 }

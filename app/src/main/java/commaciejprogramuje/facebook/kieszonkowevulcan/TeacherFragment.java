@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import commaciejprogramuje.facebook.kieszonkowevulcan.Adapters.TeachersAdapter;
-import commaciejprogramuje.facebook.kieszonkowevulcan.SchoolUtils.Teacher;
+import commaciejprogramuje.facebook.kieszonkowevulcan.School.Teacher;
 
 public class TeacherFragment extends Fragment {
     public static final String TEACHERS_KEY = "teachers";

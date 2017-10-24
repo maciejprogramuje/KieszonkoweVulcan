@@ -2,6 +2,7 @@ package commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments;
 
 import commaciejprogramuje.facebook.kieszonkowevulcan.GradesFragment;
 import commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity;
+import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.InternetUtils;
 
 public class ShowGradesFrag {
     private final MainActivity mainActivity;
@@ -11,11 +12,11 @@ public class ShowGradesFrag {
     }
 
     public void show() {
-        if (mainActivity.checkInternetConn.checkInternetConnection(mainActivity)) {
+        if (InternetUtils.isConnection(mainActivity)) {
             GradesFragment gradesFragment = GradesFragment.newInstance(mainActivity.getSubjects());
             mainActivity.replaceFrag.replace(mainActivity, gradesFragment);
         } else {
-            mainActivity.noInternetReaction.noInternetReaction(mainActivity);
+            InternetUtils.noConnectionReaction(mainActivity);
         }
     }
 }

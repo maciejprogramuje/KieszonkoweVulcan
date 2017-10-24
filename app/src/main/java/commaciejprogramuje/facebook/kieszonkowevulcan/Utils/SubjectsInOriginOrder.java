@@ -2,8 +2,8 @@ package commaciejprogramuje.facebook.kieszonkowevulcan.Utils;
 
 import java.util.ArrayList;
 
-import commaciejprogramuje.facebook.kieszonkowevulcan.SchoolUtils.Subject;
-import commaciejprogramuje.facebook.kieszonkowevulcan.SchoolUtils.Subjects;
+import commaciejprogramuje.facebook.kieszonkowevulcan.School.Subject;
+import commaciejprogramuje.facebook.kieszonkowevulcan.School.Subjects;
 
 /**
  * Created by m.szymczyk on 2017-10-23.
