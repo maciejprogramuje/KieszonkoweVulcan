@@ -23,6 +23,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <receiver  android:process=":remote" android:name=".Utils.MyAlarm"></receiver>
     </application>
 
 </manifest>

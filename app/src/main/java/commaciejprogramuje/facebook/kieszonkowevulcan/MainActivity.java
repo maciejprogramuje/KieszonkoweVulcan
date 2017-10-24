@@ -1,5 +1,7 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -37,6 +39,7 @@ import commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments.ShowTeachers
 import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.DataFile;
 import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.DeleteCredentials;
 import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.InternetUtils;
+import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.MyAlarm;
 import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.NewGradeNotification;
 import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.SubjectsInOriginOrder;
 import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.WaitMessages;
@@ -97,8 +100,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         login = sharedPref.getString(LOGIN_DATA_KEY, "");
         password = sharedPref.getString(PASSWORD_DATA_KEY, "");
 
-        Intent intent = getIntent();
 
+        Intent alarmIntent = new Intent(MainActivity.this, MyAlarm.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, alarmIntent, 0);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        int alarmInterval = 1000 * 15;
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), alarmInterval, pendingIntent);
+
+
+        Intent intent = getIntent();
         if (!InternetUtils.isConnection(this)) {
             InternetUtils.noConnectionReaction(MainActivity.this);
         } else {
@@ -210,7 +220,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (!InternetUtils.isConnection(this)) {
             InternetUtils.noConnectionReaction(MainActivity.this);
         } else {
-            loadGrades(login, password);
+            loadGrades(login, password); // to ma wywołać alarm
         }
     }
 
