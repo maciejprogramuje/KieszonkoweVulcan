@@ -1,4 +1,4 @@
-package commaciejprogramuje.facebook.kieszonkowevulcan.Adapters;
+package commaciejprogramuje.facebook.kieszonkowevulcan.FragmentsAdapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
