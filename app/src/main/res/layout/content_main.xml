@@ -9,12 +9,6 @@
     tools:context="commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <WebView
-        android:id="@+id/tempWebView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </WebView>
-
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"

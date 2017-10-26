@@ -19,9 +19,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.webkit.WebView;
-import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -39,16 +36,17 @@ import commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments.ShowTeachers
 import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.DataFile;
 import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.DeleteCredentials;
 import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.InternetUtils;
-import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.MyAlarm;
 import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.NewGradeNotification;
-import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.SubjectsInOriginOrder;
 import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.WaitMessages;
 
-import static commaciejprogramuje.facebook.kieszonkowevulcan.GradesJavaScriptInterface.KIESZONKOWE_FILE;
+import static commaciejprogramuje.facebook.kieszonkowevulcan.Utils.GradesJavaScriptInterface.KIESZONKOWE_FILE;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, LoginFragment.OnFragmentInteractionListener {
     public static final String LOGIN_DATA_KEY = "loginData";
     public static final String PASSWORD_DATA_KEY = "passwordData";
+
+    public static final int ALARM_INTERVAL = 1000 * 120; // co 1 minutę
+    public static final String NOT_HIDE_MAIN_ACTIVITY_KEY = "notHideMainActivity";
 
     private final DeleteCredentials deleteCredentials = new DeleteCredentials(this);
     private final ShowNewsFrag showNewsFrag = new ShowNewsFrag(this);
@@ -59,8 +57,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private final ShowTeachersFrag showTeachersFrag = new ShowTeachersFrag(this);
     public final ReplaceFrag replaceFrag = new ReplaceFrag();
 
-    @InjectView(R.id.tempWebView)
-    WebView browser;
     @InjectView(R.id.fab)
     FloatingActionButton fab;
 
@@ -68,22 +64,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
     ProgressDialog progressDialog;
     private WaitMessages waitMessages;
-    private String login = "";
-    private String password = "";
-    private MyWebViewClientGrades myWebViewClientGrades;
+    public static String login = "";
+    public static String password = "";
     private AlarmManager alarmManager;
     private PendingIntent pendingIntent;
-    public static final int ALARM_INTERVAL = 1000 * 15;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
@@ -92,10 +88,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         StrictMode.setThreadPolicy(policy);
 
         // czyli szuflada
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        browser.setVisibility(View.INVISIBLE);
         waitMessages = new WaitMessages();
         progressDialog = createProgressDialog();
 
@@ -103,12 +98,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         login = sharedPref.getString(LOGIN_DATA_KEY, "");
         password = sharedPref.getString(PASSWORD_DATA_KEY, "");
 
-
-        Intent alarmIntent = new Intent(MainActivity.this, MyAlarm.class);
-        pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, alarmIntent, 0);
+        /*Intent alarmIntent = new Intent(MainActivity.this, MyAlarm.class);
+        pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), ALARM_INTERVAL, pendingIntent);
+*/
 
+        //showHelloFrag.show();
 
         Intent intent = getIntent();
         if (!InternetUtils.isConnection(this)) {
@@ -116,22 +112,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             if (login.isEmpty() || password.isEmpty()) {
                 showLoginFrag.show();
-            } else if (intent.hasExtra(NewGradeNotification.FROM_NOTIFICATION_KEY)
+            } else if ((intent.hasExtra(NewGradeNotification.FROM_NOTIFICATION_KEY) || intent.hasExtra(GradesFromPageActivity.NOT_RELOAD_GRADES_KEY))
                     && DataFile.isExists(this, KIESZONKOWE_FILE)) {
                 try {
                     subjects = DataFile.read(this, KIESZONKOWE_FILE);
                 } catch (IOException | ClassNotFoundException e) {
                     showHelloFrag.show();
-                    loadGrades(login, password);
+                    //progressDialog.setMessage(waitMessages.getRandomText());
+                    //progressDialog.show();
+                    reloadGradesNotHideMainActivity();
                 }
                 if (subjects != null) {
-                    subjects.setSubjectsArray(SubjectsInOriginOrder.generate(subjects));
+                    subjects.setSubjectsArray(DataFile.originOrder(subjects));
                 }
                 showNewsFrag.show();
-            } else {
+             } else {
                 showHelloFrag.show();
                 subjects = new Subjects();
-                loadGrades(login, password);
+                reloadGradesNotHideMainActivity();
             }
         }
     }
@@ -159,11 +157,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.logout_settings) {
             deleteCredentials.delete();
             return true;
-        } else if(id == R.id.turnoff_alarm_settings) {
-            alarmManager.cancel(pendingIntent);
+        } else if (id == R.id.turnoff_alarm_settings) {
+            //alarmManager.cancel(pendingIntent);
             return true;
-        } else if(id == R.id.turnon_alarm_settings) {
-            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), ALARM_INTERVAL, pendingIntent);
+        } else if (id == R.id.turnon_alarm_settings) {
+            //alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), ALARM_INTERVAL, pendingIntent);
             return true;
         } else if (id == R.id.exit_settings) {
             this.finishAndRemoveTask();
@@ -203,11 +201,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         pd.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
-                if (myWebViewClientGrades.isProblem()) {
+                /*if (myWebViewClientGrades.isProblem()) {
                     Log.w("UWAGA", "wystąpił problem");
                     Toast.makeText(MainActivity.this, "Mamy problem z logowaniem!\n\n\nZapewne błędny login lub hasło.\nSpróbuj ponownie", Toast.LENGTH_LONG).show();
                     deleteCredentials.delete();
-                } else if (navigationView.getMenu().findItem(R.id.nav_news).isChecked()) {
+                } else */
+
+                if (navigationView.getMenu().findItem(R.id.nav_news).isChecked()) {
                     onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_news));
                 } else if (navigationView.getMenu().findItem(R.id.nav_grades).isChecked()) {
                     onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_grades));
@@ -227,24 +227,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (!InternetUtils.isConnection(this)) {
             InternetUtils.noConnectionReaction(MainActivity.this);
         } else {
-            loadGrades(login, password); // to ma wywołać alarm
+            reloadGradesNotHideMainActivity();
         }
     }
 
-    private void loadGrades(String login, String password) {
-        progressDialog.setMessage(waitMessages.getRandomText());
-        progressDialog.show();
-
-        browser.getSettings().setJavaScriptEnabled(true);
-        browser.getSettings().setDomStorageEnabled(true);
-        browser.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-
-        myWebViewClientGrades = new MyWebViewClientGrades(browser, login, password, progressDialog);
-
-        browser.setWebViewClient(myWebViewClientGrades);
-        browser.addJavascriptInterface(new GradesJavaScriptInterface(this), "GRADES_HTMLOUT");
-
-        browser.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
+    public void reloadGradesNotHideMainActivity() {
+        Intent getGradesIntentNotHide = new Intent(this, GradesFromPageActivity.class);
+        getGradesIntentNotHide.putExtra(NOT_HIDE_MAIN_ACTIVITY_KEY, true);
+        getGradesIntentNotHide.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(getGradesIntentNotHide);
     }
 
     @Override
@@ -263,7 +254,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         editor.apply();
 
         showHelloFrag.show();
-        loadGrades(login, password);
+        reloadGradesNotHideMainActivity();
     }
 
     public void setLogin(String login) {
@@ -284,5 +275,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void setActionBarSubtitle(String subtitle) {
         getSupportActionBar().setSubtitle(subtitle);
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }

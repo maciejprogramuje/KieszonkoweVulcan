@@ -9,7 +9,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 
+import commaciejprogramuje.facebook.kieszonkowevulcan.School.Subject;
 import commaciejprogramuje.facebook.kieszonkowevulcan.School.Subjects;
 
 /**
@@ -17,6 +19,108 @@ import commaciejprogramuje.facebook.kieszonkowevulcan.School.Subjects;
  */
 
 public class DataFile {
+
+    public static ArrayList<Subject> originOrder(Subjects subjects) {
+        ArrayList<Subject> result = new ArrayList<>();
+        int index = 0;
+        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Język polski")) {
+            index++;
+        }
+        result.add(subjects.getOneFromSubjects(index));
+
+        index = 0;
+        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Język angielski")) {
+            index++;
+        }
+        result.add(subjects.getOneFromSubjects(index));
+
+        index = 0;
+        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Język niemiecki")) {
+            index++;
+        }
+        result.add(subjects.getOneFromSubjects(index));
+
+        index = 0;
+        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Muzyka")) {
+            index++;
+        }
+        result.add(subjects.getOneFromSubjects(index));
+
+        index = 0;
+        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Historia")) {
+            index++;
+        }
+        result.add(subjects.getOneFromSubjects(index));
+
+        index = 0;
+        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Wiedza o społeczeństwie")) {
+            index++;
+        }
+        result.add(subjects.getOneFromSubjects(index));
+
+        index = 0;
+        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Geografia")) {
+            index++;
+        }
+        result.add(subjects.getOneFromSubjects(index));
+
+        index = 0;
+        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Biologia")) {
+            index++;
+        }
+        result.add(subjects.getOneFromSubjects(index));
+
+        index = 0;
+        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Chemia")) {
+            index++;
+        }
+        result.add(subjects.getOneFromSubjects(index));
+
+        index = 0;
+        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Fizyka")) {
+            index++;
+        }
+        result.add(subjects.getOneFromSubjects(index));
+
+        index = 0;
+        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Matematyka")) {
+            index++;
+        }
+        result.add(subjects.getOneFromSubjects(index));
+
+        index = 0;
+        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Informatyka")) {
+            index++;
+        }
+        result.add(subjects.getOneFromSubjects(index));
+
+        index = 0;
+        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Edukacja dla bezpieczeństwa")) {
+            index++;
+        }
+        result.add(subjects.getOneFromSubjects(index));
+
+        index = 0;
+        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Zajęcia techniczne")) {
+            index++;
+        }
+        result.add(subjects.getOneFromSubjects(index));
+
+        index = 0;
+        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Wychowanie do życia w rodzinie")) {
+            index++;
+        }
+        result.add(subjects.getOneFromSubjects(index));
+
+        index = 0;
+        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Etyka")) {
+            index++;
+        }
+        result.add(subjects.getOneFromSubjects(index));
+
+        return result;
+    }
+
     public static boolean isExists(Context context, String filename) {
         File file = context.getFileStreamPath(filename);
         return !(file == null || !file.exists());

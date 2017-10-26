@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import commaciejprogramuje.facebook.kieszonkowevulcan.School.Subject;
 import commaciejprogramuje.facebook.kieszonkowevulcan.School.Subjects;
-import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.SubjectsInOriginOrder;
+import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.DataFile;
 
 
 public class MoneyFragment extends Fragment {
@@ -128,7 +128,7 @@ public class MoneyFragment extends Fragment {
         if (getArguments() != null) {
             Subjects tempSubjects = (Subjects) getArguments().getSerializable(GRADES_KEY);
 
-            ArrayList<Subject> sortedSubjectsArray = SubjectsInOriginOrder.generate(tempSubjects);
+            ArrayList<Subject> sortedSubjectsArray = DataFile.originOrder(tempSubjects);
 
             for (int i = 0; i < tempSubjects.size(); i++) {
                 int currentMonthInt = 0;
