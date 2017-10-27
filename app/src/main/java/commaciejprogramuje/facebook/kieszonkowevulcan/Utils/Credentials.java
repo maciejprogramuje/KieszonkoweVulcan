@@ -13,7 +13,6 @@ import commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity;
 
 public class Credentials {
     private final MainActivity mainActivity;
-    private boolean loginOk;
 
     private OnCredentialsCheckedListener mListener;
 
@@ -42,13 +41,10 @@ public class Credentials {
         editor.putString(MainActivity.LOGIN_DATA_KEY, "");
         editor.putString(MainActivity.PASSWORD_DATA_KEY, "");
         editor.apply();
-
-        //mainActivity.showLoginFrag.show();
     }
 
     public void checkCredentials() {
         Log.w("UWAGA", "rozpoczynam sprawdzanie");
-
 
         mainActivity.getLoginBrowser().getSettings().setJavaScriptEnabled(true);
         mainActivity.getLoginBrowser().getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
@@ -77,7 +73,6 @@ public class Credentials {
 
                     mListener.OnCredentialsCheckedInteraction(false);
 
-                    //loginOk = false;
                     mainActivity.getProgressCircle().setVisibility(View.GONE);
                 }
             }
@@ -93,17 +88,12 @@ public class Credentials {
 
                     mListener.OnCredentialsCheckedInteraction(true);
 
-                    //loginOk = true;
                     mainActivity.getProgressCircle().setVisibility(View.GONE);
                 }
                 return false;
             }
         });
         mainActivity.getLoginBrowser().loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
-    }
-
-    public boolean isLoginOk() {
-        return loginOk;
     }
 
     public interface OnCredentialsCheckedListener {

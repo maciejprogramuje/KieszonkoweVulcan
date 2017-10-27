@@ -20,6 +20,9 @@ public class GradesFromPageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Log.w("UWAGA", "kreator GradesFromPageActivity");
+
         setContentView(R.layout.activity_get_grades_from_page);
         ButterKnife.inject(this);
 

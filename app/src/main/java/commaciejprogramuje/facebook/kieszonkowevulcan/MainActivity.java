@@ -109,9 +109,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if (login.isEmpty() || password.isEmpty()) {
                 showLoginFrag.show();
             } else {
+                showHelloFrag.show();
                 credentials.checkCredentials();
-
-
             }
         }
     }
@@ -209,23 +208,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             editor.putString(PASSWORD_DATA_KEY, password);
             editor.apply();
 
+            Log.w("UWAGA", "zapisano login:" + login + ", hasło: " + password);
 
             try {
-                setSubjects(DataFile.read(MainActivity.this, KIESZONKOWE_FILE));
+                Log.w("UWAGA", "czytam plik");
+                subjects = DataFile.read(MainActivity.this, KIESZONKOWE_FILE);
             } catch (IOException | ClassNotFoundException e) {
-                MainActivity.subjects = new Subjects();
-                //reloadGrades();
+                Log.w("UWAGA", "jednak tworzę plik");
+                subjects = new Subjects();
+                reloadGrades();
             }
             if (MainActivity.getSubjects() != null) {
                 MainActivity.getSubjects().setSubjectsArray(DataFile.originOrder(MainActivity.getSubjects()));
+                showNewsFrag.show();
+            } else {
+                Toast.makeText(MainActivity.this, "Problem z plikiem!", Toast.LENGTH_LONG).show();
             }
 
                 /*Intent alarmIntent = new Intent(MainActivity.this, MyAlarm.class);
                 pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, alarmIntent, 0);
                 alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
                 alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, 1000, ALARM_INTERVAL, pendingIntent);*/
-
-            showNewsFrag.show();
 
 
         } else {
