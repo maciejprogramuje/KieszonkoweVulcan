@@ -42,7 +42,7 @@ public class GradesJavaScriptInterface {
     @SuppressWarnings("unused")
     public void processHTML(String html) {
         Log.w("UWAGA", "parsuję stronę...");
-        int numOfSubjects = 16;
+        int numOfSubjects = newSubjects.size();
         // read old data
         if (DataFile.isExists(context, KIESZONKOWE_FILE)) {
             try {
@@ -56,8 +56,6 @@ public class GradesJavaScriptInterface {
             }
         }
 
-        Log.w("UWAGA", "OLD: " + oldSubjectsArray);
-
         // originOrder new data
         for (int i = 0; i < numOfSubjects; i++) {
             // ustal nazwę przedmiotu
@@ -69,8 +67,6 @@ public class GradesJavaScriptInterface {
             newSubjectsArray = DataFile.originOrder(newSubjects);
         }
 
-        Log.w("UWAGA", "NEW: " + newSubjectsArray);
-
         //compare
         if (oldSubjects != null) {
             String message = "";
@@ -80,32 +76,23 @@ public class GradesJavaScriptInterface {
 
                 //Log.w("UWAGA", "Sprawdzam nowości...");
                 if (newLength > oldLength) {
+                    // there is new grade exists
                     for (int j = 0; j < newLength - oldLength; j++) {
                         message = newSubjectsArray.get(i).getSubjectName() + ": " + newSubjectsArray.get(i).getSubjectGrades().get(oldLength + j).getmGrade() + "\n";
-                        Log.w("UWAGA", message);
                         NewGradeNotification.show(context, message);
                     }
                 }
             }
+            // there is not new grade
+            // dla testów
             if(message.equals("")) {
-                Log.w("UWAGA", "  - brak nowości!");
                 Toast.makeText(context, "Brak nowych ocen!", Toast.LENGTH_LONG).show(); // na czas testów
+                NewGradeNotification.show(context, "Brak nowych ocen"); // na czas testów
             }
+            // dla wersji produkcyjnej: toast ma się pojawiać tylko wtedy, gdy jest main activity
         }
 
         // write new data as old data
         DataFile.write(context, newSubjects, KIESZONKOWE_FILE);
-
-        /*mainActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mainActivity.progressDialog.dismiss();
-
-                if (mainActivity.getSupportFragmentManager().findFragmentById(R.id.main_container) instanceof HelloFragment) {
-                    mainActivity.navigationView.setCheckedItem(R.id.nav_news);
-                    mainActivity.onNavigationItemSelected(mainActivity.navigationView.getMenu().findItem(R.id.nav_news));
-                }
-            }
-        });*/
     }
 }

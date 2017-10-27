@@ -132,7 +132,7 @@ public class DataFile {
         return (Subjects) objectIn.readObject();
     }
 
-    public static void write(Context context, Subjects mSubjects, String filename) {
+    static void write(Context context, Subjects mSubjects, String filename) {
         ObjectOutputStream objectOut = null;
         try {
             FileOutputStream fileOut = context.openFileOutput(filename, Activity.MODE_PRIVATE);

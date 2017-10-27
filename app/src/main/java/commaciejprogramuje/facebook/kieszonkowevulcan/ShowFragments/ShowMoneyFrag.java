@@ -13,7 +13,7 @@ public class ShowMoneyFrag {
 
     public void show() {
         if (InternetUtils.isConnection(mainActivity)) {
-            MoneyFragment moneyFragment = MoneyFragment.newInstance(mainActivity.getSubjects());
+            MoneyFragment moneyFragment = MoneyFragment.newInstance(MainActivity.getSubjects());
             mainActivity.replaceFrag.replace(mainActivity, moneyFragment);
         } else {
             InternetUtils.noConnectionReaction(mainActivity);

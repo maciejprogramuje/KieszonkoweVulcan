@@ -13,7 +13,7 @@ public class ShowGradesFrag {
 
     public void show() {
         if (InternetUtils.isConnection(mainActivity)) {
-            GradesFragment gradesFragment = GradesFragment.newInstance(mainActivity.getSubjects());
+            GradesFragment gradesFragment = GradesFragment.newInstance(MainActivity.getSubjects());
             mainActivity.replaceFrag.replace(mainActivity, gradesFragment);
         } else {
             InternetUtils.noConnectionReaction(mainActivity);

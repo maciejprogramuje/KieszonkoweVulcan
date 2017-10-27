@@ -13,7 +13,7 @@ public class ShowNewsFrag {
 
     public void show() {
         if (InternetUtils.isConnection(mainActivity)) {
-            NewsFragment newsFragment = NewsFragment.newInstance(mainActivity.getSubjects());
+            NewsFragment newsFragment = NewsFragment.newInstance(MainActivity.getSubjects());
             mainActivity.replaceFrag.replace(mainActivity, newsFragment);
         } else {
             InternetUtils.noConnectionReaction(mainActivity);

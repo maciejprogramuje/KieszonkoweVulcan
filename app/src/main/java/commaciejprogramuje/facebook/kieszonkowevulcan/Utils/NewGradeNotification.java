@@ -16,7 +16,7 @@ import commaciejprogramuje.facebook.kieszonkowevulcan.R;
  */
 
 public class NewGradeNotification {
-    static int index = 1;
+    private static int index = 1;
 
     public static final String FROM_NOTIFICATION_KEY = "fromNotification";
 
