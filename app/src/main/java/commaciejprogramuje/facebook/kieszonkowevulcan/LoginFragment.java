@@ -23,7 +23,7 @@ public class LoginFragment extends Fragment {
     @InjectView(R.id.login_button)
     Button loginButton;
 
-    private OnFragmentInteractionListener mListener;
+    private OnFragmentInteractionListener onFragmentInteraction;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -51,8 +51,8 @@ public class LoginFragment extends Fragment {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mListener != null) {
-                    mListener.onFragmentInteraction(loginEditText.getText().toString(), passwordEditText.getText().toString());
+                if (onFragmentInteraction != null) {
+                    onFragmentInteraction.onFragmentInteraction(loginEditText.getText().toString(), passwordEditText.getText().toString());
                 }
             }
         });
@@ -62,7 +62,7 @@ public class LoginFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+            onFragmentInteraction = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -72,7 +72,7 @@ public class LoginFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
+        onFragmentInteraction = null;
     }
 
     @Override

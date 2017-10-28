@@ -73,7 +73,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static MainActivity mainActivity;
     private int loginIndex = 10;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,10 +106,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             InternetUtils.noConnectionReaction(MainActivity.this);
         } else {
             if (login.isEmpty() || password.isEmpty()) {
+                Log.w("UWAGA", "wyświetlam showLoginFrag");
                 showLoginFrag.show();
             } else {
+                Log.w("UWAGA", "wyświetlam showHelloFrag");
                 showHelloFrag.show();
-                credentials.checkCredentials();
+                //credentials.checkCredentials();
             }
         }
     }
@@ -195,6 +196,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+        Log.w("UWAGA", "checkCredentials z onFragmentInteraction");
+
+
         credentials.checkCredentials();
     }
 
@@ -210,20 +214,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             Log.w("UWAGA", "zapisano login:" + login + ", hasło: " + password);
 
-            try {
+            showHelloFrag.show();
+
+            /*try {
                 Log.w("UWAGA", "czytam plik");
                 subjects = DataFile.read(MainActivity.this, KIESZONKOWE_FILE);
             } catch (IOException | ClassNotFoundException e) {
                 Log.w("UWAGA", "jednak tworzę plik");
                 subjects = new Subjects();
-                reloadGrades();
+                //reloadGrades();
             }
             if (MainActivity.getSubjects() != null) {
                 MainActivity.getSubjects().setSubjectsArray(DataFile.originOrder(MainActivity.getSubjects()));
-                showNewsFrag.show();
+                //showNewsFrag.show();
+                showHelloFrag.show();
             } else {
                 Toast.makeText(MainActivity.this, "Problem z plikiem!", Toast.LENGTH_LONG).show();
-            }
+            }*/
 
                 /*Intent alarmIntent = new Intent(MainActivity.this, MyAlarm.class);
                 pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, alarmIntent, 0);
@@ -243,6 +250,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
+
+
+
 
     public static Subjects getSubjects() {
         return subjects;
@@ -299,4 +309,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public ProgressBar getProgressCircle() {
         return progressCircle;
     }
+
+
 }

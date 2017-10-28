@@ -14,13 +14,13 @@ import commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity;
 public class Credentials {
     private final MainActivity mainActivity;
 
-    private OnCredentialsCheckedListener mListener;
+    private OnCredentialsCheckedListener onCredentialsCheckedListener;
 
     public Credentials(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
 
         if (mainActivity != null) {
-            mListener = (OnCredentialsCheckedListener) mainActivity;
+            onCredentialsCheckedListener = (OnCredentialsCheckedListener) mainActivity;
         } else {
             throw new RuntimeException(mainActivity.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -45,7 +45,6 @@ public class Credentials {
 
     public void checkCredentials() {
         Log.w("UWAGA", "rozpoczynam sprawdzanie");
-
         mainActivity.getLoginBrowser().getSettings().setJavaScriptEnabled(true);
         mainActivity.getLoginBrowser().getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
         mainActivity.getLoginBrowser().setWebViewClient(new WebViewClient() {
@@ -71,7 +70,7 @@ public class Credentials {
                     Log.w("UWAGA", "logowanie NIEudane!");
                     mainActivity.setLoginIndex(10);
 
-                    mListener.OnCredentialsCheckedInteraction(false);
+                    onCredentialsCheckedListener.OnCredentialsCheckedInteraction(false);
 
                     mainActivity.getProgressCircle().setVisibility(View.GONE);
                 }
@@ -86,14 +85,16 @@ public class Credentials {
                     // udane logowanie
                     Log.w("UWAGA", "logowanie udane!");
 
-                    mListener.OnCredentialsCheckedInteraction(true);
-
                     mainActivity.getProgressCircle().setVisibility(View.GONE);
+                    mainActivity.getLoginBrowser().destroy();
+
+                    onCredentialsCheckedListener.OnCredentialsCheckedInteraction(true);
                 }
                 return false;
             }
         });
         mainActivity.getLoginBrowser().loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
+
     }
 
     public interface OnCredentialsCheckedListener {
