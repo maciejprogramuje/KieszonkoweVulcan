@@ -1,5 +1,7 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan.HtmlParsers;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -21,6 +23,9 @@ public class Grades {
             while (m.find()) {
                 averageGradesStringBuilder.append(m.group().replace("</td>", ""));
             }
+        }
+        if(averageGradesStringBuilder.equals("")) {
+            averageGradesStringBuilder.append("-");
         }
         return averageGradesStringBuilder.toString();
     }
@@ -70,8 +75,10 @@ public class Grades {
                 tempWeight = tempWeight.replace(",00<br/>", "");
             }
 
+            //Log.w("UWAGA", "dodaję: " +tempGrade+", "+tempDate+", "+tempText+", "+tempCode+", "+tempWeight);
             tempGrades.add(new Grade(tempGrade, tempDate, tempText, tempCode, tempWeight));
         }
+
         return tempGrades;
     }
 }

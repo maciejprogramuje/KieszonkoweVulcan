@@ -11,6 +11,8 @@ import android.webkit.WebViewClient;
 
 import commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity;
 
+import static commaciejprogramuje.facebook.kieszonkowevulcan.Utils.GradesJavaScriptInterface.KIESZONKOWE_FILE;
+
 public class Credentials {
     private final MainActivity mainActivity;
 
@@ -32,6 +34,8 @@ public class Credentials {
         MainActivity.setLogin("");
         MainActivity.setPassword("");
 
+        DataFile.deleteFile(mainActivity.getApplicationContext(), KIESZONKOWE_FILE);
+
         CookieSyncManager.createInstance(mainActivity);
         CookieManager cookieManager = CookieManager.getInstance();
         cookieManager.removeAllCookie();
@@ -45,9 +49,9 @@ public class Credentials {
 
     public void checkCredentials() {
         Log.w("UWAGA", "rozpoczynam sprawdzanie");
-        mainActivity.getLoginBrowser().getSettings().setJavaScriptEnabled(true);
-        mainActivity.getLoginBrowser().getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-        mainActivity.getLoginBrowser().setWebViewClient(new WebViewClient() {
+        mainActivity.getBrowser().getSettings().setJavaScriptEnabled(true);
+        mainActivity.getBrowser().getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+        mainActivity.getBrowser().setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
                 Log.w("UWAGA", "FINISHED (login): " + url);
@@ -55,10 +59,10 @@ public class Credentials {
                 if (url.equals("https://uonetplus.vulcan.net.pl/lublin")
                         || url.equals("https://uonetplus.vulcan.net.pl/lublin/Start.mvc/Index")
                         || url.equals("https://uonetplus.vulcan.net.pl/lublin/?logout=true")) {
-                    mainActivity.getLoginBrowser().loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
+                    mainActivity.getBrowser().loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
                 }
 
-                mainActivity.getLoginBrowser().loadUrl("javascript: {" +
+                mainActivity.getBrowser().loadUrl("javascript: {" +
                         "document.getElementById('LoginName').value = '" + MainActivity.getLogin() + "';" +
                         "document.getElementById('Password').value = '" + MainActivity.getPassword() + "';" +
                         "document.getElementsByTagName('input')[2].click();" +
@@ -86,14 +90,16 @@ public class Credentials {
                     Log.w("UWAGA", "logowanie udane!");
 
                     mainActivity.getProgressCircle().setVisibility(View.GONE);
-                    mainActivity.getLoginBrowser().destroy();
+                    //mainActivity.getBrowser().destroy();
+
+                    mainActivity.getBrowser().stopLoading();
 
                     onCredentialsCheckedListener.OnCredentialsCheckedInteraction(true);
                 }
                 return false;
             }
         });
-        mainActivity.getLoginBrowser().loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
+        mainActivity.getBrowser().loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
 
     }
 

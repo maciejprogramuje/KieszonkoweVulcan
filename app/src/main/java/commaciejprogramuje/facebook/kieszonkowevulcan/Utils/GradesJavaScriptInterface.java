@@ -46,13 +46,12 @@ public class GradesJavaScriptInterface {
         // read old data
         if (DataFile.isExists(context, KIESZONKOWE_FILE)) {
             try {
+                Log.w("UWAGA", "czytam plik");
                 oldSubjects = DataFile.read(context, KIESZONKOWE_FILE);
+                oldSubjectsArray = DataFile.originOrder(oldSubjects);
             } catch (IOException | ClassNotFoundException e) {
                 Log.w("UWAGA", "problem z plikiem");
                 oldSubjects = null;
-            }
-            if (oldSubjects != null) {
-                oldSubjectsArray = DataFile.originOrder(oldSubjects);
             }
         }
 
@@ -64,6 +63,7 @@ public class GradesJavaScriptInterface {
             newSubjects.setGrades(i, Grades.getArray(html, tempName));
             newSubjects.setAverage(i, Grades.getAverage(html, tempName));
             newSubjects.setNewestDate(i);
+            Log.w("UWAGA", "dodaję "+tempName+", avg="+Grades.getAverage(html, tempName)+", oceny="+Grades.getArray(html, tempName));
             newSubjectsArray = DataFile.originOrder(newSubjects);
         }
 
@@ -93,6 +93,12 @@ public class GradesJavaScriptInterface {
         }
 
         // write new data as old data
+        Log.w("UWAGA", "nadpisuję plik");
         DataFile.write(context, newSubjects, KIESZONKOWE_FILE);
+
+
+
+
+
     }
 }

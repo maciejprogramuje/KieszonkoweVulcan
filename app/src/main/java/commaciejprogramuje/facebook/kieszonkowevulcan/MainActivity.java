@@ -22,8 +22,6 @@ import android.webkit.WebView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import java.io.IOException;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -36,10 +34,7 @@ import commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments.ShowMoneyFra
 import commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments.ShowNewsFrag;
 import commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments.ShowTeachersFrag;
 import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.Credentials;
-import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.DataFile;
 import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.InternetUtils;
-
-import static commaciejprogramuje.facebook.kieszonkowevulcan.Utils.GradesJavaScriptInterface.KIESZONKOWE_FILE;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, LoginFragment.OnFragmentInteractionListener, Credentials.OnCredentialsCheckedListener {
     public static final String LOGIN_DATA_KEY = "loginData";
@@ -59,25 +54,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @InjectView(R.id.fab)
     FloatingActionButton fab;
-    @InjectView(R.id.login_browser)
-    WebView loginBrowser;
     @InjectView(R.id.progressCircle)
     ProgressBar progressCircle;
 
     static Subjects subjects;
-    NavigationView navigationView;
     private static String login = "";
     private static String password = "";
     private AlarmManager alarmManager;
     private PendingIntent pendingIntent;
-    private static MainActivity mainActivity;
     private int loginIndex = 10;
+    private static MainActivity mainActivity;
+    NavigationView navigationView;
+    WebView browser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
+
+        browser = findViewById(R.id.browser);
 
         setMainActivity(this);
 
@@ -102,16 +98,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         login = sharedPref.getString(LOGIN_DATA_KEY, "");
         password = sharedPref.getString(PASSWORD_DATA_KEY, "");
 
+
         if (!InternetUtils.isConnection(this)) {
             InternetUtils.noConnectionReaction(MainActivity.this);
         } else {
             if (login.isEmpty() || password.isEmpty()) {
-                Log.w("UWAGA", "wyświetlam showLoginFrag");
                 showLoginFrag.show();
+
+        /*if (MainActivity.getSubjects() != null) {
+            MainActivity.getSubjects().setSubjectsArray(DataFile.originOrder(MainActivity.getSubjects()));
+            MainActivity.getMainActivity().showNewsFrag.show();
+        } else {
+            Toast.makeText(getContext(), "Problem z plikiem!", Toast.LENGTH_LONG).show();
+        }*/
+
+                /*Intent alarmIntent = new Intent(MainActivity.this, MyAlarm.class);
+                pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, alarmIntent, 0);
+                alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+                alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, 1000, ALARM_INTERVAL, pendingIntent);*/
             } else {
-                Log.w("UWAGA", "wyświetlam showHelloFrag");
                 showHelloFrag.show();
-                //credentials.checkCredentials();
             }
         }
     }
@@ -138,6 +144,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
         if (id == R.id.logout_settings) {
             credentials.delete();
+            showLoginFrag.show();
             return true;
         } else if (id == R.id.turnoff_alarm_settings) {
             alarmManager.cancel(pendingIntent);
@@ -146,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), ALARM_INTERVAL, pendingIntent);
             return true;
         } else if (id == R.id.exit_settings) {
-            this.finishAndRemoveTask();
+            finishAndRemoveTask();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -198,7 +205,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Log.w("UWAGA", "checkCredentials z onFragmentInteraction");
 
-
         credentials.checkCredentials();
     }
 
@@ -215,44 +221,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Log.w("UWAGA", "zapisano login:" + login + ", hasło: " + password);
 
             showHelloFrag.show();
-
-            /*try {
-                Log.w("UWAGA", "czytam plik");
-                subjects = DataFile.read(MainActivity.this, KIESZONKOWE_FILE);
-            } catch (IOException | ClassNotFoundException e) {
-                Log.w("UWAGA", "jednak tworzę plik");
-                subjects = new Subjects();
-                //reloadGrades();
-            }
-            if (MainActivity.getSubjects() != null) {
-                MainActivity.getSubjects().setSubjectsArray(DataFile.originOrder(MainActivity.getSubjects()));
-                //showNewsFrag.show();
-                showHelloFrag.show();
-            } else {
-                Toast.makeText(MainActivity.this, "Problem z plikiem!", Toast.LENGTH_LONG).show();
-            }*/
-
-                /*Intent alarmIntent = new Intent(MainActivity.this, MyAlarm.class);
-                pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, alarmIntent, 0);
-                alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-                alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, 1000, ALARM_INTERVAL, pendingIntent);*/
-
-
         } else {
             Toast.makeText(MainActivity.this, "Błąd logowania!\n\nZły login lub hasło.\n\nSpróbuj ponownie", Toast.LENGTH_LONG).show();
             credentials.delete();
             showLoginFrag.show();
         }
     }
-
-    public void reloadGrades() {
-        Intent intent = new Intent(this, GradesFromPageActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-    }
-
-
-
 
     public static Subjects getSubjects() {
         return subjects;
@@ -294,8 +268,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return mainActivity;
     }
 
-    public WebView getLoginBrowser() {
-        return loginBrowser;
+    public WebView getBrowser() {
+        return browser;
     }
 
     public int getLoginIndex() {

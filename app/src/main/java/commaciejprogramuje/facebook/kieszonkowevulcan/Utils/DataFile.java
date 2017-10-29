@@ -126,6 +126,11 @@ public class DataFile {
         return !(file == null || !file.exists());
     }
 
+    public static void deleteFile(Context context, String filename) {
+        File file = context.getFileStreamPath(filename);
+        file.delete();
+    }
+
     public static Subjects read(Context context, String filename) throws IOException, ClassNotFoundException {
         FileInputStream fileIn = context.getApplicationContext().openFileInput(filename);
         ObjectInputStream objectIn = new ObjectInputStream(fileIn);
