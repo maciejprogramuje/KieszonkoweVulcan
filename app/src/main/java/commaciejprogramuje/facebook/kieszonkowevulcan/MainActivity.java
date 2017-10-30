@@ -105,8 +105,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         password = sharedPref.getString(PASSWORD_DATA_KEY, "");
 
 
-
-
         if (!InternetUtils.isConnection(this)) {
             InternetUtils.noConnectionReaction(MainActivity.this);
         } else {
@@ -248,7 +246,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.w("UWAGA", "niszczę MainActivity, startuję z ALARMEM");
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), ALARM_INTERVAL, getStaticPendingIntent());
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, ALARM_INTERVAL, ALARM_INTERVAL, getStaticPendingIntent());
     }
 
     public static PendingIntent getStaticPendingIntent() {

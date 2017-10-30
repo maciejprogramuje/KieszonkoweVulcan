@@ -44,10 +44,10 @@ public class GradesFromPageActivity extends AppCompatActivity implements GradesJ
 
     @Override
     public void onFileSavedInteraction(boolean fileFlag) {
-        if(fileFlag) {
+        if (fileFlag) {
             Log.w("UWAGA", "plik zapisany, kończę i usuwam zadanie");
 
-            if(getIntent().hasExtra(MainActivity.BROADCAST_FROM_MAIN_ACTIVITY_KEY)) {
+            if (getIntent().hasExtra(MainActivity.BROADCAST_FROM_MAIN_ACTIVITY_KEY)) {
                 Intent mainActivityIntent = new Intent(this, MainActivity.class);
                 mainActivityIntent.putExtra(NOT_RELOAD_GRADES_KEY, true);
                 mainActivityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

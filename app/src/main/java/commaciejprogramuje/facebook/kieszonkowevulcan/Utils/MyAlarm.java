@@ -12,13 +12,11 @@ import commaciejprogramuje.facebook.kieszonkowevulcan.GradesFromPageActivity;
  */
 
 public class MyAlarm extends BroadcastReceiver {
-    public static final String BROADCAST_FROM_ALARM_KEY = "broadcastFromAlarm";
 
     @Override
     public void onReceive(Context context, Intent intent) {
         Intent getGradesIntent = new Intent(context, GradesFromPageActivity.class);
         getGradesIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(BROADCAST_FROM_ALARM_KEY, true);
         context.startActivity(getGradesIntent);
     }
 }

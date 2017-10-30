@@ -44,6 +44,7 @@ public class MyWebViewClient extends WebViewClient {
 
     private void gradesParsePage() {
         browser.loadUrl("javascript:window.GRADES_HTMLOUT.processHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');");
+        browser.stopLoading();
     }
 
     @Override

@@ -35,7 +35,7 @@ public class NewGradeNotification {
         notification.setAutoCancel(true);
 
         //Vibration
-        notification.setVibrate(new long[] { 1000, 500, 1000, 500, 1000 });
+        //notification.setVibrate(new long[] { 1000, 500, 1000, 500, 1000 });
 
         notification.setLights(Color.WHITE, 3000, 3000);
 
