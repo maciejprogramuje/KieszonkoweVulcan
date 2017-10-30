@@ -24,7 +24,6 @@ import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.MyAlarm;
 import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.MyWebViewClient;
 
 import static android.content.Context.ALARM_SERVICE;
-import static commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity.ALARM_INTERVAL;
 import static commaciejprogramuje.facebook.kieszonkowevulcan.Utils.GradesJavaScriptInterface.KIESZONKOWE_FILE;
 
 public class HelloFragment extends Fragment {

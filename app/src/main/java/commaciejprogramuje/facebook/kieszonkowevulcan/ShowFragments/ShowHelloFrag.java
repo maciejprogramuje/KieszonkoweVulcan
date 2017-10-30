@@ -9,7 +9,6 @@ import commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity;
 import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.MyAlarm;
 
 import static android.content.Context.ALARM_SERVICE;
-import static commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity.ALARM_INTERVAL;
 
 public class ShowHelloFrag {
     private final MainActivity mainActivity;
