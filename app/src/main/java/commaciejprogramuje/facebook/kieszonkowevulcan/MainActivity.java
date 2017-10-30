@@ -34,9 +34,15 @@ import commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments.ShowMoneyFra
 import commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments.ShowNewsFrag;
 import commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments.ShowTeachersFrag;
 import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.Credentials;
+import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.GradesJavaScriptInterface;
 import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.InternetUtils;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, LoginFragment.OnFragmentInteractionListener, Credentials.OnCredentialsCheckedListener {
+import static commaciejprogramuje.facebook.kieszonkowevulcan.GradesFromPageActivity.NOT_RELOAD_GRADES_KEY;
+
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
+        LoginFragment.OnFragmentInteractionListener,
+        Credentials.OnCredentialsCheckedListener,
+        GradesJavaScriptInterface.OnFileSavedInteractionListener {
     public static final String LOGIN_DATA_KEY = "loginData";
     public static final String PASSWORD_DATA_KEY = "passwordData";
 
@@ -105,18 +111,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if (login.isEmpty() || password.isEmpty()) {
                 showLoginFrag.show();
 
-        /*if (MainActivity.getSubjects() != null) {
-            MainActivity.getSubjects().setSubjectsArray(DataFile.originOrder(MainActivity.getSubjects()));
-            MainActivity.getMainActivity().showNewsFrag.show();
-        } else {
-            Toast.makeText(getContext(), "Problem z plikiem!", Toast.LENGTH_LONG).show();
-        }*/
-
                 /*Intent alarmIntent = new Intent(MainActivity.this, MyAlarm.class);
                 pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, alarmIntent, 0);
                 alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
                 alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, 1000, ALARM_INTERVAL, pendingIntent);*/
+            } else if(getIntent().hasExtra(NOT_RELOAD_GRADES_KEY)) {
+                showNewsFrag.show();
             } else {
+                // tylko przy pierwszym, jak z fab, to ładuj w tle
                 showHelloFrag.show();
             }
         }
@@ -196,13 +198,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         password = mPassword;
         Log.w("UWAGA", "sprawdzam: " + login + ", " + password);
 
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                progressCircle.setVisibility(View.VISIBLE);
-            }
-        });
-
         Log.w("UWAGA", "checkCredentials z onFragmentInteraction");
 
         credentials.checkCredentials();
@@ -211,6 +206,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void OnCredentialsCheckedInteraction(boolean loginOk) {
         if (loginOk) {
+
             // zapisanie danych logowania, jeżeli poprawne
             SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();
@@ -225,6 +221,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Toast.makeText(MainActivity.this, "Błąd logowania!\n\nZły login lub hasło.\n\nSpróbuj ponownie", Toast.LENGTH_LONG).show();
             credentials.delete();
             showLoginFrag.show();
+        }
+    }
+
+    @Override
+    public void onFileSavedInteraction(boolean fileFlag) {
+        if(fileFlag) {
+            Log.w("UWAGA", "plik zapisany, wyświetl NewsFrag");
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    progressCircle.setVisibility(View.INVISIBLE);
+                }
+            });
+
+            showNewsFrag.show();
         }
     }
 
@@ -283,6 +295,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public ProgressBar getProgressCircle() {
         return progressCircle;
     }
-
-
 }

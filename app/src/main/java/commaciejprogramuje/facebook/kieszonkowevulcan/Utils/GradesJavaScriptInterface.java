@@ -3,6 +3,7 @@ package commaciejprogramuje.facebook.kieszonkowevulcan.Utils;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.widget.Toast;
 
@@ -32,6 +33,9 @@ public class GradesJavaScriptInterface {
     private Subjects oldSubjects;
     private Subjects newSubjects;
     private Context context;
+    private boolean fileSaved;
+
+    private OnFileSavedInteractionListener onFileSavedInteraction;
 
     public GradesJavaScriptInterface(Context context) {
         this.context = context;
@@ -42,6 +46,15 @@ public class GradesJavaScriptInterface {
     @SuppressWarnings("unused")
     public void processHTML(String html) {
         Log.w("UWAGA", "parsuję stronę...");
+
+        if (context instanceof OnFileSavedInteractionListener) {
+            onFileSavedInteraction = (OnFileSavedInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+
+
         int numOfSubjects = newSubjects.size();
         // read old data
         if (DataFile.isExists(context, KIESZONKOWE_FILE)) {
@@ -63,7 +76,7 @@ public class GradesJavaScriptInterface {
             newSubjects.setGrades(i, Grades.getArray(html, tempName));
             newSubjects.setAverage(i, Grades.getAverage(html, tempName));
             newSubjects.setNewestDate(i);
-            Log.w("UWAGA", "dodaję "+tempName+", avg="+Grades.getAverage(html, tempName)+", oceny="+Grades.getArray(html, tempName));
+            //Log.w("UWAGA", "dodaję "+tempName+", avg="+Grades.getAverage(html, tempName)+", oceny="+Grades.getArray(html, tempName));
             newSubjectsArray = DataFile.originOrder(newSubjects);
         }
 
@@ -96,9 +109,14 @@ public class GradesJavaScriptInterface {
         Log.w("UWAGA", "nadpisuję plik");
         DataFile.write(context, newSubjects, KIESZONKOWE_FILE);
 
+        fileSaved = true;
 
+        if (onFileSavedInteraction != null) {
+            onFileSavedInteraction.onFileSavedInteraction(fileSaved);
+        }
+    }
 
-
-
+    public interface OnFileSavedInteractionListener {
+        void onFileSavedInteraction(boolean fileFlag);
     }
 }

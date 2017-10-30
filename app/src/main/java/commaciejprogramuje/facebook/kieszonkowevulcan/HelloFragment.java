@@ -48,6 +48,9 @@ public class HelloFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        MainActivity.getMainActivity().getProgressCircle().bringToFront();
+        MainActivity.getMainActivity().getProgressCircle().setVisibility(View.VISIBLE);
+
         firstFileBrowser.getSettings().setJavaScriptEnabled(true);
         firstFileBrowser.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
         MyWebViewClient myWebViewClient = new MyWebViewClient(firstFileBrowser);
@@ -56,12 +59,6 @@ public class HelloFragment extends Fragment {
         firstFileBrowser.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
 
         Log.w("UWAGA", "ładuję stronę z HelloFragment");
-
-        /*Log.w("UWAGA", "tworzę plik po raz pierwszy");
-        MainActivity.setSubjects(new Subjects());
-        Intent intent = new Intent(this, GradesFromPageActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);*/
     }
 
     public static HelloFragment newInstance() {

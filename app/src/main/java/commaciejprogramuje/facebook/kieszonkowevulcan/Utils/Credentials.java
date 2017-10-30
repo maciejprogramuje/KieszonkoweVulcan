@@ -49,6 +49,9 @@ public class Credentials {
 
     public void checkCredentials() {
         Log.w("UWAGA", "rozpoczynam sprawdzanie");
+
+        MainActivity.getMainActivity().getProgressCircle().setVisibility(View.VISIBLE);
+
         mainActivity.getBrowser().getSettings().setJavaScriptEnabled(true);
         mainActivity.getBrowser().getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
         mainActivity.getBrowser().setWebViewClient(new WebViewClient() {
@@ -76,7 +79,7 @@ public class Credentials {
 
                     onCredentialsCheckedListener.OnCredentialsCheckedInteraction(false);
 
-                    mainActivity.getProgressCircle().setVisibility(View.GONE);
+                    mainActivity.getProgressCircle().setVisibility(View.INVISIBLE);
                 }
             }
 
@@ -89,8 +92,7 @@ public class Credentials {
                     // udane logowanie
                     Log.w("UWAGA", "logowanie udane!");
 
-                    mainActivity.getProgressCircle().setVisibility(View.GONE);
-                    //mainActivity.getBrowser().destroy();
+                    mainActivity.getProgressCircle().setVisibility(View.INVISIBLE);
 
                     mainActivity.getBrowser().stopLoading();
 
