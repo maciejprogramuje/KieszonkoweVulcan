@@ -251,7 +251,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public static PendingIntent getStaticPendingIntent() {
         Intent alarmIntent = new Intent(mainActivity, MyAlarm.class);
-        return PendingIntent.getBroadcast(mainActivity, 0, alarmIntent, 0);
+        //return PendingIntent.getBroadcast(mainActivity, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        return PendingIntent.getBroadcast(mainActivity, 0, alarmIntent, PendingIntent.FLAG_CANCEL_CURRENT);
     }
 
     public static Subjects getSubjects() {
