@@ -36,8 +36,10 @@ import commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments.ShowTeachers
 import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.Credentials;
 import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.GradesJavaScriptInterface;
 import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.InternetUtils;
+import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.MyAlarm;
 
 import static commaciejprogramuje.facebook.kieszonkowevulcan.GradesFromPageActivity.NOT_RELOAD_GRADES_KEY;
+import static commaciejprogramuje.facebook.kieszonkowevulcan.Utils.NewGradeNotification.FROM_NOTIFICATION_KEY;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         LoginFragment.OnFragmentInteractionListener,
@@ -46,8 +48,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static final String LOGIN_DATA_KEY = "loginData";
     public static final String PASSWORD_DATA_KEY = "passwordData";
 
-    public static final int ALARM_INTERVAL = 1000 * 120; // co 1 minutę
-    public static final String NOT_HIDE_MAIN_ACTIVITY_KEY = "notHideMainActivity";
+    public static final int ALARM_INTERVAL = 1000 * 60 * 5; // co 1 minutę
+    public static final String BROADCAST_FROM_MAIN_ACTIVITY_KEY = "broadcastFromMainActivity";
 
     public final Credentials credentials = new Credentials(this);
     public final ShowNewsFrag showNewsFrag = new ShowNewsFrag(this);
@@ -66,8 +68,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     static Subjects subjects;
     private static String login = "";
     private static String password = "";
-    private AlarmManager alarmManager;
-    private PendingIntent pendingIntent;
     private int loginIndex = 10;
     private static MainActivity mainActivity;
     NavigationView navigationView;
@@ -105,23 +105,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         password = sharedPref.getString(PASSWORD_DATA_KEY, "");
 
 
+
+
         if (!InternetUtils.isConnection(this)) {
             InternetUtils.noConnectionReaction(MainActivity.this);
         } else {
             if (login.isEmpty() || password.isEmpty()) {
                 showLoginFrag.show();
-
-                /*Intent alarmIntent = new Intent(MainActivity.this, MyAlarm.class);
-                pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, alarmIntent, 0);
-                alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-                alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, 1000, ALARM_INTERVAL, pendingIntent);*/
-            } else if(getIntent().hasExtra(NOT_RELOAD_GRADES_KEY)) {
+            } else if (getIntent().hasExtra(NOT_RELOAD_GRADES_KEY) || getIntent().hasExtra(FROM_NOTIFICATION_KEY)) {
                 showNewsFrag.show();
             } else {
-                // tylko przy pierwszym, jak z fab, to ładuj w tle
                 showHelloFrag.show();
             }
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.cancel(getStaticPendingIntent());
     }
 
     @Override
@@ -149,10 +153,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             showLoginFrag.show();
             return true;
         } else if (id == R.id.turnoff_alarm_settings) {
-            alarmManager.cancel(pendingIntent);
+            /*AlarmManager alarmManager = (AlarmManager) mainActivity.getSystemService(ALARM_SERVICE);
+            alarmManager.cancel(pendingIntent);*/
             return true;
         } else if (id == R.id.turnon_alarm_settings) {
-            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), ALARM_INTERVAL, pendingIntent);
+            /*AlarmManager alarmManager = (AlarmManager) mainActivity.getSystemService(ALARM_SERVICE);
+            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), ALARM_INTERVAL, pendingIntent);*/
             return true;
         } else if (id == R.id.exit_settings) {
             finishAndRemoveTask();
@@ -185,10 +191,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (!InternetUtils.isConnection(this)) {
             InternetUtils.noConnectionReaction(MainActivity.this);
         } else {
-            Intent intent = new Intent(this, GradesFromPageActivity.class);
-            intent.putExtra(NOT_HIDE_MAIN_ACTIVITY_KEY, true);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
+//            Intent intent = new Intent(this, GradesFromPageActivity.class);
+//            intent.putExtra(BROADCAST_FROM_MAIN_ACTIVITY_KEY, true);
+//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            startActivity(intent);
+
+            showHelloFrag.show();
         }
     }
 
@@ -197,9 +205,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         login = mLogin;
         password = mPassword;
         Log.w("UWAGA", "sprawdzam: " + login + ", " + password);
-
-        Log.w("UWAGA", "checkCredentials z onFragmentInteraction");
-
         credentials.checkCredentials();
     }
 
@@ -226,8 +231,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onFileSavedInteraction(boolean fileFlag) {
-        if(fileFlag) {
-            Log.w("UWAGA", "plik zapisany, wyświetl NewsFrag");
+         if (fileFlag) {
+            Log.w("UWAGA", "plik zapisany, pokazuję showNewsFrag");
 
             runOnUiThread(new Runnable() {
                 @Override
@@ -238,6 +243,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             showNewsFrag.show();
         }
+    }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        Log.w("UWAGA", "niszczę MainActivity, startuję z ALARMEM");
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), ALARM_INTERVAL, getStaticPendingIntent());
+    }
+
+    public static PendingIntent getStaticPendingIntent() {
+        Intent alarmIntent = new Intent(mainActivity, MyAlarm.class);
+        return PendingIntent.getBroadcast(mainActivity, 0, alarmIntent, 0);
     }
 
     public static Subjects getSubjects() {

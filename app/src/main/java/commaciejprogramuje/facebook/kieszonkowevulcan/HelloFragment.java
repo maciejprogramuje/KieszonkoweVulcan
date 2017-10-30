@@ -1,6 +1,8 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan;
 
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,15 +20,14 @@ import butterknife.ButterKnife;
 import commaciejprogramuje.facebook.kieszonkowevulcan.School.Subjects;
 import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.DataFile;
 import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.GradesJavaScriptInterface;
+import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.MyAlarm;
 import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.MyWebViewClient;
 
+import static android.content.Context.ALARM_SERVICE;
+import static commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity.ALARM_INTERVAL;
 import static commaciejprogramuje.facebook.kieszonkowevulcan.Utils.GradesJavaScriptInterface.KIESZONKOWE_FILE;
 
 public class HelloFragment extends Fragment {
-    public static final String HELLO_KEY = "hello";
-
-    //private String mParam1;
-
     WebView firstFileBrowser;
 
     public HelloFragment() {

@@ -1,26 +1,16 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan.Utils;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
-import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import commaciejprogramuje.facebook.kieszonkowevulcan.GradesFromPageActivity;
 import commaciejprogramuje.facebook.kieszonkowevulcan.HtmlParsers.Grades;
-import commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity;
-import commaciejprogramuje.facebook.kieszonkowevulcan.School.Grade;
 import commaciejprogramuje.facebook.kieszonkowevulcan.School.Subject;
 import commaciejprogramuje.facebook.kieszonkowevulcan.School.Subjects;
-import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.DataFile;
-import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.NewGradeNotification;
 
 /**
  * Created by m.szymczyk on 2017-10-09.
@@ -33,9 +23,6 @@ public class GradesJavaScriptInterface {
     private Subjects oldSubjects;
     private Subjects newSubjects;
     private Context context;
-    private boolean fileSaved;
-
-    private OnFileSavedInteractionListener onFileSavedInteraction;
 
     public GradesJavaScriptInterface(Context context) {
         this.context = context;
@@ -46,6 +33,8 @@ public class GradesJavaScriptInterface {
     @SuppressWarnings("unused")
     public void processHTML(String html) {
         Log.w("UWAGA", "parsuję stronę...");
+
+        OnFileSavedInteractionListener onFileSavedInteraction;
 
         if (context instanceof OnFileSavedInteractionListener) {
             onFileSavedInteraction = (OnFileSavedInteractionListener) context;
@@ -89,7 +78,7 @@ public class GradesJavaScriptInterface {
 
                 //Log.w("UWAGA", "Sprawdzam nowości...");
                 if (newLength > oldLength) {
-                    // there is new grade exists
+                    // there is new grade
                     for (int j = 0; j < newLength - oldLength; j++) {
                         message = newSubjectsArray.get(i).getSubjectName() + ": " + newSubjectsArray.get(i).getSubjectGrades().get(oldLength + j).getmGrade() + "\n";
                         NewGradeNotification.show(context, message);
@@ -109,11 +98,7 @@ public class GradesJavaScriptInterface {
         Log.w("UWAGA", "nadpisuję plik");
         DataFile.write(context, newSubjects, KIESZONKOWE_FILE);
 
-        fileSaved = true;
-
-        if (onFileSavedInteraction != null) {
-            onFileSavedInteraction.onFileSavedInteraction(fileSaved);
-        }
+        onFileSavedInteraction.onFileSavedInteraction(true);
     }
 
     public interface OnFileSavedInteractionListener {
