@@ -10,6 +10,7 @@ import android.webkit.WebView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.GradesJavaScriptInterface;
+import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.InternetUtils;
 import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.MyWebViewClient;
 
 public class GradesFromPageActivity extends AppCompatActivity implements GradesJavaScriptInterface.OnFileSavedInteractionListener {
@@ -29,13 +30,16 @@ public class GradesFromPageActivity extends AppCompatActivity implements GradesJ
 
         this.moveTaskToBack(true);
 
-
-        browser.getSettings().setJavaScriptEnabled(true);
-        browser.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-        MyWebViewClient myWebViewClient = new MyWebViewClient(browser);
-        browser.setWebViewClient(myWebViewClient);
-        browser.addJavascriptInterface(new GradesJavaScriptInterface(GradesFromPageActivity.this), "GRADES_HTMLOUT");
-        browser.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
+        if (InternetUtils.isConnection(this)) {
+            browser.getSettings().setJavaScriptEnabled(true);
+            browser.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+            MyWebViewClient myWebViewClient = new MyWebViewClient(browser);
+            browser.setWebViewClient(myWebViewClient);
+            browser.addJavascriptInterface(new GradesJavaScriptInterface(GradesFromPageActivity.this), "GRADES_HTMLOUT");
+            browser.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
+        } else {
+            this.finishAndRemoveTask();
+        }
     }
 
     @Override

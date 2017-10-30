@@ -90,10 +90,10 @@ public class GradesJavaScriptInterface {
             // there is not new grade
             // dla testów
 
-            /*if(message.equals("")) {
-                Toast.makeText(context, "Brak nowych ocen!", Toast.LENGTH_LONG).show(); // na czas testów
+            if(message.equals("")) {
+                //Toast.makeText(context, "Brak nowych ocen!", Toast.LENGTH_LONG).show(); // na czas testów
                 NewGradeNotification.show(context, "Brak nowych ocen"); // na czas testów
-            }*/
+            }
             // dla wersji produkcyjnej: toast ma się pojawiać tylko wtedy, gdy jest main activity
         }
 
