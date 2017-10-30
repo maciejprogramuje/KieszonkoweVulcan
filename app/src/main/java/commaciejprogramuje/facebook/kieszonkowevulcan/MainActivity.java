@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static final String LOGIN_DATA_KEY = "loginData";
     public static final String PASSWORD_DATA_KEY = "passwordData";
 
-    public static final int ALARM_INTERVAL = 1000 * 60 * 5; // co 1 minutę
+    public static final int ALARM_INTERVAL = 1000 * 60 * 60; // co 60 minut
     public static final String BROADCAST_FROM_MAIN_ACTIVITY_KEY = "broadcastFromMainActivity";
 
     public final Credentials credentials = new Credentials(this);
@@ -191,11 +191,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (!InternetUtils.isConnection(this)) {
             InternetUtils.noConnectionReaction(MainActivity.this);
         } else {
-//            Intent intent = new Intent(this, GradesFromPageActivity.class);
-//            intent.putExtra(BROADCAST_FROM_MAIN_ACTIVITY_KEY, true);
-//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            startActivity(intent);
-
             showHelloFrag.show();
         }
     }

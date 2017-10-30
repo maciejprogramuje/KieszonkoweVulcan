@@ -1,5 +1,6 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan.Utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
@@ -9,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import commaciejprogramuje.facebook.kieszonkowevulcan.HtmlParsers.Grades;
+import commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity;
 import commaciejprogramuje.facebook.kieszonkowevulcan.School.Subject;
 import commaciejprogramuje.facebook.kieszonkowevulcan.School.Subjects;
 
@@ -87,10 +89,11 @@ public class GradesJavaScriptInterface {
             }
             // there is not new grade
             // dla testów
-            if(message.equals("")) {
+
+            /*if(message.equals("")) {
                 Toast.makeText(context, "Brak nowych ocen!", Toast.LENGTH_LONG).show(); // na czas testów
                 NewGradeNotification.show(context, "Brak nowych ocen"); // na czas testów
-            }
+            }*/
             // dla wersji produkcyjnej: toast ma się pojawiać tylko wtedy, gdy jest main activity
         }
 
