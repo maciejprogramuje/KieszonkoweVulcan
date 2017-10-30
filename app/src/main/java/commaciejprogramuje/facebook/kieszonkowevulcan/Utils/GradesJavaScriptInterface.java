@@ -26,6 +26,11 @@ public class GradesJavaScriptInterface {
     private Subjects newSubjects;
     private Context context;
 
+
+    // dwa razy gdzieś wywoływane jest??????
+    //
+    //
+    //
     public GradesJavaScriptInterface(Context context) {
         this.context = context;
         newSubjects = new Subjects();

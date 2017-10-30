@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
+import android.widget.Toast;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -35,6 +36,9 @@ public class GradesFromPageActivity extends AppCompatActivity implements GradesJ
             browser.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
             MyWebViewClient myWebViewClient = new MyWebViewClient(browser);
             browser.setWebViewClient(myWebViewClient);
+
+            // drugi raz tutaj ==========================================================================
+            Toast.makeText(this, "drugi raz", Toast.LENGTH_LONG).show();
             browser.addJavascriptInterface(new GradesJavaScriptInterface(GradesFromPageActivity.this), "GRADES_HTMLOUT");
             browser.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
         } else {
