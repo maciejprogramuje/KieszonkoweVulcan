@@ -2,7 +2,6 @@ package commaciejprogramuje.facebook.kieszonkowevulcan;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,33 +25,32 @@ import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import commaciejprogramuje.facebook.kieszonkowevulcan.School.Subjects;
-import commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments.ReplaceFrag;
-import commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments.ShowGradesFrag;
-import commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments.ShowHelloFrag;
-import commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments.ShowLoginFrag;
-import commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments.ShowMoneyFrag;
-import commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments.ShowNewsFrag;
-import commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments.ShowTeachersFrag;
-import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.Credentials;
-import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.GradesJavaScriptInterface;
-import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.InternetUtils;
-import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.MyAlarm;
+import commaciejprogramuje.facebook.kieszonkowevulcan.school.Subjects;
+import commaciejprogramuje.facebook.kieszonkowevulcan.show_fragments.ReplaceFrag;
+import commaciejprogramuje.facebook.kieszonkowevulcan.show_fragments.ShowGradesFrag;
+import commaciejprogramuje.facebook.kieszonkowevulcan.show_fragments.ShowHelloFrag;
+import commaciejprogramuje.facebook.kieszonkowevulcan.show_fragments.ShowLoginFrag;
+import commaciejprogramuje.facebook.kieszonkowevulcan.show_fragments.ShowMoneyFrag;
+import commaciejprogramuje.facebook.kieszonkowevulcan.show_fragments.ShowNewsFrag;
+import commaciejprogramuje.facebook.kieszonkowevulcan.show_fragments.ShowTeachersFrag;
+import commaciejprogramuje.facebook.kieszonkowevulcan.utils.Credentials;
+import commaciejprogramuje.facebook.kieszonkowevulcan.utils.JsInterfaceGrades;
+import commaciejprogramuje.facebook.kieszonkowevulcan.utils.InternetUtils;
+import commaciejprogramuje.facebook.kieszonkowevulcan.utils.MyAlarm;
 
-import static commaciejprogramuje.facebook.kieszonkowevulcan.GradesFromPageActivity.NOT_RELOAD_GRADES_KEY;
-import static commaciejprogramuje.facebook.kieszonkowevulcan.Utils.NewGradeNotification.FROM_NOTIFICATION_KEY;
+import static commaciejprogramuje.facebook.kieszonkowevulcan.GradesForMainActivity.NOT_RELOAD_GRADES_KEY;
+import static commaciejprogramuje.facebook.kieszonkowevulcan.utils.NewGradeNotification.FROM_NOTIFICATION_KEY;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         LoginFragment.OnFragmentInteractionListener,
         Credentials.OnCredentialsCheckedListener,
-        GradesJavaScriptInterface.OnFileSavedInteractionListener {
+        JsInterfaceGrades.OnGradesMainInteractionListener {
     public static final String LOGIN_DATA_KEY = "loginData";
     public static final String PASSWORD_DATA_KEY = "passwordData";
     public static final String ALARM_LOGIN_KEY = "alarmLogin";
     public static final String ALARM_PASSWORD_KEY = "alarmPassword";
-
-    public static final String BROADCAST_FROM_MAIN_ACTIVITY_KEY = "broadcastFromMainActivity";
-    public static long alarmInterval = AlarmManager.INTERVAL_HOUR;
+    public static final String KIESZONKOWE_FILE = "kieszonkoweVulcanGrades.dat";
+    public static long alarmInterval = 1000 * 60 * 5;
 
     public final Credentials credentials = new Credentials(this);
     public final ShowNewsFrag showNewsFrag = new ShowNewsFrag(this);
@@ -115,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onResume();
 
         Log.w("UWAGA", "kasuję ALARM");
-        AlarmManager alarmManager = (AlarmManager) MainActivity.getMainActivity().getSystemService(ALARM_SERVICE);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         alarmManager.cancel(MainActivity.getStaticPendingIntent());
 
 
@@ -155,18 +153,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.logout_settings) {
             credentials.delete();
             showLoginFrag.show();
-            return true;
-        } else if (id == R.id.notification_15_settings) {
-            alarmInterval = AlarmManager.INTERVAL_FIFTEEN_MINUTES;
-            item.setChecked(true);
-            return true;
-        } else if (id == R.id.notification_60_settings) {
-            alarmInterval = AlarmManager.INTERVAL_HOUR;
-            item.setChecked(true);
-            return true;
-        } else if (id == R.id.notification_day_settings) {
-            alarmInterval = AlarmManager.INTERVAL_DAY;
-            item.setChecked(true);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -212,7 +198,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void OnCredentialsCheckedInteraction(boolean loginOk) {
         if (loginOk) {
-
             // zapisanie danych logowania, jeżeli poprawne
             SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();
@@ -235,15 +220,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onStop();
 
         Log.w("UWAGA", "tworzę ALARM z interwałem " + alarmInterval);
-        AlarmManager alarmManager = (AlarmManager) MainActivity.getMainActivity().getSystemService(ALARM_SERVICE);
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
-                MainActivity.alarmInterval,
-                MainActivity.alarmInterval,
-                MainActivity.getStaticPendingIntent());
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), alarmInterval, getStaticPendingIntent());
     }
 
     @Override
-    public void onFileSavedInteraction(boolean fileFlag) {
+    public void onGradesMainInteraction(boolean fileFlag) {
         if (fileFlag) {
             Log.w("UWAGA", "plik zapisany, pokazuję showNewsFrag");
             runOnUiThread(new Runnable() {
@@ -260,7 +242,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Intent alarmIntent = new Intent(mainActivity, MyAlarm.class);
         alarmIntent.putExtra(ALARM_LOGIN_KEY, login);
         alarmIntent.putExtra(ALARM_PASSWORD_KEY, password);
-        return PendingIntent.getBroadcast(mainActivity, 0, alarmIntent, 0);
+        return PendingIntent.getBroadcast(mainActivity, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     public static Subjects getSubjects() {

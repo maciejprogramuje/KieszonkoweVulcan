@@ -1,9 +1,9 @@
-package commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments;
+package commaciejprogramuje.facebook.kieszonkowevulcan.show_fragments;
 
-import commaciejprogramuje.facebook.kieszonkowevulcan.HtmlParsers.Teachers;
+import commaciejprogramuje.facebook.kieszonkowevulcan.html_parsers.Teachers;
 import commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity;
 import commaciejprogramuje.facebook.kieszonkowevulcan.TeacherFragment;
-import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.InternetUtils;
+import commaciejprogramuje.facebook.kieszonkowevulcan.utils.InternetUtils;
 
 /**
  * Created by m.szymczyk on 2017-10-16.

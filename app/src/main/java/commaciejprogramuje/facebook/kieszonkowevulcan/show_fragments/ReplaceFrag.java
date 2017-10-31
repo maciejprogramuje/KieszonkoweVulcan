@@ -1,4 +1,4 @@
-package commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments;
+package commaciejprogramuje.facebook.kieszonkowevulcan.show_fragments;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;

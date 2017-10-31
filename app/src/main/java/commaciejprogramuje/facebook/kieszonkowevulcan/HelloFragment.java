@@ -1,9 +1,6 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan;
 
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,19 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
-import android.widget.Toast;
-
-import java.io.IOException;
+import android.webkit.WebViewClient;
 
 import butterknife.ButterKnife;
-import commaciejprogramuje.facebook.kieszonkowevulcan.School.Subjects;
-import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.DataFile;
-import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.GradesJavaScriptInterface;
-import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.MyAlarm;
-import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.MyWebViewClient;
-
-import static android.content.Context.ALARM_SERVICE;
-import static commaciejprogramuje.facebook.kieszonkowevulcan.Utils.GradesJavaScriptInterface.KIESZONKOWE_FILE;
+import commaciejprogramuje.facebook.kieszonkowevulcan.utils.JsInterfaceGrades;
 
 public class HelloFragment extends Fragment {
     WebView firstFileBrowser;
@@ -53,9 +41,38 @@ public class HelloFragment extends Fragment {
 
         firstFileBrowser.getSettings().setJavaScriptEnabled(true);
         firstFileBrowser.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-        MyWebViewClient myWebViewClient = new MyWebViewClient(firstFileBrowser, MainActivity.getLogin(), MainActivity.getPassword());
-        firstFileBrowser.setWebViewClient(myWebViewClient);
-        firstFileBrowser.addJavascriptInterface(new GradesJavaScriptInterface(getContext()), "GRADES_HTMLOUT");
+        firstFileBrowser.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                Log.w("UWAGA", "FINISHED: " + url);
+
+                if (url.equals("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Start/Index")
+                        || url.equals("https://uonetplus.vulcan.net.pl/lublin/Start.mvc/Index")) {
+                    firstFileBrowser.loadUrl("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie");
+                } else if (url.equals("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie")) {
+                    firstFileBrowser.loadUrl("javascript:window.HELLO_HTMLOUT.processHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');");
+                } else {
+                    if (url.equals("https://uonetplus.vulcan.net.pl/lublin")
+                            || url.equals("https://uonetplus.vulcan.net.pl/lublin/Start.mvc/Index")
+                            || url.equals("https://uonetplus.vulcan.net.pl/lublin/?logout=true")) {
+                        firstFileBrowser.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
+                    }
+                }
+
+                firstFileBrowser.loadUrl("javascript: {" +
+                        "document.getElementById('LoginName').value = '" + MainActivity.getLogin() + "';" +
+                        "document.getElementById('Password').value = '" + MainActivity.getPassword() + "';" +
+                        "document.getElementsByTagName('input')[2].click();" +
+                        "};");
+            }
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                Log.w("UWAGA", "LOADING: " + url);
+                return false;
+            }
+        });
+        firstFileBrowser.addJavascriptInterface(new JsInterfaceGrades(getContext()), "HELLO_HTMLOUT");
         firstFileBrowser.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
 
         Log.w("UWAGA", "ładuję stronę z HelloFragment");

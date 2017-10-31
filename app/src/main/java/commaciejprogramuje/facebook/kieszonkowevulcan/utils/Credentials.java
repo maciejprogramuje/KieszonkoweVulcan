@@ -1,9 +1,8 @@
-package commaciejprogramuje.facebook.kieszonkowevulcan.Utils;
+package commaciejprogramuje.facebook.kieszonkowevulcan.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
-import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.WebView;
@@ -11,7 +10,7 @@ import android.webkit.WebViewClient;
 
 import commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity;
 
-import static commaciejprogramuje.facebook.kieszonkowevulcan.Utils.GradesJavaScriptInterface.KIESZONKOWE_FILE;
+import static commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity.KIESZONKOWE_FILE;
 
 public class Credentials {
     private final MainActivity mainActivity;
@@ -25,7 +24,7 @@ public class Credentials {
             onCredentialsCheckedListener = mainActivity;
         } else {
             throw new RuntimeException(mainActivity.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement OnFragmentInteractionListener (MACIEJ 1)");
         }
 
     }

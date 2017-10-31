@@ -1,4 +1,4 @@
-package commaciejprogramuje.facebook.kieszonkowevulcan.Utils;
+package commaciejprogramuje.facebook.kieszonkowevulcan.utils;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,8 +11,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-import commaciejprogramuje.facebook.kieszonkowevulcan.School.Subject;
-import commaciejprogramuje.facebook.kieszonkowevulcan.School.Subjects;
+import commaciejprogramuje.facebook.kieszonkowevulcan.school.Subject;
+import commaciejprogramuje.facebook.kieszonkowevulcan.school.Subjects;
 
 /**
  * Created by m.szymczyk on 2017-10-24.

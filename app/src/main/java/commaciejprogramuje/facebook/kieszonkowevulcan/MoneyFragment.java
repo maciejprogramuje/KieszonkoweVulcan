@@ -17,9 +17,9 @@ import java.util.Locale;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import commaciejprogramuje.facebook.kieszonkowevulcan.School.Subject;
-import commaciejprogramuje.facebook.kieszonkowevulcan.School.Subjects;
-import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.DataFile;
+import commaciejprogramuje.facebook.kieszonkowevulcan.school.Subject;
+import commaciejprogramuje.facebook.kieszonkowevulcan.school.Subjects;
+import commaciejprogramuje.facebook.kieszonkowevulcan.utils.DataFile;
 
 
 public class MoneyFragment extends Fragment {

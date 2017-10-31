@@ -1,4 +1,4 @@
-package commaciejprogramuje.facebook.kieszonkowevulcan.School;
+package commaciejprogramuje.facebook.kieszonkowevulcan.school;
 
 import android.support.annotation.NonNull;
 

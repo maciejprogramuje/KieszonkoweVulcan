@@ -1,4 +1,4 @@
-package commaciejprogramuje.facebook.kieszonkowevulcan.Utils;
+package commaciejprogramuje.facebook.kieszonkowevulcan.utils;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

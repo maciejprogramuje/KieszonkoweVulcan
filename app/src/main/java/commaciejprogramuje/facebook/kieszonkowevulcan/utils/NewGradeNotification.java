@@ -1,4 +1,4 @@
-package commaciejprogramuje.facebook.kieszonkowevulcan.Utils;
+package commaciejprogramuje.facebook.kieszonkowevulcan.utils;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
-import android.view.View;
 
 import commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity;
 import commaciejprogramuje.facebook.kieszonkowevulcan.R;
@@ -27,8 +26,7 @@ public class NewGradeNotification {
 
         Intent intent = new Intent(context, MainActivity.class);
         intent.putExtra(FROM_NOTIFICATION_KEY, true);
-
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         notification.setContentIntent(pendingIntent);
         notification.setSmallIcon(R.drawable.ic_notification_grade);

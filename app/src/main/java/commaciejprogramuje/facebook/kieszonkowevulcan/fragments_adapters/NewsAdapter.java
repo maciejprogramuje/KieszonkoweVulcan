@@ -1,4 +1,4 @@
-package commaciejprogramuje.facebook.kieszonkowevulcan.FragmentsAdapters;
+package commaciejprogramuje.facebook.kieszonkowevulcan.fragments_adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,9 +9,9 @@ import android.widget.TextView;
 
 import java.util.Collections;
 
-import commaciejprogramuje.facebook.kieszonkowevulcan.School.Subject;
-import commaciejprogramuje.facebook.kieszonkowevulcan.School.Subjects;
 import commaciejprogramuje.facebook.kieszonkowevulcan.R;
+import commaciejprogramuje.facebook.kieszonkowevulcan.school.Subject;
+import commaciejprogramuje.facebook.kieszonkowevulcan.school.Subjects;
 
 /**
  * Created by 5742ZGPC on 2017-10-18.

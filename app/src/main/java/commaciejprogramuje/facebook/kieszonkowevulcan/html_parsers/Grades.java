@@ -1,13 +1,11 @@
-package commaciejprogramuje.facebook.kieszonkowevulcan.HtmlParsers;
-
-import android.util.Log;
+package commaciejprogramuje.facebook.kieszonkowevulcan.html_parsers;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import commaciejprogramuje.facebook.kieszonkowevulcan.School.Grade;
+import commaciejprogramuje.facebook.kieszonkowevulcan.school.Grade;
 
 /**
  * Created by m.szymczyk on 2017-10-24.

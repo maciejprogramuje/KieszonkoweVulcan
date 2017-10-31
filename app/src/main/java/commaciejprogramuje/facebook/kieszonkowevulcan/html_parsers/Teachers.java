@@ -1,4 +1,4 @@
-package commaciejprogramuje.facebook.kieszonkowevulcan.HtmlParsers;
+package commaciejprogramuje.facebook.kieszonkowevulcan.html_parsers;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import commaciejprogramuje.facebook.kieszonkowevulcan.School.Teacher;
+import commaciejprogramuje.facebook.kieszonkowevulcan.school.Teacher;
 
 /**
  * Created by m.szymczyk on 2017-10-24.

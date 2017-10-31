@@ -12,8 +12,8 @@ import android.view.ViewGroup;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import commaciejprogramuje.facebook.kieszonkowevulcan.FragmentsAdapters.GradesAdapter;
-import commaciejprogramuje.facebook.kieszonkowevulcan.School.Subjects;
+import commaciejprogramuje.facebook.kieszonkowevulcan.fragments_adapters.GradesAdapter;
+import commaciejprogramuje.facebook.kieszonkowevulcan.school.Subjects;
 
 
 public class GradesFragment extends Fragment {

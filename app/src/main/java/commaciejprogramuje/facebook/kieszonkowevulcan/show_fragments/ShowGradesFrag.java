@@ -1,13 +1,13 @@
-package commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments;
+package commaciejprogramuje.facebook.kieszonkowevulcan.show_fragments;
 
 import java.io.IOException;
 
 import commaciejprogramuje.facebook.kieszonkowevulcan.GradesFragment;
 import commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity;
-import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.DataFile;
-import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.InternetUtils;
+import commaciejprogramuje.facebook.kieszonkowevulcan.utils.DataFile;
+import commaciejprogramuje.facebook.kieszonkowevulcan.utils.InternetUtils;
 
-import static commaciejprogramuje.facebook.kieszonkowevulcan.Utils.GradesJavaScriptInterface.KIESZONKOWE_FILE;
+import static commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity.KIESZONKOWE_FILE;
 
 public class ShowGradesFrag {
     private final MainActivity mainActivity;

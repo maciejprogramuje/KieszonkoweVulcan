@@ -1,6 +1,5 @@
-package commaciejprogramuje.facebook.kieszonkowevulcan.Utils;
+package commaciejprogramuje.facebook.kieszonkowevulcan.utils;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
@@ -9,24 +8,24 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import commaciejprogramuje.facebook.kieszonkowevulcan.HtmlParsers.Grades;
-import commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity;
-import commaciejprogramuje.facebook.kieszonkowevulcan.School.Subject;
-import commaciejprogramuje.facebook.kieszonkowevulcan.School.Subjects;
+import commaciejprogramuje.facebook.kieszonkowevulcan.html_parsers.Grades;
+import commaciejprogramuje.facebook.kieszonkowevulcan.school.Subject;
+import commaciejprogramuje.facebook.kieszonkowevulcan.school.Subjects;
+
+import static commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity.KIESZONKOWE_FILE;
 
 /**
  * Created by m.szymczyk on 2017-10-09.
  */
 
-public class GradesJavaScriptInterface {
-    public static final String KIESZONKOWE_FILE = "kieszonkoweVulcanGrades.dat";
+public class JsInterfaceGrades {
     private ArrayList<Subject> oldSubjectsArray;
     private ArrayList<Subject> newSubjectsArray;
     private Subjects oldSubjects;
     private Subjects newSubjects;
     private Context context;
 
-    public GradesJavaScriptInterface(Context context) {
+    public JsInterfaceGrades(Context context) {
         this.context = context;
         newSubjects = new Subjects();
     }
@@ -36,13 +35,13 @@ public class GradesJavaScriptInterface {
     public void processHTML(String html) {
         Log.w("UWAGA", "parsuję stronę...");
 
-        OnFileSavedInteractionListener onFileSavedInteraction;
+        OnGradesMainInteractionListener onFileSavedInteraction;
 
-        if (context instanceof OnFileSavedInteractionListener) {
-            onFileSavedInteraction = (OnFileSavedInteractionListener) context;
+        if (context instanceof OnGradesMainInteractionListener) {
+            onFileSavedInteraction = (OnGradesMainInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement OnGradesMainInteractionListener");
         }
 
 
@@ -83,25 +82,24 @@ public class GradesJavaScriptInterface {
                     // there is new grade
                     for (int j = 0; j < newLength - oldLength; j++) {
                         message = newSubjectsArray.get(i).getSubjectName() + ": " + newSubjectsArray.get(i).getSubjectGrades().get(oldLength + j).getmGrade() + "\n";
-                        NewGradeNotification.show(context, message);
+                        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
                     }
                 }
             }
             // there is not new grade
-            if(message.equals("")) {
-                NewGradeNotification.show(context, "Brak nowych ocen"); // na czas testów
+            if (message.equals("")) {
+                Toast.makeText(context, "Brak nowych ocen!", Toast.LENGTH_LONG).show();
             }
-            // dla wersji produkcyjnej: toast ma się pojawiać tylko wtedy, gdy jest main activity
         }
 
         // write new data as old data
         Log.w("UWAGA", "nadpisuję plik");
         DataFile.write(context, newSubjects, KIESZONKOWE_FILE);
 
-        onFileSavedInteraction.onFileSavedInteraction(true);
+        onFileSavedInteraction.onGradesMainInteraction(true);
     }
 
-    public interface OnFileSavedInteractionListener {
-        void onFileSavedInteraction(boolean fileFlag);
+    public interface OnGradesMainInteractionListener {
+        void onGradesMainInteraction(boolean fileFlag);
     }
 }

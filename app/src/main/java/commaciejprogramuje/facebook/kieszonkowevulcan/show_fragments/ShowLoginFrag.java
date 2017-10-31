@@ -1,4 +1,4 @@
-package commaciejprogramuje.facebook.kieszonkowevulcan.ShowFragments;
+package commaciejprogramuje.facebook.kieszonkowevulcan.show_fragments;
 
 import commaciejprogramuje.facebook.kieszonkowevulcan.LoginFragment;
 import commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity;
