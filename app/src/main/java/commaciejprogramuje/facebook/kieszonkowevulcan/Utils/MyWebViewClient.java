@@ -19,8 +19,6 @@ public class MyWebViewClient extends WebViewClient {
         this.browser = browser;
         this.login = login;
         this.password = password;
-
-        Log.w("UWAGA", login + ", " + password);
     }
 
     @Override

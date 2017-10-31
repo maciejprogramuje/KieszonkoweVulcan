@@ -246,14 +246,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onFileSavedInteraction(boolean fileFlag) {
         if (fileFlag) {
             Log.w("UWAGA", "plik zapisany, pokazuję showNewsFrag");
-
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     progressCircle.setVisibility(View.INVISIBLE);
                 }
             });
-
             showNewsFrag.show();
         }
     }
