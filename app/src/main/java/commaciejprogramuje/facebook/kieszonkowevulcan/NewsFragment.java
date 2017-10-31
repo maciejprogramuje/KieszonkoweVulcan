@@ -1,11 +1,15 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +18,10 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import commaciejprogramuje.facebook.kieszonkowevulcan.FragmentsAdapters.NewsAdapter;
 import commaciejprogramuje.facebook.kieszonkowevulcan.School.Subjects;
+import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.MyAlarm;
+
+import static android.content.Context.ALARM_SERVICE;
+
 
 public class NewsFragment extends Fragment {
     public static final String NEWS_KEY = "news";
@@ -77,5 +85,4 @@ public class NewsFragment extends Fragment {
         super.onResume();
         ((MainActivity) getActivity()).setActionBarTitle("Nowe oceny");
     }
-
 }

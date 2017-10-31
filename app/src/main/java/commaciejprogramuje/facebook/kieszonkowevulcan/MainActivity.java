@@ -2,6 +2,7 @@ package commaciejprogramuje.facebook.kieszonkowevulcan;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -47,9 +48,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         GradesJavaScriptInterface.OnFileSavedInteractionListener {
     public static final String LOGIN_DATA_KEY = "loginData";
     public static final String PASSWORD_DATA_KEY = "passwordData";
+    public static final String ALARM_LOGIN_KEY = "alarmLogin";
+    public static final String ALARM_PASSWORD_KEY = "alarmPassword";
 
     public static final String BROADCAST_FROM_MAIN_ACTIVITY_KEY = "broadcastFromMainActivity";
-    public static final long ALARM_INTERVAL = 1000 * 60 * 10;
+    public static long alarmInterval = AlarmManager.INTERVAL_HOUR;
 
     public final Credentials credentials = new Credentials(this);
     public final ShowNewsFrag showNewsFrag = new ShowNewsFrag(this);
@@ -104,6 +107,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         login = sharedPref.getString(LOGIN_DATA_KEY, "");
         password = sharedPref.getString(PASSWORD_DATA_KEY, "");
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Log.w("UWAGA", "kasuję ALARM");
+        AlarmManager alarmManager = (AlarmManager) MainActivity.getMainActivity().getSystemService(ALARM_SERVICE);
+        alarmManager.cancel(MainActivity.getStaticPendingIntent());
 
 
         if (!InternetUtils.isConnection(this)) {
@@ -117,14 +130,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 showHelloFrag.show();
             }
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        alarmManager.cancel(getStaticPendingIntent());
     }
 
     @Override
@@ -151,16 +156,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             credentials.delete();
             showLoginFrag.show();
             return true;
-        } else if (id == R.id.turnoff_alarm_settings) {
-            /*AlarmManager alarmManager = (AlarmManager) mainActivity.getSystemService(ALARM_SERVICE);
-            alarmManager.cancel(pendingIntent);*/
+        } else if (id == R.id.notification_15_settings) {
+            alarmInterval = AlarmManager.INTERVAL_FIFTEEN_MINUTES;
+            item.setChecked(true);
             return true;
-        } else if (id == R.id.turnon_alarm_settings) {
-            /*AlarmManager alarmManager = (AlarmManager) mainActivity.getSystemService(ALARM_SERVICE);
-            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), ALARM_INTERVAL, pendingIntent);*/
+        } else if (id == R.id.notification_60_settings) {
+            alarmInterval = AlarmManager.INTERVAL_HOUR;
+            item.setChecked(true);
             return true;
-        } else if (id == R.id.exit_settings) {
-            finishAndRemoveTask();
+        } else if (id == R.id.notification_day_settings) {
+            alarmInterval = AlarmManager.INTERVAL_DAY;
+            item.setChecked(true);
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -224,8 +231,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+
+        Log.w("UWAGA", "tworzę ALARM z interwałem " + alarmInterval);
+        AlarmManager alarmManager = (AlarmManager) MainActivity.getMainActivity().getSystemService(ALARM_SERVICE);
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
+                MainActivity.alarmInterval,
+                MainActivity.alarmInterval,
+                MainActivity.getStaticPendingIntent());
+    }
+
+    @Override
     public void onFileSavedInteraction(boolean fileFlag) {
-         if (fileFlag) {
+        if (fileFlag) {
             Log.w("UWAGA", "plik zapisany, pokazuję showNewsFrag");
 
             runOnUiThread(new Runnable() {
@@ -239,19 +258,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-        Log.w("UWAGA", "niszczę MainActivity, startuję z ALARMEM");
-
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, ALARM_INTERVAL, ALARM_INTERVAL, getStaticPendingIntent());
-    }
-
     public static PendingIntent getStaticPendingIntent() {
         Intent alarmIntent = new Intent(mainActivity, MyAlarm.class);
+        alarmIntent.putExtra(ALARM_LOGIN_KEY, login);
+        alarmIntent.putExtra(ALARM_PASSWORD_KEY, password);
         return PendingIntent.getBroadcast(mainActivity, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 

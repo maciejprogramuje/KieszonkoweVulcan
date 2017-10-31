@@ -54,7 +54,7 @@ public class HelloFragment extends Fragment {
 
         firstFileBrowser.getSettings().setJavaScriptEnabled(true);
         firstFileBrowser.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-        MyWebViewClient myWebViewClient = new MyWebViewClient(firstFileBrowser);
+        MyWebViewClient myWebViewClient = new MyWebViewClient(firstFileBrowser, MainActivity.getLogin(), MainActivity.getPassword());
         firstFileBrowser.setWebViewClient(myWebViewClient);
         firstFileBrowser.addJavascriptInterface(new GradesJavaScriptInterface(getContext()), "GRADES_HTMLOUT");
         firstFileBrowser.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");

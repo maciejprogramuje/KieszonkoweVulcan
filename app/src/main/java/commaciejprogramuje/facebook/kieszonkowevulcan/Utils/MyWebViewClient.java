@@ -12,9 +12,15 @@ import commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity;
 
 public class MyWebViewClient extends WebViewClient {
     private WebView browser;
+    private String login;
+    private String password;
 
-    public MyWebViewClient(WebView browser) {
+    public MyWebViewClient(WebView browser, String login, String password) {
         this.browser = browser;
+        this.login = login;
+        this.password = password;
+
+        Log.w("UWAGA", login + ", " + password);
     }
 
     @Override
@@ -26,7 +32,6 @@ public class MyWebViewClient extends WebViewClient {
             browser.loadUrl("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie");
         } else if (url.equals("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie")) {
             gradesParsePage();
-            //browser.stopLoading();
         } else {
             if (url.equals("https://uonetplus.vulcan.net.pl/lublin")
                     || url.equals("https://uonetplus.vulcan.net.pl/lublin/Start.mvc/Index")
@@ -36,8 +41,8 @@ public class MyWebViewClient extends WebViewClient {
         }
 
         browser.loadUrl("javascript: {" +
-                "document.getElementById('LoginName').value = '" + MainActivity.getLogin() + "';" +
-                "document.getElementById('Password').value = '" + MainActivity.getPassword() + "';" +
+                "document.getElementById('LoginName').value = '" + login + "';" +
+                "document.getElementById('Password').value = '" + password + "';" +
                 "document.getElementsByTagName('input')[2].click();" +
                 "};");
 
