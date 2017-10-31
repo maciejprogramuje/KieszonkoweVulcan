@@ -36,7 +36,7 @@ public class GradesFromPageActivity extends AppCompatActivity implements GradesJ
 
         gradesLogin = MainActivity.getLogin();
         gradesPassword = MainActivity.getPassword();
-        if (gradesLogin == "" || gradesPassword == "") {
+        if (gradesLogin.equals("") || gradesPassword.equals("")) {
             gradesLogin = getIntent().getStringExtra(MY_ALARM_LOGIN_KEY);
             gradesPassword = getIntent().getStringExtra(MyAlarm.MY_ALARM_PASSWORD_KEY);
         }

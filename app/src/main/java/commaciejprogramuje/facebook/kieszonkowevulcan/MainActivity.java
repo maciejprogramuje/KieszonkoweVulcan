@@ -315,8 +315,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.loginIndex = loginIndex;
     }
 
-    public ProgressBar getProgressCircle() {
-        return progressCircle;
+    public static void showProgressCircle() {
+        mainActivity.progressCircle.bringToFront();
+        mainActivity.progressCircle.setVisibility(View.VISIBLE);
+    }
+
+    public static void hideProgressCircle() {
+        mainActivity.progressCircle.setVisibility(View.INVISIBLE);
     }
 
     public static void showFab() {

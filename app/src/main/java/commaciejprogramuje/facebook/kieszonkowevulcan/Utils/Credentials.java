@@ -22,7 +22,7 @@ public class Credentials {
         this.mainActivity = mainActivity;
 
         if (mainActivity != null) {
-            onCredentialsCheckedListener = (OnCredentialsCheckedListener) mainActivity;
+            onCredentialsCheckedListener = mainActivity;
         } else {
             throw new RuntimeException(mainActivity.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -50,7 +50,7 @@ public class Credentials {
     public void checkCredentials() {
         Log.w("UWAGA", "rozpoczynam sprawdzanie");
 
-        MainActivity.getMainActivity().getProgressCircle().setVisibility(View.VISIBLE);
+        MainActivity.showProgressCircle();
 
         mainActivity.getBrowser().getSettings().setJavaScriptEnabled(true);
         mainActivity.getBrowser().getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
@@ -78,7 +78,7 @@ public class Credentials {
                     mainActivity.setLoginIndex(10);
 
                     onCredentialsCheckedListener.OnCredentialsCheckedInteraction(false);
-                    mainActivity.getProgressCircle().setVisibility(View.INVISIBLE);
+                    mainActivity.hideProgressCircle();
                 }
             }
 
@@ -89,7 +89,7 @@ public class Credentials {
                     // udane logowanie
                     Log.w("UWAGA", "logowanie udane!");
 
-                    mainActivity.getProgressCircle().setVisibility(View.INVISIBLE);
+                    mainActivity.hideProgressCircle();
                     mainActivity.getBrowser().stopLoading();
                     onCredentialsCheckedListener.OnCredentialsCheckedInteraction(true);
                 }

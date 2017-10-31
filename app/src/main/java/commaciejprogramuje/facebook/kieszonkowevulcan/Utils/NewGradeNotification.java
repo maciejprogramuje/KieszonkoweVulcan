@@ -41,7 +41,7 @@ public class NewGradeNotification {
         notification.setSound(alarmSound);
 
         //Vibration
-        notification.setVibrate(new long[] { 500, 500, 500, 500, 500 });
+        //notification.setVibrate(new long[] { 500, 500, 500, 500, 500 });
 
         notification.setLights(Color.WHITE, 3000, 3000);
 

@@ -49,8 +49,7 @@ public class HelloFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        MainActivity.getMainActivity().getProgressCircle().bringToFront();
-        MainActivity.getMainActivity().getProgressCircle().setVisibility(View.VISIBLE);
+        MainActivity.showProgressCircle();
 
         firstFileBrowser.getSettings().setJavaScriptEnabled(true);
         firstFileBrowser.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
