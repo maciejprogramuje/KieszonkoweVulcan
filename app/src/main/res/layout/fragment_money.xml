@@ -111,31 +111,17 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:paddingStart="24dp"
-                    android:paddingEnd="24dp"
                     android:text="@string/j_polski"
-                    android:textSize="13sp"
-                    android:textStyle="bold" />
+                    style="@style/money_subject_name_style" />
 
                 <TextView
                     android:id="@+id/money_jezyk_polski_avg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    android:gravity="center_vertical"
-                    android:textSize="13sp" />
+                    style="@style/money_avg_style" />
 
                 <TextView
                     android:id="@+id/money_jezyk_polski_money"
-                    android:layout_width="115dp"
-                    android:layout_height="48dp"
-                    android:gravity="center_vertical|end"
-                    android:paddingEnd="24dp"
                     android:text="@string/_0zl"
-                    android:textSize="13sp" />
+                    style="@style/money_money_style" />
 
             </LinearLayout>
 
@@ -150,31 +136,17 @@
 
                 <TextView
                     android:id="@+id/textView2"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:paddingEnd="24dp"
-                    android:paddingStart="24dp"
                     android:text="@string/j_angielski"
-                    android:textSize="13sp"
-                    android:textStyle="bold" />
+                    style="@style/money_subject_name_style" />
 
                 <TextView
                     android:id="@+id/money_jezyk_angielski_avg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    android:gravity="center_vertical"
-                    android:textSize="13sp" />
+                    style="@style/money_avg_style" />
 
                 <TextView
                     android:id="@+id/money_jezyk_angielski_money"
-                    android:layout_width="115dp"
-                    android:layout_height="48dp"
-                    android:gravity="center_vertical|end"
-                    android:paddingEnd="24dp"
                     android:text="@string/_0zl"
-                    android:textSize="13sp" />
+                    style="@style/money_money_style" />
 
             </LinearLayout>
 
@@ -188,31 +160,17 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:paddingStart="24dp"
-                    android:paddingEnd="24dp"
                     android:text="@string/j_niemiecki"
-                    android:textSize="13sp"
-                    android:textStyle="bold" />
+                    style="@style/money_subject_name_style" />
 
                 <TextView
                     android:id="@+id/money_jezyk_niemiecki_avg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    android:gravity="center_vertical"
-                    android:textSize="13sp" />
+                    style="@style/money_avg_style" />
 
                 <TextView
                     android:id="@+id/money_jezyk_niemiecki_money"
-                    android:layout_width="115dp"
-                    android:layout_height="48dp"
-                    android:gravity="center_vertical|end"
-                    android:paddingEnd="24dp"
                     android:text="@string/_0zl"
-                    android:textSize="13sp" />
+                    style="@style/money_money_style" />
 
             </LinearLayout>
 
@@ -226,31 +184,17 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:paddingStart="24dp"
-                    android:paddingEnd="24dp"
                     android:text="@string/muzyka"
-                    android:textSize="13sp"
-                    android:textStyle="bold" />
+                    style="@style/money_subject_name_style" />
 
                 <TextView
                     android:id="@+id/money_muzyka_avg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    android:gravity="center_vertical"
-                    android:textSize="13sp" />
+                    style="@style/money_avg_style" />
 
                 <TextView
                     android:id="@+id/money_muzyka_money"
-                    android:layout_width="115dp"
-                    android:layout_height="48dp"
-                    android:gravity="center_vertical|end"
-                    android:paddingEnd="24dp"
                     android:text="@string/_0zl"
-                    android:textSize="13sp" />
+                    style="@style/money_money_style" />
 
             </LinearLayout>
 
@@ -264,31 +208,17 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:paddingStart="24dp"
-                    android:paddingEnd="24dp"
                     android:text="@string/historia"
-                    android:textSize="13sp"
-                    android:textStyle="bold" />
+                    style="@style/money_subject_name_style" />
 
                 <TextView
                     android:id="@+id/money_historia_avg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    android:gravity="center_vertical"
-                    android:textSize="13sp" />
+                    style="@style/money_avg_style" />
 
                 <TextView
                     android:id="@+id/money_historia_money"
-                    android:layout_width="115dp"
-                    android:layout_height="48dp"
-                    android:gravity="center_vertical|end"
-                    android:paddingEnd="24dp"
                     android:text="@string/_0zl"
-                    android:textSize="13sp" />
+                    style="@style/money_money_style" />
 
             </LinearLayout>
 
@@ -302,31 +232,17 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:paddingStart="24dp"
-                    android:paddingEnd="24dp"
                     android:text="@string/wiedza_o_spoleczenstwie"
-                    android:textSize="13sp"
-                    android:textStyle="bold" />
+                    style="@style/money_subject_name_style" />
 
                 <TextView
                     android:id="@+id/money_wiedza_o_spoleczenstwie_avg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    android:gravity="center_vertical"
-                    android:textSize="13sp" />
+                    style="@style/money_avg_style" />
 
                 <TextView
                     android:id="@+id/money_wiedza_o_spoleczenstwie_money"
-                    android:layout_width="115dp"
-                    android:layout_height="48dp"
-                    android:gravity="center_vertical|end"
-                    android:paddingEnd="24dp"
                     android:text="@string/_0zl"
-                    android:textSize="13sp" />
+                    style="@style/money_money_style" />
 
             </LinearLayout>
 
@@ -340,31 +256,17 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:paddingStart="24dp"
-                    android:paddingEnd="24dp"
                     android:text="@string/geografia"
-                    android:textSize="13sp"
-                    android:textStyle="bold" />
+                    style="@style/money_subject_name_style" />
 
                 <TextView
                     android:id="@+id/money_geografia_avg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    android:gravity="center_vertical"
-                    android:textSize="13sp" />
+                    style="@style/money_avg_style" />
 
                 <TextView
                     android:id="@+id/money_geografia_money"
-                    android:layout_width="115dp"
-                    android:layout_height="48dp"
-                    android:gravity="center_vertical|end"
-                    android:paddingEnd="24dp"
                     android:text="@string/_0zl"
-                    android:textSize="13sp" />
+                    style="@style/money_money_style" />
 
             </LinearLayout>
 
@@ -378,31 +280,17 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:paddingEnd="24dp"
-                    android:paddingStart="24dp"
                     android:text="@string/biologia"
-                    android:textSize="13sp"
-                    android:textStyle="bold" />
+                    style="@style/money_subject_name_style" />
 
                 <TextView
                     android:id="@+id/money_biologia_avg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    android:gravity="center_vertical"
-                    android:textSize="13sp" />
+                    style="@style/money_avg_style" />
 
                 <TextView
                     android:id="@+id/money_biologia_money"
-                    android:layout_width="115dp"
-                    android:layout_height="48dp"
-                    android:gravity="center_vertical|end"
-                    android:paddingEnd="24dp"
                     android:text="@string/_0zl"
-                    android:textSize="13sp" />
+                    style="@style/money_money_style" />
 
             </LinearLayout>
 
@@ -416,31 +304,17 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:paddingStart="24dp"
-                    android:paddingEnd="24dp"
                     android:text="@string/chemia"
-                    android:textSize="13sp"
-                    android:textStyle="bold" />
+                    style="@style/money_subject_name_style" />
 
                 <TextView
                     android:id="@+id/money_chemia_avg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    android:gravity="center_vertical"
-                    android:textSize="13sp" />
+                    style="@style/money_avg_style" />
 
                 <TextView
                     android:id="@+id/money_chemia_money"
-                    android:layout_width="115dp"
-                    android:layout_height="48dp"
-                    android:gravity="center_vertical|end"
-                    android:paddingEnd="24dp"
                     android:text="@string/_0zl"
-                    android:textSize="13sp" />
+                    style="@style/money_money_style" />
 
             </LinearLayout>
 
@@ -454,31 +328,17 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:paddingStart="24dp"
-                    android:paddingEnd="24dp"
                     android:text="@string/fizyka"
-                    android:textSize="13sp"
-                    android:textStyle="bold" />
+                    style="@style/money_subject_name_style" />
 
                 <TextView
                     android:id="@+id/money_fizyka_avg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    android:gravity="center_vertical"
-                    android:textSize="13sp" />
+                    style="@style/money_avg_style" />
 
                 <TextView
                     android:id="@+id/money_fizyka_money"
-                    android:layout_width="115dp"
-                    android:layout_height="48dp"
-                    android:gravity="center_vertical|end"
-                    android:paddingEnd="24dp"
                     android:text="@string/_0zl"
-                    android:textSize="13sp" />
+                    style="@style/money_money_style" />
 
             </LinearLayout>
 
@@ -492,31 +352,17 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:paddingStart="24dp"
-                    android:paddingEnd="24dp"
                     android:text="@string/matematyka"
-                    android:textSize="13sp"
-                    android:textStyle="bold" />
+                    style="@style/money_subject_name_style" />
 
                 <TextView
                     android:id="@+id/money_matematyka_avg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    android:gravity="center_vertical"
-                    android:textSize="13sp" />
+                    style="@style/money_avg_style" />
 
                 <TextView
                     android:id="@+id/money_matematyka_money"
-                    android:layout_width="115dp"
-                    android:layout_height="48dp"
-                    android:gravity="center_vertical|end"
-                    android:paddingEnd="24dp"
                     android:text="@string/_0zl"
-                    android:textSize="13sp" />
+                    style="@style/money_money_style" />
 
             </LinearLayout>
 
@@ -530,31 +376,17 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:paddingStart="24dp"
-                    android:paddingEnd="24dp"
                     android:text="@string/informatyka"
-                    android:textSize="13sp"
-                    android:textStyle="bold" />
+                    style="@style/money_subject_name_style" />
 
                 <TextView
                     android:id="@+id/money_informatyka_avg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    android:gravity="center_vertical"
-                    android:textSize="13sp" />
+                    style="@style/money_avg_style" />
 
                 <TextView
                     android:id="@+id/money_informatyka_money"
-                    android:layout_width="115dp"
-                    android:layout_height="48dp"
-                    android:gravity="center_vertical|end"
-                    android:paddingEnd="24dp"
                     android:text="@string/_0zl"
-                    android:textSize="13sp" />
+                    style="@style/money_money_style" />
 
             </LinearLayout>
 
@@ -568,31 +400,17 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:paddingStart="24dp"
-                    android:paddingEnd="24dp"
                     android:text="@string/edukacja_dla_bezpieczenstwa"
-                    android:textSize="13sp"
-                    android:textStyle="bold" />
+                    style="@style/money_subject_name_style" />
 
                 <TextView
                     android:id="@+id/money_edukacja_dla_bezpieczenstwa_avg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    android:gravity="center_vertical"
-                    android:textSize="13sp" />
+                    style="@style/money_avg_style" />
 
                 <TextView
                     android:id="@+id/money_edukacja_dla_bezpieczenstwa_money"
-                    android:layout_width="115dp"
-                    android:layout_height="48dp"
-                    android:gravity="center_vertical|end"
-                    android:paddingEnd="24dp"
                     android:text="@string/_0zl"
-                    android:textSize="13sp" />
+                    style="@style/money_money_style" />
 
             </LinearLayout>
 
@@ -606,31 +424,17 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:paddingStart="24dp"
-                    android:paddingEnd="24dp"
                     android:text="@string/zajecia_techniczne"
-                    android:textSize="13sp"
-                    android:textStyle="bold" />
+                    style="@style/money_subject_name_style" />
 
                 <TextView
                     android:id="@+id/money_zajecia_techniczne_avg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    android:gravity="center_vertical"
-                    android:textSize="13sp" />
+                    style="@style/money_avg_style" />
 
                 <TextView
                     android:id="@+id/money_zajecia_techniczne_money"
-                    android:layout_width="115dp"
-                    android:layout_height="48dp"
-                    android:gravity="center_vertical|end"
-                    android:paddingEnd="24dp"
                     android:text="@string/_0zl"
-                    android:textSize="13sp" />
+                    style="@style/money_money_style" />
 
             </LinearLayout>
 
@@ -644,31 +448,17 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:paddingStart="24dp"
-                    android:paddingEnd="24dp"
                     android:text="@string/wychowanie_do_zycia_w_rodzinie"
-                    android:textSize="13sp"
-                    android:textStyle="bold" />
+                    style="@style/money_subject_name_style" />
 
                 <TextView
                     android:id="@+id/money_wychowanie_do_zycia_avg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    android:gravity="center_vertical"
-                    android:textSize="13sp" />
+                    style="@style/money_avg_style" />
 
                 <TextView
                     android:id="@+id/money_wychowanie_do_zycia_money"
-                    android:layout_width="115dp"
-                    android:layout_height="48dp"
-                    android:gravity="center_vertical|end"
-                    android:paddingEnd="24dp"
                     android:text="@string/_0zl"
-                    android:textSize="13sp" />
+                    style="@style/money_money_style" />
 
             </LinearLayout>
 
@@ -682,31 +472,17 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:paddingStart="24dp"
-                    android:paddingEnd="24dp"
                     android:text="@string/etyka"
-                    android:textSize="13sp"
-                    android:textStyle="bold" />
+                    style="@style/money_subject_name_style" />
 
                 <TextView
                     android:id="@+id/money_etyka_avg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    android:gravity="center_vertical"
-                    android:textSize="13sp" />
+                    style="@style/money_avg_style" />
 
                 <TextView
                     android:id="@+id/money_etyka_money"
-                    android:layout_width="115dp"
-                    android:layout_height="48dp"
-                    android:gravity="center_vertical|end"
-                    android:paddingEnd="24dp"
                     android:text="@string/_0zl"
-                    android:textSize="13sp" />
+                    style="@style/money_money_style" />
 
             </LinearLayout>
 

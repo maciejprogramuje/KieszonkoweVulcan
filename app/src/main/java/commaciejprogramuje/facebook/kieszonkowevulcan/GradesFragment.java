@@ -34,6 +34,8 @@ public class GradesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_grades, container, false);
         ButterKnife.inject(this, view);
 
+        MainActivity.showFab();
+
         gradesRecyclerView.setHasFixedSize(true);
         gradesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         gradesRecyclerView.setItemAnimator(new DefaultItemAnimator());

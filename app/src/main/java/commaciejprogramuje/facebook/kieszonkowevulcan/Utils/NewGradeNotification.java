@@ -5,6 +5,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.view.View;
 
@@ -26,7 +28,7 @@ public class NewGradeNotification {
         Intent intent = new Intent(context, MainActivity.class);
         intent.putExtra(FROM_NOTIFICATION_KEY, true);
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_ONE_SHOT);
 
         notification.setContentIntent(pendingIntent);
         notification.setSmallIcon(R.drawable.ic_notification_grade);
@@ -34,8 +36,12 @@ public class NewGradeNotification {
         notification.setContentText(message);
         notification.setAutoCancel(true);
 
+        //Sound
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        notification.setSound(alarmSound);
+
         //Vibration
-        //notification.setVibrate(new long[] { 1000, 500, 1000, 500, 1000 });
+        notification.setVibrate(new long[] { 500, 500, 500, 500, 500 });
 
         notification.setLights(Color.WHITE, 3000, 3000);
 

@@ -111,6 +111,8 @@ public class MoneyFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_money, container, false);
         ButterKnife.inject(this, view);
 
+        MainActivity.showFab();
+
         generateAvgsTextViewArray();
         generateMoneyTextViewArray();
 

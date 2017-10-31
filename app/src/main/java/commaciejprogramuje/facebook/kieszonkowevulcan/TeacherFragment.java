@@ -37,6 +37,8 @@ public class TeacherFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_teacher, container, false);
         ButterKnife.inject(this, view);
 
+        MainActivity.hideFab();
+
         teacherRecyclerView.setHasFixedSize(true);
         teacherRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         teacherRecyclerView.setItemAnimator(new DefaultItemAnimator());

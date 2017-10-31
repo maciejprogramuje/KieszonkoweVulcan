@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static final String PASSWORD_DATA_KEY = "passwordData";
 
     public static final String BROADCAST_FROM_MAIN_ACTIVITY_KEY = "broadcastFromMainActivity";
+    public static final long ALARM_INTERVAL = 1000 * 60 * 10;
 
     public final Credentials credentials = new Credentials(this);
     public final ShowNewsFrag showNewsFrag = new ShowNewsFrag(this);
@@ -82,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         setMainActivity(this);
 
+        fab.show();
         progressCircle.setVisibility(View.INVISIBLE);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -245,13 +247,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.w("UWAGA", "niszczę MainActivity, startuję z ALARMEM");
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, 1000 * 60 * 60, AlarmManager.INTERVAL_HOUR, getStaticPendingIntent());
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, ALARM_INTERVAL, ALARM_INTERVAL, getStaticPendingIntent());
     }
 
     public static PendingIntent getStaticPendingIntent() {
         Intent alarmIntent = new Intent(mainActivity, MyAlarm.class);
-        //return PendingIntent.getBroadcast(mainActivity, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        return PendingIntent.getBroadcast(mainActivity, 0, alarmIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        return PendingIntent.getBroadcast(mainActivity, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     public static Subjects getSubjects() {
@@ -308,5 +309,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public ProgressBar getProgressCircle() {
         return progressCircle;
+    }
+
+    public static void showFab() {
+        mainActivity.fab.show();
+    }
+
+    public static void hideFab() {
+        mainActivity.fab.hide();
     }
 }

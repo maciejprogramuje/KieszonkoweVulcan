@@ -26,6 +26,7 @@ public class MyWebViewClient extends WebViewClient {
             browser.loadUrl("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie");
         } else if (url.equals("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie")) {
             gradesParsePage();
+            //browser.stopLoading();
         } else {
             if (url.equals("https://uonetplus.vulcan.net.pl/lublin")
                     || url.equals("https://uonetplus.vulcan.net.pl/lublin/Start.mvc/Index")
@@ -44,7 +45,6 @@ public class MyWebViewClient extends WebViewClient {
 
     private void gradesParsePage() {
         browser.loadUrl("javascript:window.GRADES_HTMLOUT.processHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');");
-        browser.stopLoading();
     }
 
     @Override

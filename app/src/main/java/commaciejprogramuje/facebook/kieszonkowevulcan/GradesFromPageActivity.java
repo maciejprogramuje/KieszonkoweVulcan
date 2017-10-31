@@ -36,12 +36,6 @@ public class GradesFromPageActivity extends AppCompatActivity implements GradesJ
             browser.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
             MyWebViewClient myWebViewClient = new MyWebViewClient(browser);
             browser.setWebViewClient(myWebViewClient);
-
-
-            // drugi raz tutaj ==========================================================================
-            // wywołuje zaraz po wyjściu do ekranu głównego telefonu
-
-            Toast.makeText(this, "drugi raz", Toast.LENGTH_LONG).show();
             browser.addJavascriptInterface(new GradesJavaScriptInterface(GradesFromPageActivity.this), "GRADES_HTMLOUT");
             browser.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
         } else {
@@ -53,6 +47,7 @@ public class GradesFromPageActivity extends AppCompatActivity implements GradesJ
     public void onFileSavedInteraction(boolean fileFlag) {
         if (fileFlag) {
             Log.w("UWAGA", "plik zapisany, kończę i usuwam zadanie");
+            browser.stopLoading();
 
             if (getIntent().hasExtra(MainActivity.BROADCAST_FROM_MAIN_ACTIVITY_KEY)) {
                 Intent mainActivityIntent = new Intent(this, MainActivity.class);

@@ -39,6 +39,7 @@ public class HelloFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_hello, container, false);
         ButterKnife.inject(this, view);
 
+        MainActivity.hideFab();
         firstFileBrowser = MainActivity.getMainActivity().browser.findViewById(R.id.browser);
 
         return view;
@@ -55,10 +56,6 @@ public class HelloFragment extends Fragment {
         firstFileBrowser.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
         MyWebViewClient myWebViewClient = new MyWebViewClient(firstFileBrowser);
         firstFileBrowser.setWebViewClient(myWebViewClient);
-
-
-        // raz tutaj ==========================================================================
-        Toast.makeText(MainActivity.getMainActivity(), "pierwszy raz", Toast.LENGTH_LONG).show();
         firstFileBrowser.addJavascriptInterface(new GradesJavaScriptInterface(getContext()), "GRADES_HTMLOUT");
         firstFileBrowser.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
 
