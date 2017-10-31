@@ -260,7 +260,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Intent alarmIntent = new Intent(mainActivity, MyAlarm.class);
         alarmIntent.putExtra(ALARM_LOGIN_KEY, login);
         alarmIntent.putExtra(ALARM_PASSWORD_KEY, password);
-        return PendingIntent.getBroadcast(mainActivity, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        return PendingIntent.getBroadcast(mainActivity, 0, alarmIntent, 0);
     }
 
     public static Subjects getSubjects() {

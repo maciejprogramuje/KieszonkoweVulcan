@@ -3,6 +3,7 @@ package commaciejprogramuje.facebook.kieszonkowevulcan.Utils;
 import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity;
 

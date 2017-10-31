@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.webkit.WebView;
+import android.widget.Toast;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -12,6 +13,8 @@ import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.GradesJavaScriptInte
 import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.InternetUtils;
 import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.MyAlarm;
 import commaciejprogramuje.facebook.kieszonkowevulcan.Utils.MyWebViewClient;
+
+import static commaciejprogramuje.facebook.kieszonkowevulcan.Utils.MyAlarm.MY_ALARM_LOGIN_KEY;
 
 public class GradesFromPageActivity extends AppCompatActivity implements GradesJavaScriptInterface.OnFileSavedInteractionListener {
     public static final String NOT_RELOAD_GRADES_KEY = "notReloadGrades";
@@ -26,8 +29,6 @@ public class GradesFromPageActivity extends AppCompatActivity implements GradesJ
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Log.w("UWAGA", "kreator GradesFromPageActivity");
-
         setContentView(R.layout.activity_get_grades_from_page);
         ButterKnife.inject(this);
 
@@ -36,7 +37,7 @@ public class GradesFromPageActivity extends AppCompatActivity implements GradesJ
         gradesLogin = MainActivity.getLogin();
         gradesPassword = MainActivity.getPassword();
         if (gradesLogin == "" || gradesPassword == "") {
-            gradesLogin = getIntent().getStringExtra(MyAlarm.MY_ALARM_LOGIN_KEY);
+            gradesLogin = getIntent().getStringExtra(MY_ALARM_LOGIN_KEY);
             gradesPassword = getIntent().getStringExtra(MyAlarm.MY_ALARM_PASSWORD_KEY);
         }
 
@@ -56,13 +57,6 @@ public class GradesFromPageActivity extends AppCompatActivity implements GradesJ
     public void onFileSavedInteraction(boolean fileFlag) {
         if (fileFlag) {
             Log.w("UWAGA", "plik zapisany, kończę i usuwam zadanie");
-
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    browser.stopLoading();
-                }
-            });
 
             if (getIntent().hasExtra(MainActivity.BROADCAST_FROM_MAIN_ACTIVITY_KEY)) {
                 Intent mainActivityIntent = new Intent(this, MainActivity.class);

@@ -78,24 +78,19 @@ public class Credentials {
                     mainActivity.setLoginIndex(10);
 
                     onCredentialsCheckedListener.OnCredentialsCheckedInteraction(false);
-
                     mainActivity.getProgressCircle().setVisibility(View.INVISIBLE);
                 }
             }
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                Log.w("UWAGA", "LOADING (login): " + url);
-
                 if (url.equals("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Start/Index")
                         || url.equals("https://uonetplus.vulcan.net.pl/lublin/Start.mvc/Index")) {
                     // udane logowanie
                     Log.w("UWAGA", "logowanie udane!");
 
                     mainActivity.getProgressCircle().setVisibility(View.INVISIBLE);
-
                     mainActivity.getBrowser().stopLoading();
-
                     onCredentialsCheckedListener.OnCredentialsCheckedInteraction(true);
                 }
                 return false;
