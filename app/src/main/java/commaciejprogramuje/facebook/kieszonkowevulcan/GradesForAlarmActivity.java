@@ -79,7 +79,7 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
                             "};");
                 }
             });
-            alarmBrowser.addJavascriptInterface(new JsInterfaceAlarm(GradesForAlarmActivity.this), "ALARM_HTMLOUT");
+            alarmBrowser.addJavascriptInterface(new JsInterfaceAlarm(getBaseContext()), "ALARM_HTMLOUT");
             alarmBrowser.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
         } else {
             NewGradeNotification.show(this, "ALARM -> brak internetu");
@@ -91,11 +91,6 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
     public void onAlarmInteraction(boolean alarmFlag) {
         if (alarmFlag) {
             Log.w("UWAGA", "ALARM -> plik zapisany, kończę i usuwam zadanie");
-
-
-            // by tylko raz się wyświetlało powiadomienie
-            alarmBrowser.destroy();
-
 
             Toast.makeText(getBaseContext(), "ALARM -> plik zapisany, kończę i usuwam zadanie", Toast.LENGTH_LONG).show();
             this.finishAndRemoveTask();

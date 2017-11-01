@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Log.w("UWAGA", "kasuję ALARM");
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        alarmManager.cancel(MainActivity.getStaticPendingIntent());
+        alarmManager.cancel(getStaticPendingIntent());
 
 
         if (!InternetUtils.isConnection(this)) {
@@ -242,7 +242,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Intent alarmIntent = new Intent(mainActivity, MyAlarm.class);
         alarmIntent.putExtra(ALARM_LOGIN_KEY, login);
         alarmIntent.putExtra(ALARM_PASSWORD_KEY, password);
-        return PendingIntent.getBroadcast(mainActivity, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        return PendingIntent.getBroadcast(mainActivity, 0, alarmIntent, PendingIntent.FLAG_ONE_SHOT);
     }
 
     public static Subjects getSubjects() {
