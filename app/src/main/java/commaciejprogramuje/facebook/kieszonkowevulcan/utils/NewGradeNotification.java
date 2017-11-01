@@ -45,6 +45,6 @@ public class NewGradeNotification {
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(index, notification.build());
-        index++;
+        //index++;
     }
 }
