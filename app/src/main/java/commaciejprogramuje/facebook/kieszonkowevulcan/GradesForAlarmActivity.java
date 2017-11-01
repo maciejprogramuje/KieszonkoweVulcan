@@ -79,7 +79,10 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
                             "};");
                 }
             });
-            alarmBrowser.addJavascriptInterface(new JsInterfaceAlarm(getBaseContext()), "ALARM_HTMLOUT");
+
+
+            // context ma być this, nie kombinuj...
+            alarmBrowser.addJavascriptInterface(new JsInterfaceAlarm(this), "ALARM_HTMLOUT");
             alarmBrowser.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
         } else {
             NewGradeNotification.show(this, "ALARM -> brak internetu");
