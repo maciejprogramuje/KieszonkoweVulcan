@@ -43,7 +43,4 @@
 
     <string name="url_to_zastepstwa">http://zastepstwa.g16-lublin.eu/</string>
     <string name="wyloguj">Wyloguj</string>
-    <string name="aktualizuj_co_15_min">Aktualizuj co 15 min.</string>
-    <string name="aktualizuj_co_1_h">Aktualizuj co 1 h.</string>
-    <string name="aktualizuj_raz_dzinnie">Aktualizuj raz dzinnie</string>
 </resources>

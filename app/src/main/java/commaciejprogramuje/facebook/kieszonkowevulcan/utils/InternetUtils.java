@@ -13,7 +13,7 @@ import commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity;
 
 public class InternetUtils {
     public static void noConnectionReaction(MainActivity mainActivity) {
-        Toast.makeText(mainActivity, "Włącz internet!", Toast.LENGTH_LONG).show();
+        Toast.makeText(mainActivity, "Włącz internet i odśwież aplikację!", Toast.LENGTH_LONG).show();
         HelloFragment helloFragment = HelloFragment.newInstance();
         mainActivity.replaceFrag.replace(mainActivity, helloFragment);
     }

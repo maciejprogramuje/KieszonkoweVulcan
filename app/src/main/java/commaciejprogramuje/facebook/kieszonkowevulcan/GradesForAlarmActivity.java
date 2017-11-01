@@ -1,5 +1,7 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -12,10 +14,15 @@ import butterknife.InjectView;
 import commaciejprogramuje.facebook.kieszonkowevulcan.utils.JsInterfaceAlarm;
 import commaciejprogramuje.facebook.kieszonkowevulcan.utils.InternetUtils;
 import commaciejprogramuje.facebook.kieszonkowevulcan.utils.MyAlarm;
+import commaciejprogramuje.facebook.kieszonkowevulcan.utils.NewGradeNotification;
 
+import static commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity.LOGIN_DATA_KEY;
+import static commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity.PASSWORD_DATA_KEY;
 import static commaciejprogramuje.facebook.kieszonkowevulcan.utils.MyAlarm.MY_ALARM_LOGIN_KEY;
 
 public class GradesForAlarmActivity extends AppCompatActivity implements JsInterfaceAlarm.OnAlarmInteractionListener {
+    public static final String LOGIN_ALARM_KEY = "loginAlarm";
+    public static final String PASSWORD_ALARM_KEY = "passwordAlarm";
     @InjectView(R.id.alarm_browser)
     WebView alarmBrowser;
 
@@ -28,12 +35,20 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
         setContentView(R.layout.activity_grades_for_alarm);
         ButterKnife.inject(this);
 
+        NewGradeNotification.show(this, "ALARM -> wezwanie z GradesForALARMActivity");
+
         this.moveTaskToBack(true); // ewentualnie na czas testów wyłączyć, ale raczej ok
 
         login = getIntent().getStringExtra(MY_ALARM_LOGIN_KEY);
         password = getIntent().getStringExtra(MyAlarm.MY_ALARM_PASSWORD_KEY);
 
-        Toast.makeText(MainActivity.getMainActivity(), "wezwanie z GradesForAlarmActivity", Toast.LENGTH_LONG).show();
+        if(login == "" || password == "") {
+            SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+            login = sharedPref.getString(LOGIN_ALARM_KEY, "");
+            password = sharedPref.getString(PASSWORD_ALARM_KEY, "");
+        }
+
+        Toast.makeText(MainActivity.getMainActivity(), "ALARM -> wezwanie z GradesForALARMActivity", Toast.LENGTH_LONG).show();
 
         if (InternetUtils.isConnection(this)) {
             alarmBrowser.getSettings().setJavaScriptEnabled(true);
@@ -67,7 +82,8 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
             alarmBrowser.addJavascriptInterface(new JsInterfaceAlarm(GradesForAlarmActivity.this), "ALARM_HTMLOUT");
             alarmBrowser.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
         } else {
-            Toast.makeText(getBaseContext(), "ALARM -> usuwam 1", Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(), "ALARM -> brak internetu", Toast.LENGTH_LONG).show();
+            NewGradeNotification.show(this, "ALARM -> brak internetu");
             this.finishAndRemoveTask();
         }
     }
@@ -79,5 +95,19 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
             Toast.makeText(getBaseContext(), "ALARM -> plik zapisany, kończę i usuwam zadanie", Toast.LENGTH_LONG).show();
             this.finishAndRemoveTask();
         }
+    }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        Toast.makeText(getBaseContext(), "ALARM -> zapisuję " + login + ", " + password, Toast.LENGTH_LONG).show();
+
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(LOGIN_ALARM_KEY, login);
+        editor.putString(PASSWORD_ALARM_KEY, password);
+        editor.apply();
     }
 }

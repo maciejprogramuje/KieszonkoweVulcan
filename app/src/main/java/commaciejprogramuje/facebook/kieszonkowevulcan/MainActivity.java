@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static final String ALARM_LOGIN_KEY = "alarmLogin";
     public static final String ALARM_PASSWORD_KEY = "alarmPassword";
     public static final String KIESZONKOWE_FILE = "kieszonkoweVulcanGrades.dat";
-    public static long alarmInterval = 1000 * 60 * 5;
+    public static long alarmInterval = AlarmManager.INTERVAL_HOUR;
 
     public final Credentials credentials = new Credentials(this);
     public final ShowNewsFrag showNewsFrag = new ShowNewsFrag(this);
@@ -84,7 +84,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         setMainActivity(this);
 
-        fab.show();
         progressCircle.setVisibility(View.INVISIBLE);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -119,6 +118,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (!InternetUtils.isConnection(this)) {
             InternetUtils.noConnectionReaction(MainActivity.this);
+            fab.show();
         } else {
             if (login.isEmpty() || password.isEmpty()) {
                 showLoginFrag.show();
