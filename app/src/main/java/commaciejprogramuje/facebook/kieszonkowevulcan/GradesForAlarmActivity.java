@@ -42,13 +42,13 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
         login = getIntent().getStringExtra(MY_ALARM_LOGIN_KEY);
         password = getIntent().getStringExtra(MyAlarm.MY_ALARM_PASSWORD_KEY);
 
-        if(login == "" || password == "") {
+        if(login.equals("") || password.equals("")) {
             SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
             login = sharedPref.getString(LOGIN_ALARM_KEY, "");
             password = sharedPref.getString(PASSWORD_ALARM_KEY, "");
         }
 
-        Toast.makeText(MainActivity.getMainActivity(), "ALARM -> wezwanie z GradesForALARMActivity", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "ALARM -> wezwanie z GradesForALARMActivity", Toast.LENGTH_LONG).show();
 
         if (InternetUtils.isConnection(this)) {
             alarmBrowser.getSettings().setJavaScriptEnabled(true);
@@ -82,7 +82,6 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
             alarmBrowser.addJavascriptInterface(new JsInterfaceAlarm(GradesForAlarmActivity.this), "ALARM_HTMLOUT");
             alarmBrowser.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
         } else {
-            Toast.makeText(getBaseContext(), "ALARM -> brak internetu", Toast.LENGTH_LONG).show();
             NewGradeNotification.show(this, "ALARM -> brak internetu");
             this.finishAndRemoveTask();
         }
@@ -92,6 +91,12 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
     public void onAlarmInteraction(boolean alarmFlag) {
         if (alarmFlag) {
             Log.w("UWAGA", "ALARM -> plik zapisany, kończę i usuwam zadanie");
+
+
+            // by tylko raz się wyświetlało powiadomienie
+            alarmBrowser.destroy();
+
+
             Toast.makeText(getBaseContext(), "ALARM -> plik zapisany, kończę i usuwam zadanie", Toast.LENGTH_LONG).show();
             this.finishAndRemoveTask();
         }
