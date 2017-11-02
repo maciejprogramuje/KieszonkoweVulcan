@@ -1,23 +1,18 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan;
 
 import android.content.Context;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Toast;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import commaciejprogramuje.facebook.kieszonkowevulcan.utils.InternetUtils;
 import commaciejprogramuje.facebook.kieszonkowevulcan.utils.JsInterfaceAlarm;
 import commaciejprogramuje.facebook.kieszonkowevulcan.utils.MyAlarm;
-import commaciejprogramuje.facebook.kieszonkowevulcan.utils.NewGradeNotification;
 
 import static commaciejprogramuje.facebook.kieszonkowevulcan.utils.MyAlarm.MY_ALARM_LOGIN_KEY;
 

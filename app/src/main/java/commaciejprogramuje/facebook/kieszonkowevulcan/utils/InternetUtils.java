@@ -1,14 +1,9 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan.utils;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.util.Log;
 import android.widget.Toast;
 
-import commaciejprogramuje.facebook.kieszonkowevulcan.GradesForAlarmActivity;
 import commaciejprogramuje.facebook.kieszonkowevulcan.HelloFragment;
 import commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity;
 

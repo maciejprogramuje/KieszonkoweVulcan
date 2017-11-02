@@ -8,9 +8,9 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import commaciejprogramuje.facebook.kieszonkowevulcan.html_parsers.Grades;
 import commaciejprogramuje.facebook.kieszonkowevulcan.gim_16.Subject;
 import commaciejprogramuje.facebook.kieszonkowevulcan.gim_16.Subjects;
+import commaciejprogramuje.facebook.kieszonkowevulcan.html_parsers.Grades;
 
 import static commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity.KIESZONKOWE_FILE;
 

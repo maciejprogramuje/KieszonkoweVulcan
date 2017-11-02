@@ -6,12 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Toast;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import commaciejprogramuje.facebook.kieszonkowevulcan.utils.JsInterfaceGrades;
 import commaciejprogramuje.facebook.kieszonkowevulcan.utils.InternetUtils;
+import commaciejprogramuje.facebook.kieszonkowevulcan.utils.JsInterfaceGrades;
 
 public class GradesForMainActivity extends AppCompatActivity implements JsInterfaceGrades.OnGradesMainInteractionListener {
     public static final String NOT_RELOAD_GRADES_KEY = "notReloadGrades";

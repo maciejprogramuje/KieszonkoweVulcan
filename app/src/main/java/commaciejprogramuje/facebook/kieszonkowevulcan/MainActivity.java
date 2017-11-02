@@ -34,8 +34,8 @@ import commaciejprogramuje.facebook.kieszonkowevulcan.show_fragments.ShowMoneyFr
 import commaciejprogramuje.facebook.kieszonkowevulcan.show_fragments.ShowNewsFrag;
 import commaciejprogramuje.facebook.kieszonkowevulcan.show_fragments.ShowTeachersFrag;
 import commaciejprogramuje.facebook.kieszonkowevulcan.utils.Credentials;
-import commaciejprogramuje.facebook.kieszonkowevulcan.utils.JsInterfaceGrades;
 import commaciejprogramuje.facebook.kieszonkowevulcan.utils.InternetUtils;
+import commaciejprogramuje.facebook.kieszonkowevulcan.utils.JsInterfaceGrades;
 import commaciejprogramuje.facebook.kieszonkowevulcan.utils.MyAlarm;
 
 import static commaciejprogramuje.facebook.kieszonkowevulcan.GradesForMainActivity.NOT_RELOAD_GRADES_KEY;
