@@ -36,9 +36,11 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
         login = getIntent().getStringExtra(MY_ALARM_LOGIN_KEY);
         password = getIntent().getStringExtra(MyAlarm.MY_ALARM_PASSWORD_KEY);
 
-        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-        login = sharedPref.getString(LOGIN_ALARM_KEY, "");
-        password = sharedPref.getString(PASSWORD_ALARM_KEY, "");
+        if(login.equals("") || password.equals("")) {
+            SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+            login = sharedPref.getString(LOGIN_ALARM_KEY, "");
+            password = sharedPref.getString(PASSWORD_ALARM_KEY, "");
+        }
 
         //Toast.makeText(this, "ALARM -> " + login + ", " + password, Toast.LENGTH_LONG).show();
         Log.w("UWAGA", "ALARM -> " + login + ", " + password);
