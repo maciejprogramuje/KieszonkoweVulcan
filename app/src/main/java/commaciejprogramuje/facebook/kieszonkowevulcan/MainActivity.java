@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static final String ALARM_PASSWORD_KEY = "alarmPassword";
     public static final String KIESZONKOWE_FILE = "kieszonkoweVulcanGrades.dat";
     public static long alarmInterval = AlarmManager.INTERVAL_HOUR;
+    //public static long alarmInterval = 1000 * 60 * 5;
 
     public final Credentials credentials = new Credentials(this);
     public final ShowNewsFrag showNewsFrag = new ShowNewsFrag(this);
@@ -248,7 +249,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Intent alarmIntent = new Intent(mainActivity, MyAlarm.class);
         alarmIntent.putExtra(ALARM_LOGIN_KEY, login);
         alarmIntent.putExtra(ALARM_PASSWORD_KEY, password);
-        return PendingIntent.getBroadcast(mainActivity, 0, alarmIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        return PendingIntent.getBroadcast(mainActivity, 0, alarmIntent, 0);
     }
 
     public static Subjects getSubjects() {
