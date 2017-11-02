@@ -11,7 +11,7 @@ public class ShowHelloFrag {
     }
 
     public void show() {
-        HelloFragment helloFragment = HelloFragment.newInstance();
+        HelloFragment helloFragment = HelloFragment.newInstance(true);
         mainActivity.replaceFrag.replace(mainActivity, helloFragment);
     }
 }

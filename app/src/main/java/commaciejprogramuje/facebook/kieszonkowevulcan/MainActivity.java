@@ -25,7 +25,7 @@ import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import commaciejprogramuje.facebook.kieszonkowevulcan.school.Subjects;
+import commaciejprogramuje.facebook.kieszonkowevulcan.gim_16.Subjects;
 import commaciejprogramuje.facebook.kieszonkowevulcan.show_fragments.ReplaceFrag;
 import commaciejprogramuje.facebook.kieszonkowevulcan.show_fragments.ShowGradesFrag;
 import commaciejprogramuje.facebook.kieszonkowevulcan.show_fragments.ShowHelloFrag;
@@ -118,7 +118,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (!InternetUtils.isConnection(this)) {
             InternetUtils.noConnectionReaction(MainActivity.this);
-            fab.show();
         } else {
             if (login.isEmpty() || password.isEmpty()) {
                 showLoginFrag.show();
@@ -183,7 +182,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (!InternetUtils.isConnection(this)) {
             InternetUtils.noConnectionReaction(MainActivity.this);
         } else {
-            showHelloFrag.show();
+            if(login.equals("") || password.equals("")) {
+                showLoginFrag.show();
+            } else {
+                showHelloFrag.show();
+            }
         }
     }
 
@@ -209,7 +212,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             showHelloFrag.show();
         } else {
-            Toast.makeText(MainActivity.this, "Błąd logowania!\n\nZły login lub hasło.\n\nSpróbuj ponownie", Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, "Błąd logowania! Zły login lub hasło.", Toast.LENGTH_LONG).show();
             credentials.delete();
             showLoginFrag.show();
         }
@@ -219,8 +222,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onStop() {
         super.onStop();
 
+        //Toast.makeText(this, "ALARM -> tworzę ALARM", Toast.LENGTH_LONG).show();
         Log.w("UWAGA", "tworzę ALARM z interwałem " + alarmInterval);
+
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.cancel(getStaticPendingIntent());
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), alarmInterval, getStaticPendingIntent());
     }
 
@@ -242,7 +248,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Intent alarmIntent = new Intent(mainActivity, MyAlarm.class);
         alarmIntent.putExtra(ALARM_LOGIN_KEY, login);
         alarmIntent.putExtra(ALARM_PASSWORD_KEY, password);
-        return PendingIntent.getBroadcast(mainActivity, 0, alarmIntent, PendingIntent.FLAG_IMMUTABLE);
+        return PendingIntent.getBroadcast(mainActivity, 0, alarmIntent, PendingIntent.FLAG_CANCEL_CURRENT);
     }
 
     public static Subjects getSubjects() {

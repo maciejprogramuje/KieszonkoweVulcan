@@ -10,8 +10,8 @@ import android.widget.TextView;
 import java.util.Collections;
 
 import commaciejprogramuje.facebook.kieszonkowevulcan.R;
-import commaciejprogramuje.facebook.kieszonkowevulcan.school.Subject;
-import commaciejprogramuje.facebook.kieszonkowevulcan.school.Subjects;
+import commaciejprogramuje.facebook.kieszonkowevulcan.gim_16.Subject;
+import commaciejprogramuje.facebook.kieszonkowevulcan.gim_16.Subjects;
 
 /**
  * Created by 5742ZGPC on 2017-10-18.

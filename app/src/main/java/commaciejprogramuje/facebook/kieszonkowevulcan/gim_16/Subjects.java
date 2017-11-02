@@ -1,4 +1,4 @@
-package commaciejprogramuje.facebook.kieszonkowevulcan.school;
+package commaciejprogramuje.facebook.kieszonkowevulcan.gim_16;
 
 import java.io.Serializable;
 import java.util.ArrayList;

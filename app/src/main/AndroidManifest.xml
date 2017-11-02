@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="commaciejprogramuje.facebook.kieszonkowevulcan">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -28,7 +29,8 @@
 
         <receiver
             android:name="commaciejprogramuje.facebook.kieszonkowevulcan.utils.MyAlarm"
-            android:process=":remote" />
+            android:process=":remote" >
+        </receiver>
 
         <activity android:name="commaciejprogramuje.facebook.kieszonkowevulcan.GradesForAlarmActivity" />
     </application>

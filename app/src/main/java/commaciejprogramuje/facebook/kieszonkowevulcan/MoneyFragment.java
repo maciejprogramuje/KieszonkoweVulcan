@@ -17,8 +17,8 @@ import java.util.Locale;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import commaciejprogramuje.facebook.kieszonkowevulcan.school.Subject;
-import commaciejprogramuje.facebook.kieszonkowevulcan.school.Subjects;
+import commaciejprogramuje.facebook.kieszonkowevulcan.gim_16.Subject;
+import commaciejprogramuje.facebook.kieszonkowevulcan.gim_16.Subjects;
 import commaciejprogramuje.facebook.kieszonkowevulcan.utils.DataFile;
 
 

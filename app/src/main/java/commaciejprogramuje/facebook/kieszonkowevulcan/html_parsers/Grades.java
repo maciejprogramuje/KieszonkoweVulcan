@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import commaciejprogramuje.facebook.kieszonkowevulcan.school.Grade;
+import commaciejprogramuje.facebook.kieszonkowevulcan.gim_16.Grade;
 
 /**
  * Created by m.szymczyk on 2017-10-24.

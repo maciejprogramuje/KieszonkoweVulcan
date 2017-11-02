@@ -11,8 +11,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-import commaciejprogramuje.facebook.kieszonkowevulcan.school.Subject;
-import commaciejprogramuje.facebook.kieszonkowevulcan.school.Subjects;
+import commaciejprogramuje.facebook.kieszonkowevulcan.gim_16.Subject;
+import commaciejprogramuje.facebook.kieszonkowevulcan.gim_16.Subjects;
 
 /**
  * Created by m.szymczyk on 2017-10-24.

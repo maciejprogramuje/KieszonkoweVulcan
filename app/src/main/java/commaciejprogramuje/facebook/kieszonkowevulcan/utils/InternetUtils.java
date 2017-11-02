@@ -1,9 +1,14 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan.utils;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.util.Log;
 import android.widget.Toast;
 
+import commaciejprogramuje.facebook.kieszonkowevulcan.GradesForAlarmActivity;
 import commaciejprogramuje.facebook.kieszonkowevulcan.HelloFragment;
 import commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity;
 
@@ -14,7 +19,7 @@ import commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity;
 public class InternetUtils {
     public static void noConnectionReaction(MainActivity mainActivity) {
         Toast.makeText(mainActivity, "Włącz internet i odśwież aplikację!", Toast.LENGTH_LONG).show();
-        HelloFragment helloFragment = HelloFragment.newInstance();
+        HelloFragment helloFragment = HelloFragment.newInstance(false);
         mainActivity.replaceFrag.replace(mainActivity, helloFragment);
     }
 

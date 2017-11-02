@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import commaciejprogramuje.facebook.kieszonkowevulcan.school.Teacher;
+import commaciejprogramuje.facebook.kieszonkowevulcan.gim_16.Teacher;
 
 /**
  * Created by m.szymczyk on 2017-10-24.
