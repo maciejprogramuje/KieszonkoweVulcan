@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static final String KIESZONKOWE_FILE = "kieszonkoweVulcanGrades.dat";
     public static long alarmInterval = AlarmManager.INTERVAL_HOUR;
     //public static long alarmInterval = 1000 * 60 * 5;
+    public static boolean isAlarmInProgress = false;
 
     public final Credentials credentials = new Credentials(this);
     public final ShowNewsFrag showNewsFrag = new ShowNewsFrag(this);

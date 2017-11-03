@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -30,13 +31,13 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grades_for_alarm);
         ButterKnife.inject(this);
-
         this.moveTaskToBack(true); // ewentualnie na czas testów wyłączyć, ale raczej ok
+
 
         login = getIntent().getStringExtra(MY_ALARM_LOGIN_KEY);
         password = getIntent().getStringExtra(MyAlarm.MY_ALARM_PASSWORD_KEY);
 
-        if(login.equals("") || password.equals("")) {
+        if (login.equals("") || password.equals("")) {
             SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
             login = sharedPref.getString(LOGIN_ALARM_KEY, "");
             password = sharedPref.getString(PASSWORD_ALARM_KEY, "");
@@ -46,6 +47,8 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
         Log.w("UWAGA", "ALARM -> " + login + ", " + password);
 
         if (InternetUtils.isConnection(this)) {
+            Toast.makeText(this, "ALARM -> Internet OK", Toast.LENGTH_LONG).show();
+
             alarmBrowser.getSettings().setJavaScriptEnabled(true);
             alarmBrowser.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
             alarmBrowser.setWebViewClient(new WebViewClient() {
@@ -79,16 +82,17 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
             alarmBrowser.addJavascriptInterface(new JsInterfaceAlarm(this), "ALARM_HTMLOUT");
             alarmBrowser.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
         } else {
-            //NewGradeNotification.show(this, "ALARM -> brak internetu");
-            this.finishAndRemoveTask();
+            Toast.makeText(this, "ALARM -> BRAK Internetu", Toast.LENGTH_LONG).show();
+            finishAndRemoveTask();
         }
     }
+
 
     @Override
     public void onAlarmInteraction(boolean alarmFlag) {
         if (alarmFlag) {
             Log.w("UWAGA", "ALARM -> plik zapisany, kończę i usuwam zadanie");
-            this.finishAndRemoveTask();
+            finishAndRemoveTask();
         }
     }
 

@@ -35,8 +35,8 @@ public class NewGradeNotification {
         notification.setAutoCancel(true);
 
         //Sound
-        //Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        //notification.setSound(alarmSound);
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        notification.setSound(alarmSound);
 
         //Vibration
         //notification.setVibrate(new long[] { 500, 500, 500, 500, 500 });
@@ -45,6 +45,6 @@ public class NewGradeNotification {
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(index, notification.build());
-        index++;
+        //index++;
     }
 }

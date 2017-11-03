@@ -4,6 +4,8 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.widget.Toast;
 
+import java.net.InetAddress;
+
 import commaciejprogramuje.facebook.kieszonkowevulcan.HelloFragment;
 import commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity;
 
@@ -20,8 +22,15 @@ public class InternetUtils {
 
     public static boolean isConnection(Context context) {
         ConnectivityManager con_manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        return con_manager.getActiveNetworkInfo() != null
-                && con_manager.getActiveNetworkInfo().isAvailable()
-                && con_manager.getActiveNetworkInfo().isConnected();
+        return con_manager.getActiveNetworkInfo() != null && isInternetAvailable();
+    }
+
+    private static boolean isInternetAvailable() {
+        try {
+            InetAddress ipAddr = InetAddress.getByName("google.com");
+            return !ipAddr.equals("");
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
