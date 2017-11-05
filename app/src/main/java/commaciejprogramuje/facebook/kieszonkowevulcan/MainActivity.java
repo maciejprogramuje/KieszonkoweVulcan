@@ -22,6 +22,8 @@ import android.webkit.WebView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.util.Calendar;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -33,12 +35,15 @@ import commaciejprogramuje.facebook.kieszonkowevulcan.show_fragments.ShowLoginFr
 import commaciejprogramuje.facebook.kieszonkowevulcan.show_fragments.ShowMoneyFrag;
 import commaciejprogramuje.facebook.kieszonkowevulcan.show_fragments.ShowNewsFrag;
 import commaciejprogramuje.facebook.kieszonkowevulcan.show_fragments.ShowTeachersFrag;
+import commaciejprogramuje.facebook.kieszonkowevulcan.utils.CallMyAlarm;
 import commaciejprogramuje.facebook.kieszonkowevulcan.utils.Credentials;
 import commaciejprogramuje.facebook.kieszonkowevulcan.utils.InternetUtils;
 import commaciejprogramuje.facebook.kieszonkowevulcan.utils.JsInterfaceGrades;
 import commaciejprogramuje.facebook.kieszonkowevulcan.utils.MyAlarm;
 
 import static commaciejprogramuje.facebook.kieszonkowevulcan.GradesForMainActivity.NOT_RELOAD_GRADES_KEY;
+import static commaciejprogramuje.facebook.kieszonkowevulcan.utils.CallMyAlarm.ALARM_LOGIN_KEY;
+import static commaciejprogramuje.facebook.kieszonkowevulcan.utils.CallMyAlarm.ALARM_PASSWORD_KEY;
 import static commaciejprogramuje.facebook.kieszonkowevulcan.utils.NewGradeNotification.FROM_NOTIFICATION_KEY;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
@@ -47,11 +52,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         JsInterfaceGrades.OnGradesMainInteractionListener {
     public static final String LOGIN_DATA_KEY = "loginData";
     public static final String PASSWORD_DATA_KEY = "passwordData";
-    public static final String ALARM_LOGIN_KEY = "alarmLogin";
-    public static final String ALARM_PASSWORD_KEY = "alarmPassword";
     public static final String KIESZONKOWE_FILE = "kieszonkoweVulcanGrades.dat";
-    public static long alarmInterval = AlarmManager.INTERVAL_HOUR;
-    //public static long alarmInterval = 1000 * 60 * 5;
+    //public static int alarmInterval = 30;
+    public static int alarmInterval = 5;
     public static boolean isAlarmInProgress = false;
 
     public final Credentials credentials = new Credentials(this);
@@ -113,10 +116,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onResume() {
         super.onResume();
 
-        Log.w("UWAGA", "kasuję ALARM");
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        alarmManager.cancel(getStaticPendingIntent());
-
+        //CallMyAlarm.delete(this, login, password);
 
         if (!InternetUtils.isConnection(this)) {
             InternetUtils.noConnectionReaction(MainActivity.this);
@@ -196,7 +196,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onFragmentInteraction(String mLogin, String mPassword) {
         login = mLogin;
         password = mPassword;
-        Log.w("UWAGA", "sprawdzam: " + login + ", " + password);
+        Log.w("UWAGA", "Main Activity, sprawdzam: " + login + ", " + password);
         credentials.checkCredentials();
     }
 
@@ -210,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             editor.putString(PASSWORD_DATA_KEY, password);
             editor.apply();
 
-            Log.w("UWAGA", "zapisano login:" + login + ", hasło: " + password);
+            Log.w("UWAGA", "MainActivity, zapisano login:" + login + ", hasło: " + password);
 
             showHelloFrag.show();
         } else {
@@ -224,18 +224,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onStop() {
         super.onStop();
 
-        //Toast.makeText(this, "ALARM -> tworzę ALARM", Toast.LENGTH_LONG).show();
-        Log.w("UWAGA", "tworzę ALARM z interwałem " + alarmInterval);
-
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        alarmManager.cancel(getStaticPendingIntent());
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), alarmInterval, getStaticPendingIntent());
+        CallMyAlarm.generateNew(MainActivity.this, login, password);
     }
 
     @Override
     public void onGradesMainInteraction(boolean fileFlag) {
         if (fileFlag) {
-            Log.w("UWAGA", "plik zapisany, pokazuję showNewsFrag");
+            Log.w("UWAGA", "MainActivity, plik zapisany - pokazuję showNewsFrag");
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -246,12 +241,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    public static PendingIntent getStaticPendingIntent() {
-        Intent alarmIntent = new Intent(mainActivity, MyAlarm.class);
-        alarmIntent.putExtra(ALARM_LOGIN_KEY, login);
-        alarmIntent.putExtra(ALARM_PASSWORD_KEY, password);
-        return PendingIntent.getBroadcast(mainActivity, 0, alarmIntent, 0);
-    }
+
 
     public static Subjects getSubjects() {
         return subjects;

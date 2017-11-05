@@ -11,9 +11,11 @@ import android.widget.Toast;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import commaciejprogramuje.facebook.kieszonkowevulcan.utils.CallMyAlarm;
 import commaciejprogramuje.facebook.kieszonkowevulcan.utils.InternetUtils;
 import commaciejprogramuje.facebook.kieszonkowevulcan.utils.JsInterfaceAlarm;
 import commaciejprogramuje.facebook.kieszonkowevulcan.utils.MyAlarm;
+import commaciejprogramuje.facebook.kieszonkowevulcan.utils.NewGradeNotification;
 
 import static commaciejprogramuje.facebook.kieszonkowevulcan.utils.MyAlarm.MY_ALARM_LOGIN_KEY;
 
@@ -42,6 +44,12 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
             login = sharedPref.getString(LOGIN_ALARM_KEY, "");
             password = sharedPref.getString(PASSWORD_ALARM_KEY, "");
         }
+
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(LOGIN_ALARM_KEY, login);
+        editor.putString(PASSWORD_ALARM_KEY, password);
+        editor.apply();
 
         //Toast.makeText(this, "ALARM -> " + login + ", " + password, Toast.LENGTH_LONG).show();
         Log.w("UWAGA", "ALARM -> " + login + ", " + password);
@@ -83,6 +91,10 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
             alarmBrowser.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
         } else {
             Toast.makeText(this, "ALARM -> BRAK Internetu", Toast.LENGTH_LONG).show();
+            NewGradeNotification.show(this, "ALARM -> brak internetu");
+            if (android.os.Build.VERSION.SDK_INT >= 23) {
+                CallMyAlarm.generateNew(GradesForAlarmActivity.this, login, password);
+            }
             finishAndRemoveTask();
         }
     }
@@ -92,21 +104,11 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
     public void onAlarmInteraction(boolean alarmFlag) {
         if (alarmFlag) {
             Log.w("UWAGA", "ALARM -> plik zapisany, kończę i usuwam zadanie");
+            if (android.os.Build.VERSION.SDK_INT >= 23) {
+                CallMyAlarm.generateNew(GradesForAlarmActivity.this, login, password);
+            }
             finishAndRemoveTask();
         }
     }
 
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-        //Toast.makeText(getBaseContext(), "ALARM -> zapisuję " + login + ", " + password, Toast.LENGTH_LONG).show();
-
-        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(LOGIN_ALARM_KEY, login);
-        editor.putString(PASSWORD_ALARM_KEY, password);
-        editor.apply();
-    }
 }
