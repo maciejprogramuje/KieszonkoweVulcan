@@ -4,25 +4,32 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.telecom.Call;
+import android.util.Log;
 import android.widget.Toast;
 
 import commaciejprogramuje.facebook.kieszonkowevulcan.GradesForAlarmActivity;
 import commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity;
+
+import static commaciejprogramuje.facebook.kieszonkowevulcan.GradesForAlarmActivity.MY_ALARM_LOGIN_KEY;
+import static commaciejprogramuje.facebook.kieszonkowevulcan.GradesForAlarmActivity.MY_ALARM_PASSWORD_KEY;
 
 /**
  * Created by m.szymczyk on 2017-10-24.
  */
 
 public class MyAlarm extends BroadcastReceiver {
-
-    public static final String MY_ALARM_LOGIN_KEY = "myAlarmLogin";
-    public static final String MY_ALARM_PASSWORD_KEY = "myAlarmPassword";
-
     @Override
     public void onReceive(Context context, Intent intent) {
-        Toast.makeText(context, "ALARM -> onReceive", Toast.LENGTH_LONG).show();
+        Log.w("UWAGA", "ALARM -> onReceive");
 
-        if(!MainActivity.isAlarmInProgress) {
+        Intent getGradesIntent = new Intent();
+        getGradesIntent.setClassName("commaciejprogramuje.facebook.kieszonkowevulcan", "commaciejprogramuje.facebook.kieszonkowevulcan.GradesForAlarmActivity");
+        getGradesIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getGradesIntent.putExtra(MY_ALARM_LOGIN_KEY, intent.getStringExtra(MY_ALARM_LOGIN_KEY));
+        getGradesIntent.putExtra(MY_ALARM_PASSWORD_KEY, intent.getStringExtra(MY_ALARM_PASSWORD_KEY));
+        context.getApplicationContext().startActivity(getGradesIntent);
+
+        /*if(!MainActivity.isAlarmInProgress) {
             MainActivity.isAlarmInProgress = true;
             Intent getGradesIntent = new Intent(context, GradesForAlarmActivity.class);
             getGradesIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -41,6 +48,6 @@ public class MyAlarm extends BroadcastReceiver {
                 }
                 MainActivity.isAlarmInProgress = false;
             }
-        };
+        };*/
     }
 }

@@ -35,15 +35,11 @@ import commaciejprogramuje.facebook.kieszonkowevulcan.show_fragments.ShowLoginFr
 import commaciejprogramuje.facebook.kieszonkowevulcan.show_fragments.ShowMoneyFrag;
 import commaciejprogramuje.facebook.kieszonkowevulcan.show_fragments.ShowNewsFrag;
 import commaciejprogramuje.facebook.kieszonkowevulcan.show_fragments.ShowTeachersFrag;
-import commaciejprogramuje.facebook.kieszonkowevulcan.utils.CallMyAlarm;
 import commaciejprogramuje.facebook.kieszonkowevulcan.utils.Credentials;
 import commaciejprogramuje.facebook.kieszonkowevulcan.utils.InternetUtils;
 import commaciejprogramuje.facebook.kieszonkowevulcan.utils.JsInterfaceGrades;
-import commaciejprogramuje.facebook.kieszonkowevulcan.utils.MyAlarm;
 
 import static commaciejprogramuje.facebook.kieszonkowevulcan.GradesForMainActivity.NOT_RELOAD_GRADES_KEY;
-import static commaciejprogramuje.facebook.kieszonkowevulcan.utils.CallMyAlarm.ALARM_LOGIN_KEY;
-import static commaciejprogramuje.facebook.kieszonkowevulcan.utils.CallMyAlarm.ALARM_PASSWORD_KEY;
 import static commaciejprogramuje.facebook.kieszonkowevulcan.utils.NewGradeNotification.FROM_NOTIFICATION_KEY;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
@@ -53,9 +49,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static final String LOGIN_DATA_KEY = "loginData";
     public static final String PASSWORD_DATA_KEY = "passwordData";
     public static final String KIESZONKOWE_FILE = "kieszonkoweVulcanGrades.dat";
-    //public static int alarmInterval = 30;
-    public static int alarmInterval = 5;
-    public static boolean isAlarmInProgress = false;
+    public static final String LOGIN_GRADES_ALARM_KEY = "loginGradesAlarm";
+    public static final String PASSWORD_GRADES_ALARM_KEY = "passwordGradesAlarm";
 
     public final Credentials credentials = new Credentials(this);
     public final ShowNewsFrag showNewsFrag = new ShowNewsFrag(this);
@@ -115,8 +110,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onResume() {
         super.onResume();
-
-        //CallMyAlarm.delete(this, login, password);
 
         if (!InternetUtils.isConnection(this)) {
             InternetUtils.noConnectionReaction(MainActivity.this);
@@ -184,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (!InternetUtils.isConnection(this)) {
             InternetUtils.noConnectionReaction(MainActivity.this);
         } else {
-            if(login.equals("") || password.equals("")) {
+            if (login.equals("") || password.equals("")) {
                 showLoginFrag.show();
             } else {
                 showHelloFrag.show();
@@ -223,8 +216,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onStop() {
         super.onStop();
+        finishAndRemoveTask();
+    }
 
-        CallMyAlarm.generateNew(MainActivity.this, login, password);
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Intent intent = new Intent();
+        intent.setClassName("commaciejprogramuje.facebook.kieszonkowevulcan", "commaciejprogramuje.facebook.kieszonkowevulcan.GradesForAlarmActivity");
+        intent.putExtra(LOGIN_GRADES_ALARM_KEY, login);
+        intent.putExtra(PASSWORD_GRADES_ALARM_KEY, password);
+        startActivity(intent);
     }
 
     @Override
@@ -240,7 +242,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             showNewsFrag.show();
         }
     }
-
 
 
     public static Subjects getSubjects() {
