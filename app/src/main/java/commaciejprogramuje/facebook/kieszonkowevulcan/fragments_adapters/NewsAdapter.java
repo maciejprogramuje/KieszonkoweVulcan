@@ -68,25 +68,25 @@ public class NewsAdapter extends RecyclerView.Adapter {
             ((NewsViewHolder) holder).avgTextView.setText(tempAvg);
         }
 
-        String tempGrade = "";
-        String tempCodeText = "";
+        StringBuilder tempGrade = new StringBuilder();
+        StringBuilder tempCodeText = new StringBuilder();
 
         if (subject.getSubjectGrades().size() > 0) {
             for (int i = 0; i < subject.getSubjectGrades().size(); i++) {
                 if (subject.getSubjectGrades().get(i).getmDate().equals(subject.getNewestDate())) {
-                    tempGrade = tempGrade + subject.getSubjectGrades().get(i).getmGrade();
-                    tempCodeText = tempCodeText + subject.getSubjectGrades().get(i).getmCode() + " - " + subject.getSubjectGrades().get(i).getmText();
+                    tempGrade.append(subject.getSubjectGrades().get(i).getmGrade());
+                    tempCodeText.append(subject.getSubjectGrades().get(i).getmCode()).append(" - ").append(subject.getSubjectGrades().get(i).getmText());
 
                     if (i < subject.getSubjectGrades().size() - 1) {
-                        tempGrade += ", ";
-                        tempCodeText += "\n";
+                        tempGrade.append(", ");
+                        tempCodeText.append("\n");
                     }
                 }
             }
         } else {
-            tempGrade = "--- brak ocen ---";
+            tempGrade = new StringBuilder("--- brak ocen ---");
         }
-        ((NewsViewHolder) holder).gradeTextView.setText(tempGrade);
+        ((NewsViewHolder) holder).gradeTextView.setText(tempGrade.toString());
 
 
         if (subject.getNewestDate().equals("01.01.1970")) {
@@ -95,9 +95,9 @@ public class NewsAdapter extends RecyclerView.Adapter {
             ((NewsViewHolder) holder).dateTextView.setText(subject.getNewestDate().substring(0, 5));
         }
 
-        ((NewsViewHolder) holder).codeTextTextView.setText(tempCodeText);
+        ((NewsViewHolder) holder).codeTextTextView.setText(tempCodeText.toString());
 
-        if (!tempGrade.equals("--- brak ocen ---")) {
+        if (!tempGrade.toString().equals("--- brak ocen ---")) {
             int gradeInt = Integer.valueOf(tempGrade.substring(0, 1));
             if (gradeInt < 3.00) {
                 ((NewsViewHolder) holder).circleImageView.setImageResource(R.drawable.ic_circle_red_new);

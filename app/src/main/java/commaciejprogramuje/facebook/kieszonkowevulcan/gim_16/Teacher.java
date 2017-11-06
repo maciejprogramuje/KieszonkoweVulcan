@@ -19,15 +19,7 @@ public class Teacher implements Serializable {
         return nameTeacher;
     }
 
-    public void setNameTeacher(String nameTeacher) {
-        this.nameTeacher = nameTeacher;
-    }
-
     public String getSubstituteTeacher() {
         return substituteTeacher;
-    }
-
-    public void setSubstituteTeacher(String substituteTeacher) {
-        this.substituteTeacher = substituteTeacher;
     }
 }

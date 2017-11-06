@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.StrictMode;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -163,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle bottom_navigation_money_activity view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_news) {

@@ -43,4 +43,9 @@
 
     <string name="url_to_zastepstwa">http://zastepstwa.g16-lublin.eu/</string>
     <string name="wyloguj">Wyloguj</string>
+    <string name="zl15">+15 zł</string>
+    <string name="zl10">+10 zł</string>
+    <string name="zl10m">-10 zł</string>
+    <string name="zl0">0 zł</string>
+    <string name="zl5m">-5 zł</string>
 </resources>

@@ -132,6 +132,7 @@ public class MoneyFragment extends Fragment {
 
             ArrayList<Subject> sortedSubjectsArray = DataFile.originOrder(tempSubjects);
 
+            assert tempSubjects != null;
             for (int i = 0; i < tempSubjects.size(); i++) {
                 int currentMonthInt = 0;
                 int previousMonthInt = 0;
@@ -148,22 +149,22 @@ public class MoneyFragment extends Fragment {
                     double subjectAvg = Double.valueOf(tempAvg.replace(",", "."));
                     if (subjectAvg > 4.5) {
                         money += 15;
-                        moneyTextViewArray.get(i).setText("+15 zł");
+                        moneyTextViewArray.get(i).setText(R.string.zl15);
                     } else if (subjectAvg > 3.75) {
                         money += 10;
-                        moneyTextViewArray.get(i).setText("+10 zł");
+                        moneyTextViewArray.get(i).setText(R.string.zl10);
                     } else if (subjectAvg > 3.5) {
                         money += 0;
-                        moneyTextViewArray.get(i).setText("0 zł");
+                        moneyTextViewArray.get(i).setText(R.string.zl0);
                     } else if (subjectAvg >= 3) {
                         money -= 5;
-                        moneyTextViewArray.get(i).setText("-5 zł");
+                        moneyTextViewArray.get(i).setText(R.string.zl5m);
                     } else if (subjectAvg < 3) {
                         money -= 10;
-                        moneyTextViewArray.get(i).setText("-10 zł");
+                        moneyTextViewArray.get(i).setText(R.string.zl10m);
                     }
                 } else {
-                    moneyTextViewArray.get(i).setText("0 zł");
+                    moneyTextViewArray.get(i).setText(R.string.zl0);
                 }
 
 

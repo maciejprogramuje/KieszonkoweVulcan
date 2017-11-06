@@ -35,14 +35,6 @@ public class Subjects implements Serializable {
         return subjects.get(index).getSubjectName();
     }
 
-    public List<Grade> getGradesFromOneSubject(int index) {
-        return subjects.get(index).getSubjectGrades();
-    }
-
-    public String getAverage(int index) {
-        return subjects.get(index).getSubjectAverage();
-    }
-
     public void setGrades(int index, List<Grade> gradesList) {
         subjects.get(index).setSubjectGrades(gradesList);
     }
@@ -61,10 +53,6 @@ public class Subjects implements Serializable {
 
     public List<Subject> getSubjectsArray() {
         return subjects;
-    }
-
-    public void setSubjectsArray(List<Subject> subjects) {
-        this.subjects = subjects;
     }
 
     public Subject getOneFromSubjects(int index) {

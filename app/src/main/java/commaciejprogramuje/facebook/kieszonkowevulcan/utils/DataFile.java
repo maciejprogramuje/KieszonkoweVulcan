@@ -121,12 +121,12 @@ public class DataFile {
         return result;
     }
 
-    public static boolean isExists(Context context, String filename) {
+    static boolean isExists(Context context, String filename) {
         File file = context.getFileStreamPath(filename);
         return !(file == null || !file.exists());
     }
 
-    public static void deleteFile(Context context, String filename) {
+    static void deleteFile(Context context, String filename) {
         File file = context.getFileStreamPath(filename);
         file.delete();
     }

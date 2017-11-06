@@ -21,7 +21,7 @@ public class Subject implements Serializable, Comparable<Subject> {
     private String subjectAverage;
     private String newestDate = "01.01.1970";
 
-    public Subject(String subjectName) {
+    Subject(String subjectName) {
         this.subjectName = subjectName;
     }
 
@@ -29,15 +29,11 @@ public class Subject implements Serializable, Comparable<Subject> {
         return subjectName;
     }
 
-    public void setSubjectName(String subjectName) {
-        this.subjectName = subjectName;
-    }
-
     public String getSubjectAverage() {
         return subjectAverage;
     }
 
-    public void setSubjectAverage(String subjectAverage) {
+    void setSubjectAverage(String subjectAverage) {
         this.subjectAverage = subjectAverage;
     }
 
@@ -45,7 +41,7 @@ public class Subject implements Serializable, Comparable<Subject> {
         return subjectGrades;
     }
 
-    public void setSubjectGrades(List<Grade> subjectGrades) {
+    void setSubjectGrades(List<Grade> subjectGrades) {
         this.subjectGrades = subjectGrades;
     }
 
@@ -53,7 +49,7 @@ public class Subject implements Serializable, Comparable<Subject> {
         return newestDate;
     }
 
-    public void setNewestDate() {
+    void setNewestDate() {
         if (getSubjectGrades().size() > 0) {
             Calendar oldGradeDateCal = Calendar.getInstance();
             try {
@@ -95,6 +91,7 @@ public class Subject implements Serializable, Comparable<Subject> {
             e.printStackTrace();
         }
 
+        assert oldDate != null;
         return oldDate.compareTo(newDate);
     }
 

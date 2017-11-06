@@ -44,6 +44,7 @@ public class NewGradeNotification {
         notification.setLights(Color.WHITE, 3000, 3000);
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        assert notificationManager != null;
         notificationManager.notify(index, notification.build());
         index++;
     }

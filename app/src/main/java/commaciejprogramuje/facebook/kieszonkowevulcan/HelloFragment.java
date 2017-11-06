@@ -1,6 +1,7 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan;
 
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -35,6 +36,7 @@ public class HelloFragment extends Fragment {
         return view;
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -49,17 +51,21 @@ public class HelloFragment extends Fragment {
                 public void onPageFinished(WebView view, String url) {
                     Log.w("UWAGA", "FINISHED: " + url);
 
-                    if (url.equals("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Start/Index")
-                            || url.equals("https://uonetplus.vulcan.net.pl/lublin/Start.mvc/Index")) {
-                        firstFileBrowser.loadUrl("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie");
-                    } else if (url.equals("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie")) {
-                        firstFileBrowser.loadUrl("javascript:window.HELLO_HTMLOUT.processHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');");
-                    } else {
-                        if (url.equals("https://uonetplus.vulcan.net.pl/lublin")
-                                || url.equals("https://uonetplus.vulcan.net.pl/lublin/Start.mvc/Index")
-                                || url.equals("https://uonetplus.vulcan.net.pl/lublin/?logout=true")) {
-                            firstFileBrowser.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
-                        }
+                    switch (url) {
+                        case "https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Start/Index":
+                        case "https://uonetplus.vulcan.net.pl/lublin/Start.mvc/Index":
+                            firstFileBrowser.loadUrl("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie");
+                            break;
+                        case "https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie":
+                            firstFileBrowser.loadUrl("javascript:window.HELLO_HTMLOUT.processHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');");
+                            break;
+                        default:
+                            if (url.equals("https://uonetplus.vulcan.net.pl/lublin")
+                                    || url.equals("https://uonetplus.vulcan.net.pl/lublin/Start.mvc/Index")
+                                    || url.equals("https://uonetplus.vulcan.net.pl/lublin/?logout=true")) {
+                                firstFileBrowser.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
+                            }
+                            break;
                     }
 
                     firstFileBrowser.loadUrl("javascript: {" +

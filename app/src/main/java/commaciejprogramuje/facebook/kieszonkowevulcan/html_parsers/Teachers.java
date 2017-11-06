@@ -29,7 +29,7 @@ public class Teachers {
     public static ArrayList<Teacher> getArray() {
         ArrayList<Teacher> teacherArray = new ArrayList<>();
         String name = "";
-        String substitute = "";
+        StringBuilder substitute = new StringBuilder();
 
         try {
             Document document = Jsoup.connect("http://zastepstwa.g16-lublin.eu/").get();
@@ -48,7 +48,7 @@ public class Teachers {
                     }
 
                     Matcher oneRowMatcher = Pattern.compile("\">(.*?)</td>").matcher(sectionElement);
-                    substitute = "";
+                    substitute = new StringBuilder();
                     int index = 0;
 
                     while (oneRowMatcher.find()) {
@@ -57,13 +57,13 @@ public class Teachers {
                         if (!oneRow.contains("lekcja") && !oneRow.contains("opis") && !oneRow.contains("zastępca") && !oneRow.contains("po lekcji") && !oneRow.contains("miejsce") && !oneRow.contains("dyżury")
                                 && !oneRow.contains("poniedziałek") && !oneRow.contains("wtorek") && !oneRow.contains("środa") && !oneRow.contains("czwartek") && !oneRow.contains("piątek")) {
                             if (index == 0 && !oneRow.equals("")) {
-                                substitute = substitute + oneRow;
+                                substitute.append(oneRow);
                             } else if (index == 1 && !oneRow.equals("")) {
-                                substitute = substitute + " -> " + oneRow;
+                                substitute.append(" -> ").append(oneRow);
                             } else if (index == 2 && !oneRow.equals("")) {
-                                substitute = substitute + " -> " + oneRow + "\n";
+                                substitute.append(" -> ").append(oneRow).append("\n");
                             } else if (index == 2 && oneRow.equals("")) {
-                                substitute = substitute + "\n";
+                                substitute.append("\n");
                             }
                             index++;
                             if (index == 3) {
@@ -71,12 +71,12 @@ public class Teachers {
                             }
                         }
                     }
-                    while (substitute.endsWith("\n")) {
-                        substitute = substitute.substring(0, substitute.length() - 1);
+                    while (substitute.toString().endsWith("\n")) {
+                        substitute = new StringBuilder(substitute.substring(0, substitute.length() - 1));
                     }
 
-                    if (name != "") {
-                        teacherArray.add(new Teacher(name, substitute));
+                    if (!name.equals("")) {
+                        teacherArray.add(new Teacher(name, substitute.toString()));
                     }
                 }
 

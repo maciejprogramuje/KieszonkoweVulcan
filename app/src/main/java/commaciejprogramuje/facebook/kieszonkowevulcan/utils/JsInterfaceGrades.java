@@ -81,7 +81,7 @@ public class JsInterfaceGrades {
                 if (newLength > oldLength) {
                     // there is new grade
                     for (int j = 0; j < newLength - oldLength; j++) {
-                        message = newSubjectsArray.get(i).getSubjectName() + ": " + newSubjectsArray.get(i).getSubjectGrades().get(oldLength + j).getmGrade() + "\n";
+                        message = newSubjectsArray.get(i).getSubjectName() + ": " + newSubjectsArray.get(i).getSubjectGrades().get(oldLength + j).getmGrade();
                         Toast.makeText(context, message, Toast.LENGTH_LONG).show();
                     }
                 }

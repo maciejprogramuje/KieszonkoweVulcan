@@ -25,39 +25,19 @@ public class Grade implements Serializable {
         return mGrade;
     }
 
-    public void setmGrade(String mGrade) {
-        this.mGrade = mGrade;
-    }
-
     public String getmDate() {
         return mDate;
-    }
-
-    public void setmDate(String mDate) {
-        this.mDate = mDate;
     }
 
     public String getmText() {
         return mText;
     }
 
-    public void setmText(String mText) {
-        this.mText = mText;
-    }
-
     public String getmCode() {
         return mCode;
     }
 
-    public void setmCode(String mCode) {
-        this.mCode = mCode;
-    }
-
     public String getmWeight() {
         return mWeight;
-    }
-
-    public void setmWeight(String mWeight) {
-        this.mWeight = mWeight;
     }
 }

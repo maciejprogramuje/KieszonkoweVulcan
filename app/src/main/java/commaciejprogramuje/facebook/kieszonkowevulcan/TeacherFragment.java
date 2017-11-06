@@ -46,6 +46,7 @@ public class TeacherFragment extends Fragment {
         return view;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);

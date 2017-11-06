@@ -61,26 +61,27 @@ public class GradesAdapter extends RecyclerView.Adapter {
             ((GradesViewHolder) holder).avgTextView.setText(tempAvg);
         }
 
-        String gradeDateCodeText = "";
+        StringBuilder gradeDateCodeText = new StringBuilder();
 
         if (subject.getSubjectGrades().size() > 0) {
             for (int i = subject.getSubjectGrades().size() - 1; i >= 0; i--) {
 
-                gradeDateCodeText = gradeDateCodeText
-                        + subject.getSubjectGrades().get(i).getmGrade()
-                        + " (" + subject.getSubjectGrades().get(i).getmDate().substring(0, 5) + ") "
-                        + subject.getSubjectGrades().get(i).getmCode() + ", w:"
-                        + subject.getSubjectGrades().get(i).getmWeight() + " - "
-                        + subject.getSubjectGrades().get(i).getmText();
-
+                gradeDateCodeText.append(subject.getSubjectGrades().get(i).getmGrade())
+                        .append(" (")
+                        .append(subject.getSubjectGrades().get(i).getmDate().substring(0, 5)).append(") ")
+                        .append(subject.getSubjectGrades().get(i).getmCode())
+                        .append(", w:")
+                        .append(subject.getSubjectGrades().get(i).getmWeight())
+                        .append(" - ")
+                        .append(subject.getSubjectGrades().get(i).getmText());
                 if (i > 0) {
-                    gradeDateCodeText += "\n";
+                    gradeDateCodeText.append("\n");
                 }
             }
         } else {
-            gradeDateCodeText = "--- brak ocen ---";
+            gradeDateCodeText = new StringBuilder("--- brak ocen ---");
         }
-        ((GradesViewHolder) holder).gradeCodeTextTextView.setText(gradeDateCodeText);
+        ((GradesViewHolder) holder).gradeCodeTextTextView.setText(gradeDateCodeText.toString());
 
 
         if (!tempAvg.equals("")) {

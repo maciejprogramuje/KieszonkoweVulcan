@@ -1,5 +1,6 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
@@ -17,12 +18,14 @@ public class Credentials {
 
     private OnCredentialsCheckedListener onCredentialsCheckedListener;
 
+    @SuppressLint("Assert")
     public Credentials(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
 
         if (mainActivity != null) {
             onCredentialsCheckedListener = mainActivity;
         } else {
+            assert false;
             throw new RuntimeException(mainActivity.toString()
                     + " must implement OnFragmentInteractionListener (MACIEJ 1)");
         }
@@ -46,6 +49,7 @@ public class Credentials {
         editor.apply();
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     public void checkCredentials() {
         Log.w("UWAGA", "rozpoczynam sprawdzanie");
 
@@ -77,7 +81,7 @@ public class Credentials {
                     mainActivity.setLoginIndex(10);
 
                     onCredentialsCheckedListener.OnCredentialsCheckedInteraction(false);
-                    mainActivity.hideProgressCircle();
+                    MainActivity.hideProgressCircle();
                 }
             }
 
@@ -88,7 +92,7 @@ public class Credentials {
                     // udane logowanie
                     Log.w("UWAGA", "logowanie udane!");
 
-                    mainActivity.hideProgressCircle();
+                    MainActivity.hideProgressCircle();
                     mainActivity.getBrowser().stopLoading();
                     onCredentialsCheckedListener.OnCredentialsCheckedInteraction(true);
                 }
