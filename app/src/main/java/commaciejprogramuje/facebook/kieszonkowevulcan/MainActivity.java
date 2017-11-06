@@ -1,12 +1,15 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.os.StrictMode;
+import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -21,8 +24,6 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
-import java.util.Calendar;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -49,8 +50,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static final String LOGIN_DATA_KEY = "loginData";
     public static final String PASSWORD_DATA_KEY = "passwordData";
     public static final String KIESZONKOWE_FILE = "kieszonkoweVulcanGrades.dat";
-    public static final String LOGIN_GRADES_ALARM_KEY = "loginGradesAlarm";
-    public static final String PASSWORD_GRADES_ALARM_KEY = "passwordGradesAlarm";
 
     public final Credentials credentials = new Credentials(this);
     public final ShowNewsFrag showNewsFrag = new ShowNewsFrag(this);
@@ -107,9 +106,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
+    @SuppressLint("BatteryLife")
     @Override
     protected void onResume() {
         super.onResume();
+
+        String packageName = getPackageName();
+        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+
+        assert pm != null;
+        if (Build.VERSION.SDK_INT >= 23 && !pm.isIgnoringBatteryOptimizations(packageName)) {
+            startActivity(new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS, Uri.parse("package:"+getPackageName())));
+        }
 
         if (!InternetUtils.isConnection(this)) {
             InternetUtils.noConnectionReaction(MainActivity.this);
@@ -122,6 +130,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 showHelloFrag.show();
             }
         }
+
     }
 
     @Override
@@ -224,8 +233,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onDestroy();
         Intent intent = new Intent();
         intent.setClassName("commaciejprogramuje.facebook.kieszonkowevulcan", "commaciejprogramuje.facebook.kieszonkowevulcan.GradesForAlarmActivity");
-        intent.putExtra(LOGIN_GRADES_ALARM_KEY, login);
-        intent.putExtra(PASSWORD_GRADES_ALARM_KEY, password);
+        intent.putExtra("login", login);
+        intent.putExtra("password", password);
         startActivity(intent);
     }
 

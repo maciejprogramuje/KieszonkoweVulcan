@@ -22,15 +22,6 @@ public class InternetUtils {
 
     public static boolean isConnection(Context context) {
         ConnectivityManager con_manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        return con_manager.getActiveNetworkInfo() != null && isInternetAvailable();
-    }
-
-    private static boolean isInternetAvailable() {
-        try {
-            InetAddress ipAddr = InetAddress.getByName("google.com");
-            return !ipAddr.equals("");
-        } catch (Exception e) {
-            return false;
-        }
+        return con_manager.getActiveNetworkInfo() != null;
     }
 }
