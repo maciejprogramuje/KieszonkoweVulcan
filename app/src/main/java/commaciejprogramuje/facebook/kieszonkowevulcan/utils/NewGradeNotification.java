@@ -24,7 +24,8 @@ public class NewGradeNotification {
     public static void show(Context context, String message) {
         NotificationCompat.Builder notification = new NotificationCompat.Builder(context);
 
-        Intent intent = new Intent(context, MainActivity.class);
+        Intent intent = new Intent();
+        intent.setClassName("commaciejprogramuje.facebook.kieszonkowevulcan", "commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity");
         intent.putExtra(FROM_NOTIFICATION_KEY, true);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
