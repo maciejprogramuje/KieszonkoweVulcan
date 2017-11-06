@@ -27,7 +27,7 @@ public class NewGradeNotification {
         Intent intent = new Intent();
         intent.setClassName("commaciejprogramuje.facebook.kieszonkowevulcan", "commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity");
         intent.putExtra(FROM_NOTIFICATION_KEY, true);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 
         notification.setContentIntent(pendingIntent);
         notification.setSmallIcon(R.drawable.ic_notification_grade);
