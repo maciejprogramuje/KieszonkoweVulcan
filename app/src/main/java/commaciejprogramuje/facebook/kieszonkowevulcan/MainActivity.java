@@ -225,13 +225,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onStop() {
-        super.onStop();
+
         Intent intent = new Intent();
         intent.setClassName("commaciejprogramuje.facebook.kieszonkowevulcan", "commaciejprogramuje.facebook.kieszonkowevulcan.GradesForAlarmActivity");
         intent.putExtra("login", login);
         intent.putExtra("password", password);
         startActivity(intent);
-        finishAndRemoveTask();
+
+        super.onStop();
+
+        //finishAndRemoveTask();
     }
 
     @Override

@@ -18,6 +18,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import commaciejprogramuje.facebook.kieszonkowevulcan.utils.InternetUtils;
 import commaciejprogramuje.facebook.kieszonkowevulcan.utils.JsInterfaceAlarm;
+import commaciejprogramuje.facebook.kieszonkowevulcan.utils.NewGradeNotification;
 
 public class GradesForAlarmActivity extends AppCompatActivity implements JsInterfaceAlarm.OnAlarmInteractionListener {
     @InjectView(R.id.alarm_browser)
@@ -25,7 +26,7 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
 
     String login = "";
     String password = "";
-    long alarmInretvalInGradesForAlarmActivity = 1000 * 60 * 30;
+    long alarmInretvalInGradesForAlarmActivity = 1000 * 60 * 60;
     //long alarmInretvalInGradesForAlarmActivity = 1000 * 60 * 2;
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -60,10 +61,10 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
 
         Log.w("UWAGA", "ALARM -> 2. " + login + ", " + password);
         //NewGradeNotification.show(this,"ALARM -> 2. " + login + ", " + password);
-        Toast.makeText(this, "ALARM -> " + login + ", " + password, Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, "ALARM -> " + login + ", " + password, Toast.LENGTH_LONG).show();
 
         if (InternetUtils.isConnection(this)) {
-            Toast.makeText(this, "ALARM -> Internet OK", Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, "ALARM -> Internet OK", Toast.LENGTH_LONG).show();
 
             alarmBrowser.getSettings().setJavaScriptEnabled(true);
             alarmBrowser.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
@@ -101,7 +102,7 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
             alarmBrowser.addJavascriptInterface(new JsInterfaceAlarm(this), "ALARM_HTMLOUT");
             alarmBrowser.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
         } else {
-            //NewGradeNotification.show(this, "ALARM -> brak internetu");
+            NewGradeNotification.show(this, "ALARM -> brak internetu");
             callAlarm();
         }
     }
@@ -116,8 +117,6 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
 
     private void callAlarm() {
         if (Build.VERSION.SDK_INT >= 23) {
-            Log.w("UWAGA", "wykonanie ALARM dla 6.0, brak internetu");
-
             Intent alarmIntent = new Intent();
             alarmIntent.setClassName("commaciejprogramuje.facebook.kieszonkowevulcan", "commaciejprogramuje.facebook.kieszonkowevulcan.utils.MyAlarm");
             alarmIntent.putExtra("loginMyAlarm", login);
