@@ -3,6 +3,7 @@ package commaciejprogramuje.facebook.kieszonkowevulcan.utils;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
 import android.util.Log;
@@ -21,10 +22,6 @@ public class MyAlarm extends BroadcastReceiver {
         getGradesIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         getGradesIntent.putExtra("login", intent.getStringExtra("loginMyAlarm"));
         getGradesIntent.putExtra("password", intent.getStringExtra("passwordMyAlarm"));
-
-        if (Build.VERSION.SDK_INT >= 23) {
-            getGradesIntent.setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
-        }
 
         context.getApplicationContext().startActivity(getGradesIntent);
     }

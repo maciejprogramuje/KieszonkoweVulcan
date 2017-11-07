@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.StrictMode;
@@ -106,19 +105,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         password = sharedPref.getString(PASSWORD_DATA_KEY, "");
     }
 
-
-    @SuppressLint("BatteryLife")
     @Override
     protected void onResume() {
         super.onResume();
-
-        String packageName = getPackageName();
-        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-
-        assert pm != null;
-        if (Build.VERSION.SDK_INT >= 23 && !pm.isIgnoringBatteryOptimizations(packageName)) {
-            startActivity(new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS, Uri.parse("package:"+getPackageName())));
-        }
 
         if (!InternetUtils.isConnection(this)) {
             InternetUtils.noConnectionReaction(MainActivity.this);
@@ -225,6 +214,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onStop() {
+        Toast.makeText(this, "onStop", Toast.LENGTH_LONG).show();
 
         Intent intent = new Intent();
         intent.setClassName("commaciejprogramuje.facebook.kieszonkowevulcan", "commaciejprogramuje.facebook.kieszonkowevulcan.GradesForAlarmActivity");
@@ -234,7 +224,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         super.onStop();
 
-        //finishAndRemoveTask();
+        supportFinishAfterTransition();
     }
 
     @Override

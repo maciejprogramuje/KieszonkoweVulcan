@@ -6,13 +6,11 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Toast;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -37,17 +35,15 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
         ButterKnife.inject(this);
         this.moveTaskToBack(true); // ewentualnie na czas testów wyłączyć, ale raczej ok
 
-
         Log.w("UWAGA", "context: GradesForAlarmActivity");
 
         login = getIntent().getStringExtra("login");
         password = getIntent().getStringExtra("password");
 
-
         Log.w("UWAGA", "ALARM -> 1. " + login + ", " + password);
         //NewGradeNotification.show(this,"ALARM -> 1. " + login + ", " + password);
 
-        if(!login.equals("") || !password.equals("")) {
+        if (!login.equals("") || !password.equals("")) {
             SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();
             editor.putString("loginGrades", login);
@@ -61,11 +57,8 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
 
         Log.w("UWAGA", "ALARM -> 2. " + login + ", " + password);
         //NewGradeNotification.show(this,"ALARM -> 2. " + login + ", " + password);
-        //Toast.makeText(this, "ALARM -> " + login + ", " + password, Toast.LENGTH_LONG).show();
 
         if (InternetUtils.isConnection(this)) {
-            //Toast.makeText(this, "ALARM -> Internet OK", Toast.LENGTH_LONG).show();
-
             alarmBrowser.getSettings().setJavaScriptEnabled(true);
             alarmBrowser.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
             alarmBrowser.setWebViewClient(new WebViewClient() {
@@ -116,24 +109,18 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
     }
 
     private void callAlarm() {
-        if (Build.VERSION.SDK_INT >= 23) {
-            Intent alarmIntent = new Intent();
-            alarmIntent.setClassName("commaciejprogramuje.facebook.kieszonkowevulcan", "commaciejprogramuje.facebook.kieszonkowevulcan.utils.MyAlarm");
-            alarmIntent.putExtra("loginMyAlarm", login);
-            alarmIntent.putExtra("passwordMyAlarm", password);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 222, alarmIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        Intent alarmIntent = new Intent();
+        alarmIntent.setClassName("commaciejprogramuje.facebook.kieszonkowevulcan", "commaciejprogramuje.facebook.kieszonkowevulcan.utils.MyAlarm");
+        alarmIntent.putExtra("loginMyAlarm", login);
+        alarmIntent.putExtra("passwordMyAlarm", password);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
-            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-            if (Build.VERSION.SDK_INT >= 23) {
-                Log.w("UWAGA", "tworzę ALARM dla 6.0");
-                assert alarmManager != null;
-                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + alarmInretvalInGradesForAlarmActivity, pendingIntent);
-            } else {
-                Log.w("UWAGA", "tworzę ALARM z interwałem " + alarmInretvalInGradesForAlarmActivity);
-                assert alarmManager != null;
-                alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), alarmInretvalInGradesForAlarmActivity, pendingIntent);
-            }
-        }
+        //////////////////
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        assert alarmManager != null;
+        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + alarmInretvalInGradesForAlarmActivity, pendingIntent);
+
         finishAndRemoveTask();
     }
 

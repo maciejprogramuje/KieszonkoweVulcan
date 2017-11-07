@@ -6,7 +6,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission-sdk-23 android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
 
     <application
         android:allowBackup="true"
@@ -32,11 +31,7 @@
             android:process=":remote" />
 
         <activity android:name="commaciejprogramuje.facebook.kieszonkowevulcan.GradesForAlarmActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.DEFAULT" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 
