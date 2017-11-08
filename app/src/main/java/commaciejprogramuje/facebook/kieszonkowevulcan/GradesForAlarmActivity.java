@@ -24,8 +24,8 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
 
     String login = "";
     String password = "";
-    long alarmInretvalInGradesForAlarmActivity = 1000 * 60 * 60;
-    //long alarmInretvalInGradesForAlarmActivity = 1000 * 60 * 2;
+    //long alarmInretvalInGradesForAlarmActivity = 1000 * 60 * 30;
+    long alarmInretvalInGradesForAlarmActivity = 1000 * 60 * 30;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -36,8 +36,6 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
         this.moveTaskToBack(true); // ewentualnie na czas testów wyłączyć, ale raczej ok
 
         Log.w("UWAGA", "context: GradesForAlarmActivity");
-
-        callAlarm();
 
         login = getIntent().getStringExtra("login");
         password = getIntent().getStringExtra("password");
@@ -95,9 +93,7 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
             alarmBrowser.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
         } else {
             NewGradeNotification.show(this, "ALARM -> brak internetu");
-
-            //callAlarm();
-            finishAndRemoveTask();
+            callAlarm();
         }
     }
 
@@ -105,9 +101,7 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
     public void onAlarmInteraction(boolean alarmFlag) {
         if (alarmFlag) {
             Log.w("UWAGA", "ALARM -> plik zapisany, kończę i usuwam zadanie");
-
-            //callAlarm();
-            finishAndRemoveTask();
+            callAlarm();
         }
     }
 
@@ -116,13 +110,13 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
         alarmIntent.setClassName("commaciejprogramuje.facebook.kieszonkowevulcan", "commaciejprogramuje.facebook.kieszonkowevulcan.utils.MyAlarm");
         alarmIntent.putExtra("loginMyAlarm", login);
         alarmIntent.putExtra("passwordMyAlarm", password);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         assert alarmManager != null;
         alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + alarmInretvalInGradesForAlarmActivity, pendingIntent);
-
-        //finishAndRemoveTask();
+        Log.w("UWAGA", "ALARM -> stworzyłem nowy alarm");
+        finishAndRemoveTask();
     }
 
 }

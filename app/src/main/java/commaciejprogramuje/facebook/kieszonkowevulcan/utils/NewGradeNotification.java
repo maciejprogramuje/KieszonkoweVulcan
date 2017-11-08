@@ -1,5 +1,6 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan.utils;
 
+import android.app.AlarmManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -8,6 +9,7 @@ import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.Date;
@@ -15,6 +17,8 @@ import java.util.Date;
 import commaciejprogramuje.facebook.kieszonkowevulcan.GradesForAlarmActivity;
 import commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity;
 import commaciejprogramuje.facebook.kieszonkowevulcan.R;
+
+import static android.content.Context.ALARM_SERVICE;
 
 /**
  * Created by m.szymczyk on 2017-10-24.
@@ -38,8 +42,8 @@ public class NewGradeNotification {
         notification.setAutoCancel(true);
 
         //Sound
-        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        notification.setSound(alarmSound);
+        //Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        //notification.setSound(alarmSound);
 
         //Vibration
         //notification.setVibrate(new long[] { 500, 500, 500, 500, 500 });

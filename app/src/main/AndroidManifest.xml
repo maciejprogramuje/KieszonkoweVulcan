@@ -31,7 +31,9 @@
             android:process=":remote" />
 
         <activity android:name="commaciejprogramuje.facebook.kieszonkowevulcan.GradesForAlarmActivity">
-
+            <intent-filter android:priority="999">
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
     </application>
 

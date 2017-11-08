@@ -23,6 +23,6 @@ public class MyAlarm extends BroadcastReceiver {
         getGradesIntent.putExtra("login", intent.getStringExtra("loginMyAlarm"));
         getGradesIntent.putExtra("password", intent.getStringExtra("passwordMyAlarm"));
 
-        context.getApplicationContext().startActivity(getGradesIntent);
+        context.startActivity(getGradesIntent);
     }
 }
