@@ -40,9 +40,6 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
         login = getIntent().getStringExtra("login");
         password = getIntent().getStringExtra("password");
 
-        //Log.w("UWAGA", "ALARM -> 1. " + login + ", " + password);
-        //NewGradeNotification.show(this,"ALARM -> 1. " + login + ", " + password);
-
         if (login != null || password != null) {
             SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();
@@ -114,8 +111,6 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
         alarmIntent.putExtra("loginMyAlarm", login);
         alarmIntent.putExtra("passwordMyAlarm", password);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-
-        //////////////////
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         assert alarmManager != null;
