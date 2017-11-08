@@ -37,6 +37,8 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
 
         Log.w("UWAGA", "context: GradesForAlarmActivity");
 
+        callAlarm();
+
         login = getIntent().getStringExtra("login");
         password = getIntent().getStringExtra("password");
 
@@ -93,7 +95,9 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
             alarmBrowser.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
         } else {
             NewGradeNotification.show(this, "ALARM -> brak internetu");
-            callAlarm();
+
+            //callAlarm();
+            finishAndRemoveTask();
         }
     }
 
@@ -101,7 +105,9 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
     public void onAlarmInteraction(boolean alarmFlag) {
         if (alarmFlag) {
             Log.w("UWAGA", "ALARM -> plik zapisany, kończę i usuwam zadanie");
-            callAlarm();
+
+            //callAlarm();
+            finishAndRemoveTask();
         }
     }
 
@@ -116,7 +122,7 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
         assert alarmManager != null;
         alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + alarmInretvalInGradesForAlarmActivity, pendingIntent);
 
-        finishAndRemoveTask();
+        //finishAndRemoveTask();
     }
 
 }
