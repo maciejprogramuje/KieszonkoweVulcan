@@ -63,28 +63,8 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
                 public void onPageFinished(WebView view, String url) {
                     Log.w("UWAGA", "ALARM -> " + url);
 
-                    switch (url) {
-                        case "https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Start/Index":
-                        case "https://uonetplus.vulcan.net.pl/lublin/Start.mvc/Index":
-                            alarmBrowser.loadUrl("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie");
-                            break;
-                        case "https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie":
-                            alarmBrowser.loadUrl("javascript:window.ALARM_HTMLOUT.processHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');");
-                            break;
-                        default:
-                            if (url.equals("https://uonetplus.vulcan.net.pl/lublin")
-                                    || url.equals("https://uonetplus.vulcan.net.pl/lublin/Start.mvc/Index")
-                                    || url.equals("https://uonetplus.vulcan.net.pl/lublin/?logout=true")) {
-                                alarmBrowser.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
-                            }
-                            break;
-                    }
-
-                    alarmBrowser.loadUrl("javascript: {" +
-                            "document.getElementById('LoginName').value = '" + login + "';" +
-                            "document.getElementById('Password').value = '" + password + "';" +
-                            "document.getElementsByTagName('input')[2].click();" +
-                            "};");
+                    loadUrls(url);
+                    loadUrls(url);
                 }
             });
 
@@ -95,6 +75,31 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
             NewGradeNotification.show(this, "ALARM -> brak internetu");
             callAlarm();
         }
+    }
+
+    private void loadUrls(String url) {
+        switch (url) {
+            case "https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Start/Index":
+            case "https://uonetplus.vulcan.net.pl/lublin/Start.mvc/Index":
+                alarmBrowser.loadUrl("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie");
+                break;
+            case "https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie":
+                alarmBrowser.loadUrl("javascript:window.ALARM_HTMLOUT.processHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');");
+                break;
+            default:
+                if (url.equals("https://uonetplus.vulcan.net.pl/lublin")
+                        || url.equals("https://uonetplus.vulcan.net.pl/lublin/Start.mvc/Index")
+                        || url.equals("https://uonetplus.vulcan.net.pl/lublin/?logout=true")) {
+                    alarmBrowser.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
+                }
+                break;
+        }
+
+        alarmBrowser.loadUrl("javascript: {" +
+                "document.getElementById('LoginName').value = '" + login + "';" +
+                "document.getElementById('Password').value = '" + password + "';" +
+                "document.getElementsByTagName('input')[2].click();" +
+                "};");
     }
 
     @Override
