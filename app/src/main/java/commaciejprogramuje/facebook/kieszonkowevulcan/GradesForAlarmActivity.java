@@ -25,7 +25,7 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
     String login = "";
     String password = "";
     //long alarmInretvalInGradesForAlarmActivity = 1000 * 60 * 30;
-    long alarmInretvalInGradesForAlarmActivity = 1000 * 60 * 30;
+    long alarmInretvalInGradesForAlarmActivity = 1000 * 60 * 15;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -52,8 +52,8 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
             password = sharedPref.getString("passwordGrades", "");
         }
 
-        Log.w("UWAGA", "ALARM -> 2. " + login + ", " + password);
-        //NewGradeNotification.show(this,"ALARM -> 2. " + login + ", " + password);
+        //Log.w("UWAGA", "ALARM -> 2. " + login + ", " + password);
+        NewGradeNotification.show(this,"ALARM -> 2. " + login + ", " + password);
 
         if (InternetUtils.isConnection(this)) {
             alarmBrowser.getSettings().setJavaScriptEnabled(true);
@@ -63,43 +63,40 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
                 public void onPageFinished(WebView view, String url) {
                     Log.w("UWAGA", "ALARM -> " + url);
 
-                    loadUrls(url);
-                    loadUrls(url);
+                    switch (url) {
+                        case "https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Start/Index":
+                        case "https://uonetplus.vulcan.net.pl/lublin/Start.mvc/Index":
+                            alarmBrowser.loadUrl("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie");
+                            break;
+                        case "https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie":
+                            alarmBrowser.loadUrl("javascript:window.ALARM_HTMLOUT.processHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');");
+                            break;
+                        default:
+                            if (url.equals("https://uonetplus.vulcan.net.pl/lublin")
+                                    || url.equals("https://uonetplus.vulcan.net.pl/lublin/Start.mvc/Index")
+                                    || url.equals("https://uonetplus.vulcan.net.pl/lublin/?logout=true")) {
+                                alarmBrowser.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
+                            }
+                            break;
+                    }
+
+                    alarmBrowser.loadUrl("javascript: {" +
+                            "document.getElementById('LoginName').value = '" + login + "';" +
+                            "document.getElementById('Password').value = '" + password + "';" +
+                            "document.getElementsByTagName('input')[2].click();" +
+                            "};");
                 }
             });
 
             // context ma być this, nie kombinuj...
             alarmBrowser.addJavascriptInterface(new JsInterfaceAlarm(this), "ALARM_HTMLOUT");
             alarmBrowser.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
+            callAlarm();
         } else {
             NewGradeNotification.show(this, "ALARM -> brak internetu");
             callAlarm();
+            finishAndRemoveTask();
         }
-    }
-
-    private void loadUrls(String url) {
-        switch (url) {
-            case "https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Start/Index":
-            case "https://uonetplus.vulcan.net.pl/lublin/Start.mvc/Index":
-                alarmBrowser.loadUrl("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie");
-                break;
-            case "https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie":
-                alarmBrowser.loadUrl("javascript:window.ALARM_HTMLOUT.processHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');");
-                break;
-            default:
-                if (url.equals("https://uonetplus.vulcan.net.pl/lublin")
-                        || url.equals("https://uonetplus.vulcan.net.pl/lublin/Start.mvc/Index")
-                        || url.equals("https://uonetplus.vulcan.net.pl/lublin/?logout=true")) {
-                    alarmBrowser.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
-                }
-                break;
-        }
-
-        alarmBrowser.loadUrl("javascript: {" +
-                "document.getElementById('LoginName').value = '" + login + "';" +
-                "document.getElementById('Password').value = '" + password + "';" +
-                "document.getElementsByTagName('input')[2].click();" +
-                "};");
     }
 
     @Override
@@ -107,6 +104,7 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
         if (alarmFlag) {
             Log.w("UWAGA", "ALARM -> plik zapisany, kończę i usuwam zadanie");
             callAlarm();
+            finishAndRemoveTask();
         }
     }
 
@@ -121,7 +119,6 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
         assert alarmManager != null;
         alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + alarmInretvalInGradesForAlarmActivity, pendingIntent);
         Log.w("UWAGA", "ALARM -> stworzyłem nowy alarm");
-        finishAndRemoveTask();
     }
 
 }

@@ -52,7 +52,8 @@ public class NewGradeNotification {
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         assert notificationManager != null;
-        int index = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
+        //int index = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
+        int index = 1;
         notificationManager.notify(index, notification.build());
     }
 }
