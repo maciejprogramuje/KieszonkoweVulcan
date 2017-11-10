@@ -100,6 +100,8 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
         }
     }
 
+    // problemem jest niezamykanie okna przeglądarki, po nieudanym logowaniu? pobieraniu danych?
+
     @Override
     public void onAlarmInteraction(boolean alarmFlag) {
         if (alarmFlag) {
