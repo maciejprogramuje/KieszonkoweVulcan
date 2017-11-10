@@ -92,6 +92,7 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
             alarmBrowser.addJavascriptInterface(new JsInterfaceAlarm(this), "ALARM_HTMLOUT");
             alarmBrowser.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
             callAlarm();
+            finishAndRemoveTask();
         } else {
             NewGradeNotification.show(this, "ALARM -> brak internetu");
             callAlarm();
