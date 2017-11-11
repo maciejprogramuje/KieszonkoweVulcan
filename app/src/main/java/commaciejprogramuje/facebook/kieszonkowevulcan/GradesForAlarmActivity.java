@@ -53,7 +53,7 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
         }
 
         //Log.w("UWAGA", "ALARM -> 2. " + login + ", " + password);
-        NewGradeNotification.show(this,"ALARM -> 2. " + login + ", " + password);
+        //NewGradeNotification.show(this,"ALARM -> 2. " + login + ", " + password);
 
         if (InternetUtils.isConnection(this)) {
             alarmBrowser.getSettings().setJavaScriptEnabled(true);
@@ -94,7 +94,7 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
             callAlarm();
             finishAndRemoveTask();
         } else {
-            NewGradeNotification.show(this, "ALARM -> brak internetu");
+            //NewGradeNotification.show(this, "ALARM -> brak internetu");
             callAlarm();
             finishAndRemoveTask();
         }
