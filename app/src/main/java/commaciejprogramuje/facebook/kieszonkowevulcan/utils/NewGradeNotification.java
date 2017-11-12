@@ -19,6 +19,7 @@ import commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity;
 import commaciejprogramuje.facebook.kieszonkowevulcan.R;
 
 import static android.content.Context.ALARM_SERVICE;
+import static android.support.v4.app.NotificationCompat.BADGE_ICON_SMALL;
 
 /**
  * Created by m.szymczyk on 2017-10-24.
@@ -26,9 +27,10 @@ import static android.content.Context.ALARM_SERVICE;
 
 public class NewGradeNotification {
     public static final String FROM_NOTIFICATION_KEY = "fromNotification";
+    private static String CHANNEL_ID = "my_channel_01";
 
     public static void show(Context context, String message) {
-        NotificationCompat.Builder notification = new NotificationCompat.Builder(context);
+        NotificationCompat.Builder notification = new NotificationCompat.Builder(context, CHANNEL_ID);
 
         Intent intent = new Intent();
         intent.setClassName("commaciejprogramuje.facebook.kieszonkowevulcan", "commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity");
@@ -36,7 +38,8 @@ public class NewGradeNotification {
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 
         notification.setContentIntent(pendingIntent);
-        notification.setSmallIcon(R.drawable.ic_notification_grade);
+        notification.setSmallIcon(R.drawable.ic_notification_grade_badge);
+        notification.setBadgeIconType(BADGE_ICON_SMALL);
         notification.setContentTitle("Dzienniczek Vulcan G16");
         notification.setContentText(message);
         notification.setAutoCancel(true);

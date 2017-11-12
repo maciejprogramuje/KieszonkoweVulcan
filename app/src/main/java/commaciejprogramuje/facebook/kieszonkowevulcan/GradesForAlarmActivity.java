@@ -25,7 +25,7 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
     String login = "";
     String password = "";
     //long alarmInretvalInGradesForAlarmActivity = 1000 * 60 * 30;
-    long alarmInretvalInGradesForAlarmActivity = 1000 * 60 * 15;
+    long alarmInretvalInGradesForAlarmActivity = 1000 * 60 * 60;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
