@@ -18,14 +18,14 @@ import commaciejprogramuje.facebook.kieszonkowevulcan.utils.InternetUtils;
 import commaciejprogramuje.facebook.kieszonkowevulcan.utils.JsInterfaceAlarm;
 import commaciejprogramuje.facebook.kieszonkowevulcan.utils.NewGradeNotification;
 
+import static commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity.alarmInretvalInGradesForAlarmActivity;
+
 public class GradesForAlarmActivity extends AppCompatActivity implements JsInterfaceAlarm.OnAlarmInteractionListener {
     @InjectView(R.id.alarm_browser)
     WebView alarmBrowser;
 
     String login = "";
     String password = "";
-    //long alarmInretvalInGradesForAlarmActivity = 1000 * 60 * 30;
-    long alarmInretvalInGradesForAlarmActivity = 1000 * 60 * 60;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override

@@ -47,6 +47,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         LoginFragment.OnFragmentInteractionListener,
         Credentials.OnCredentialsCheckedListener,
         JsInterfaceGrades.OnGradesMainInteractionListener {
+
+    public static final long alarmInretvalInGradesForAlarmActivity = 1000 * 60 * 30;
+
     public static final String LOGIN_DATA_KEY = "loginData";
     public static final String PASSWORD_DATA_KEY = "passwordData";
     public static final String KIESZONKOWE_FILE = "kieszonkoweVulcanGrades.dat";
