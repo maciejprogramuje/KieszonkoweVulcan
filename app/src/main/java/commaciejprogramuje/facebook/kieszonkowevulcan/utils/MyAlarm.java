@@ -15,16 +15,14 @@ import android.util.Log;
 public class MyAlarm extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
-            Log.w("UWAGA", "ALARM -> onReceive");
+        Log.w("UWAGA", "ALARM -> onReceive");
 
-            Intent getGradesIntent = new Intent();
-            getGradesIntent.setClassName("commaciejprogramuje.facebook.kieszonkowevulcan", "commaciejprogramuje.facebook.kieszonkowevulcan.GradesForAlarmActivity");
-            getGradesIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            getGradesIntent.putExtra("login", intent.getStringExtra("loginMyAlarm"));
-            getGradesIntent.putExtra("password", intent.getStringExtra("passwordMyAlarm"));
+        Intent getGradesIntent = new Intent();
+        getGradesIntent.setClassName("commaciejprogramuje.facebook.kieszonkowevulcan", "commaciejprogramuje.facebook.kieszonkowevulcan.GradesForAlarmActivity");
+        getGradesIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getGradesIntent.putExtra("login", intent.getStringExtra("loginMyAlarm"));
+        getGradesIntent.putExtra("password", intent.getStringExtra("passwordMyAlarm"));
 
-            context.startActivity(getGradesIntent);
-        }
+        context.startActivity(getGradesIntent);
     }
 }

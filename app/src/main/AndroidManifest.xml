@@ -28,7 +28,7 @@
         </activity>
 
         <activity android:name="commaciejprogramuje.facebook.kieszonkowevulcan.GradesForAlarmActivity">
-            <intent-filter android:priority="999">
+            <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -39,6 +39,7 @@
             android:enabled="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
         </receiver>
 

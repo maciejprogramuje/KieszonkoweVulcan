@@ -80,7 +80,8 @@ public class JsInterfaceAlarm {
             }
             // there is not new grade
             if(message.equals("")) {
-                NewGradeNotification.show(context, "Brak nowych ocen");
+                Log.w("UWAGA", "Brak nowych ocen");
+                //NewGradeNotification.show(context, "Brak nowych ocen");
             }
         }
 

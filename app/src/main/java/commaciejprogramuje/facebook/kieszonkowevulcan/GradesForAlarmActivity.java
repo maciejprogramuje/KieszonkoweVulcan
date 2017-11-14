@@ -55,7 +55,7 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
             password = sharedPref.getString("passwordGrades", "");
         }
 
-        //Log.w("UWAGA", "ALARM -> 2. " + login + ", " + password);
+        Log.w("UWAGA", "ALARM -> 2. " + login + ", " + password);
         //NewGradeNotification.show(this,"ALARM -> 2. " + login + ", " + password);
 
         if (InternetUtils.isConnection(this)) {
@@ -95,22 +95,32 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
             alarmBrowser.addJavascriptInterface(new JsInterfaceAlarm(this), "ALARM_HTMLOUT");
             alarmBrowser.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
             callAlarm();
-            finishAndRemoveTask();
+            finish();
         } else {
             //NewGradeNotification.show(this, "ALARM -> brak internetu");
+            Log.w("UWAGA", "ALARM -> brak internetu");
             callAlarm();
-            finishAndRemoveTask();
+            finish();
         }
     }
 
     // problemem jest niezamykanie okna przeglądarki, po nieudanym logowaniu? pobieraniu danych?
+
+
+    @Override
+    protected void onPause() {
+        Log.w("UWAGA", "ALARM -> onPause");
+        callAlarm();
+        finish();
+        super.onPause();
+    }
 
     @Override
     public void onAlarmInteraction(boolean alarmFlag) {
         if (alarmFlag) {
             Log.w("UWAGA", "ALARM -> plik zapisany, kończę i usuwam zadanie");
             callAlarm();
-            finishAndRemoveTask();
+            finish();
         }
     }
 
@@ -124,6 +134,8 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         assert alarmManager != null;
         alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + alarmInretvalInGradesForAlarmActivity, pendingIntent);
+
+        // call alarm jest wywoływany 2x
         Log.w("UWAGA", "ALARM -> stworzyłem nowy alarm");
     }
 
