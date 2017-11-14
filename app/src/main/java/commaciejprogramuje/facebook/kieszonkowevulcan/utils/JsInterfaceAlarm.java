@@ -73,14 +73,14 @@ public class JsInterfaceAlarm {
 
                 if (newLength > oldLength) {
                     for (int j = 0; j < newLength - oldLength; j++) {
-                        message = newSubjectsArray.get(i).getSubjectName() + ": " + newSubjectsArray.get(i).getSubjectGrades().get(oldLength + j).getmGrade() + "\n";
+                        message = "nowa: " + newSubjectsArray.get(i).getSubjectName() + ": " + newSubjectsArray.get(i).getSubjectGrades().get(oldLength + j).getmGrade() + "\n";
                         NewGradeNotification.show(context, message);
                     }
                 }
             }
             // there is not new grade
             if(message.equals("")) {
-                //NewGradeNotification.show(context, "Brak nowych ocen");
+                NewGradeNotification.show(context, "Brak nowych ocen");
             }
         }
 
