@@ -81,6 +81,10 @@ public class MoneyFragment extends Fragment {
     TextView moneyInformatykaAvg;
     @InjectView(R.id.money_informatyka_money)
     TextView moneyInformatykaMoney;
+    @InjectView(R.id.money_wychowanie_fizyczne_avg)
+    TextView moneyWychowanieFizyczneAvg;
+    @InjectView(R.id.money_wychowanie_fizyczne_money)
+    TextView moneyWychowanieFizyczneMoney;
     @InjectView(R.id.money_edukacja_dla_bezpieczenstwa_avg)
     TextView moneyEdukacjaDlaBezpieczenstwaAvg;
     @InjectView(R.id.money_edukacja_dla_bezpieczenstwa_money)
@@ -89,10 +93,6 @@ public class MoneyFragment extends Fragment {
     TextView moneyZajeciaTechniczneAvg;
     @InjectView(R.id.money_zajecia_techniczne_money)
     TextView moneyZajeciaTechniczneMoney;
-    @InjectView(R.id.money_wychowanie_do_zycia_avg)
-    TextView moneyWychowanieDoZyciaAvg;
-    @InjectView(R.id.money_wychowanie_do_zycia_money)
-    TextView moneyWychowanieDoZyciaMoney;
     @InjectView(R.id.money_etyka_avg)
     TextView moneyEtykaAvg;
     @InjectView(R.id.money_etyka_money)
@@ -257,9 +257,9 @@ public class MoneyFragment extends Fragment {
         avgsTextViewArray.add(moneyFizykaAvg);
         avgsTextViewArray.add(moneyMatematykaAvg);
         avgsTextViewArray.add(moneyInformatykaAvg);
+        avgsTextViewArray.add(moneyWychowanieFizyczneAvg);
         avgsTextViewArray.add(moneyEdukacjaDlaBezpieczenstwaAvg);
         avgsTextViewArray.add(moneyZajeciaTechniczneAvg);
-        avgsTextViewArray.add(moneyWychowanieDoZyciaAvg);
         avgsTextViewArray.add(moneyEtykaAvg);
     }
 
@@ -276,9 +276,9 @@ public class MoneyFragment extends Fragment {
         moneyTextViewArray.add(moneyFizykaMoney);
         moneyTextViewArray.add(moneyMatematykaMoney);
         moneyTextViewArray.add(moneyInformatykaMoney);
+        moneyTextViewArray.add(moneyWychowanieFizyczneMoney);
         moneyTextViewArray.add(moneyEdukacjaDlaBezpieczenstwaMoney);
         moneyTextViewArray.add(moneyZajeciaTechniczneMoney);
-        moneyTextViewArray.add(moneyWychowanieDoZyciaMoney);
         moneyTextViewArray.add(moneyEtykaMoney);
     }
 

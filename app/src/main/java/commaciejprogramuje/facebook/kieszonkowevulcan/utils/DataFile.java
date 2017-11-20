@@ -95,6 +95,12 @@ public class DataFile {
         result.add(subjects.getOneFromSubjects(index));
 
         index = 0;
+        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Wychowanie fizyczne")) {
+            index++;
+        }
+        result.add(subjects.getOneFromSubjects(index));
+
+        index = 0;
         while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Edukacja dla bezpieczeństwa")) {
             index++;
         }
@@ -102,12 +108,6 @@ public class DataFile {
 
         index = 0;
         while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Zajęcia techniczne")) {
-            index++;
-        }
-        result.add(subjects.getOneFromSubjects(index));
-
-        index = 0;
-        while(!subjects.getOneFromSubjects(index).getSubjectName().equals("Wychowanie do życia w rodzinie")) {
             index++;
         }
         result.add(subjects.getOneFromSubjects(index));

@@ -25,9 +25,9 @@ public class Subjects implements Serializable {
         subjects.add(new Subject("Fizyka")); // 9
         subjects.add(new Subject("Matematyka")); // 10
         subjects.add(new Subject("Informatyka")); // 11
-        subjects.add(new Subject("Edukacja dla bezpieczeństwa")); // 12
-        subjects.add(new Subject("Zajęcia techniczne")); // 13
-        subjects.add(new Subject("Wychowanie do życia w rodzinie")); // 14
+        subjects.add(new Subject("Wychowanie fizyczne")); // 12
+        subjects.add(new Subject("Edukacja dla bezpieczeństwa")); // 13
+        subjects.add(new Subject("Zajęcia techniczne")); // 14
         subjects.add(new Subject("Etyka")); // 15
     }
 

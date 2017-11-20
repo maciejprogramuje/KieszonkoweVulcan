@@ -6,6 +6,7 @@
     android:theme="@android:style/Theme.NoDisplay"
     android:noHistory="true"
     android:excludeFromRecents="true"
+    android:background="@android:color/transparent"
     tools:context="commaciejprogramuje.facebook.kieszonkowevulcan.GradesForAlarmActivity">
 
     <WebView
