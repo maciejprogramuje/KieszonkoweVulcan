@@ -73,7 +73,7 @@ public class JsInterfaceAlarm {
 
                 if (newLength > oldLength) {
                     for (int j = 0; j < newLength - oldLength; j++) {
-                        message = "nowa: " + newSubjectsArray.get(i).getSubjectName() + ": " + newSubjectsArray.get(i).getSubjectGrades().get(oldLength + j).getmGrade() + "\n";
+                        message = newSubjectsArray.get(i).getSubjectName() + ": " + newSubjectsArray.get(i).getSubjectGrades().get(oldLength + j).getmGrade() + "\n";
                         NewGradeNotification.show(context, message);
                     }
                 }
