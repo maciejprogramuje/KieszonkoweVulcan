@@ -13,6 +13,8 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.util.Date;
+
 import commaciejprogramuje.facebook.kieszonkowevulcan.HelloFragment;
 import commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity;
 import commaciejprogramuje.facebook.kieszonkowevulcan.R;
@@ -68,8 +70,8 @@ public class MultiUtils {
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         assert notificationManager != null;
-        //int index = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
-        int index = 1;
+        int index = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
+        //int index = 1;
         notificationManager.notify(index, notification.build());
     }
 
