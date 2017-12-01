@@ -215,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onStop() {
-        //Toast.makeText(this, "onStop", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "onStop", Toast.LENGTH_LONG).show();
 
         Intent intent = new Intent();
         intent.setClassName("commaciejprogramuje.facebook.kieszonkowevulcan", "commaciejprogramuje.facebook.kieszonkowevulcan.GradesForAlarmActivity");
