@@ -17,7 +17,7 @@ import butterknife.InjectView;
 import commaciejprogramuje.facebook.kieszonkowevulcan.utils.InternetUtils;
 import commaciejprogramuje.facebook.kieszonkowevulcan.utils.JsInterfaceAlarm;
 
-import static commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity.alarmInretvalInGradesForAlarmActivity;
+import static commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity.ALARM_INRETVAL_IN_GRADES_FOR_ALARM_ACTIVITY;
 
 public class GradesForAlarmActivity extends AppCompatActivity implements JsInterfaceAlarm.OnAlarmInteractionListener {
     @InjectView(R.id.alarm_browser)
@@ -129,7 +129,7 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         assert alarmManager != null;
-        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + alarmInretvalInGradesForAlarmActivity, pendingIntent);
+        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + ALARM_INRETVAL_IN_GRADES_FOR_ALARM_ACTIVITY, pendingIntent);
 
         // call alarm jest wywoływany 2x
         Log.w("UWAGA", "ALARM -> stworzyłem nowy alarm");
