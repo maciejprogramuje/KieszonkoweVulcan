@@ -13,21 +13,24 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp">
+            android:paddingBottom="8dp"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
+            android:paddingTop="16dp">
 
             <ImageView
                 android:id="@+id/card_grades_circle"
-                android:src="@drawable/ic_circle_white"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_circle_white" />
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:orientation="vertical"
-                android:textColor="@color/colorPrimary"
                 android:paddingStart="16dp"
-                android:layout_weight="1">
+                android:textColor="@color/colorPrimary">
 
                 <TextView
                     android:id="@+id/card_grades_subject"
@@ -48,26 +51,56 @@
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/card_grades_avg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0.00"
-                    android:textSize="16sp"
-                    android:gravity="bottom|end"
-                    android:layout_weight="1"/>
 
             </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="16dp"
+            android:paddingEnd="16dp"
+            android:paddingStart="72dp">
+
+            <TextView
+                android:id="@+id/card_grades_prop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0+"
+                android:textSize="16sp"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/card_grades_sem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0+"
+                android:layout_marginStart="32dp"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/card_grades_avg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:layout_weight="1"
+                android:textStyle="bold"
+                android:text="0.00"
+                android:textSize="16sp" />
 
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:background="@color/colorPrimary"/>
+            android:background="@color/colorPrimary" />
     </LinearLayout>
 
 

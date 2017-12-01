@@ -10,10 +10,6 @@ import java.util.regex.Pattern;
 
 import commaciejprogramuje.facebook.kieszonkowevulcan.gim_16.Teacher;
 
-/**
- * Created by m.szymczyk on 2017-10-24.
- */
-
 public class Teachers {
     public static String getDate() {
         try {
@@ -29,7 +25,7 @@ public class Teachers {
     public static ArrayList<Teacher> getArray() {
         ArrayList<Teacher> teacherArray = new ArrayList<>();
         String name = "";
-        StringBuilder substitute = new StringBuilder();
+        StringBuilder substitute;
 
         try {
             Document document = Jsoup.connect("http://zastepstwa.g16-lublin.eu/").get();

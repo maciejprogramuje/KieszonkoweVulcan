@@ -4,10 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by m.szymczyk on 2017-10-09.
- */
-
 public class Subjects implements Serializable {
     private List<Subject> subjects;
 
@@ -41,6 +37,14 @@ public class Subjects implements Serializable {
 
     public void setAverage(int index, String averageString) {
         subjects.get(index).setSubjectAverage(averageString);
+    }
+
+    public void setProposition(int index, String propositionString) {
+        subjects.get(index).setSubjectProposition(propositionString);
+    }
+
+    public void setSem(int index, String semString) {
+        subjects.get(index).setSubjectSem(semString);
     }
 
     public void setNewestDate(int index) {

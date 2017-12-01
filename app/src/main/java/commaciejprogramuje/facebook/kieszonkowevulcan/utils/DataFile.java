@@ -14,10 +14,6 @@ import java.util.ArrayList;
 import commaciejprogramuje.facebook.kieszonkowevulcan.gim_16.Subject;
 import commaciejprogramuje.facebook.kieszonkowevulcan.gim_16.Subjects;
 
-/**
- * Created by m.szymczyk on 2017-10-24.
- */
-
 public class DataFile {
 
     public static ArrayList<Subject> originOrder(Subjects subjects) {

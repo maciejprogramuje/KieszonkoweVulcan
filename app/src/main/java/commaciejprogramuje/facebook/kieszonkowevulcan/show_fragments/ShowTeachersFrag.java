@@ -5,10 +5,6 @@ import commaciejprogramuje.facebook.kieszonkowevulcan.TeacherFragment;
 import commaciejprogramuje.facebook.kieszonkowevulcan.html_parsers.Teachers;
 import commaciejprogramuje.facebook.kieszonkowevulcan.utils.InternetUtils;
 
-/**
- * Created by m.szymczyk on 2017-10-16.
- */
-
 public class ShowTeachersFrag {
     private final MainActivity mainActivity;
 

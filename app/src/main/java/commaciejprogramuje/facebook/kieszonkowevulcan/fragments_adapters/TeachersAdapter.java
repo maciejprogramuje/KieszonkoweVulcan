@@ -11,10 +11,6 @@ import java.util.ArrayList;
 import commaciejprogramuje.facebook.kieszonkowevulcan.R;
 import commaciejprogramuje.facebook.kieszonkowevulcan.gim_16.Teacher;
 
-/**
- * Created by 5742ZGPC on 2017-10-21.
- */
-
 public class TeachersAdapter extends RecyclerView.Adapter {
     private ArrayList<Teacher> mTeachers;
 

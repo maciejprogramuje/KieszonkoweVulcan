@@ -1,14 +1,10 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.PowerManager;
 import android.os.StrictMode;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -93,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        //noinspection deprecation
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
@@ -244,7 +241,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-
     public static Subjects getSubjects() {
         return subjects;
     }
@@ -254,10 +250,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void setActionBarTitle(String title) {
+        //noinspection ConstantConditions
         getSupportActionBar().setTitle(title);
     }
 
     public void setActionBarSubtitle(String subtitle) {
+        //noinspection ConstantConditions
         getSupportActionBar().setSubtitle(subtitle);
     }
 

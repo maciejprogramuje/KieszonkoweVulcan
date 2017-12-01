@@ -11,14 +11,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * Created by m.szymczyk on 2017-10-11.
- */
-
 public class Subject implements Serializable, Comparable<Subject> {
     private String subjectName;
     private List<Grade> subjectGrades = new ArrayList<>();
     private String subjectAverage;
+    private String subjectProposition;
+    private String subjectSem;
     private String newestDate = "01.01.1970";
 
     Subject(String subjectName) {
@@ -47,6 +45,22 @@ public class Subject implements Serializable, Comparable<Subject> {
 
     public String getNewestDate() {
         return newestDate;
+    }
+
+    public String getSubjectProposition() {
+        return subjectProposition;
+    }
+
+    void setSubjectProposition(String subjectProposition) {
+        this.subjectProposition = subjectProposition;
+    }
+
+    public String getSubjectSem() {
+        return subjectSem;
+    }
+
+    void setSubjectSem(String subjectSem) {
+        this.subjectSem = subjectSem;
     }
 
     void setNewestDate() {

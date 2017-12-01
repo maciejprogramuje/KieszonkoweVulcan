@@ -11,10 +11,6 @@ import commaciejprogramuje.facebook.kieszonkowevulcan.R;
 import commaciejprogramuje.facebook.kieszonkowevulcan.gim_16.Subject;
 import commaciejprogramuje.facebook.kieszonkowevulcan.gim_16.Subjects;
 
-/**
- * Created by m.szymczyk on 2017-10-19.
- */
-
 public class GradesAdapter extends RecyclerView.Adapter {
     private Subjects mSubjects;
 
@@ -23,6 +19,8 @@ public class GradesAdapter extends RecyclerView.Adapter {
         TextView subjectTextView;
         TextView gradeCodeTextTextView;
         TextView avgTextView;
+        TextView propositionTextView;
+        TextView semTextView;
 
         GradesViewHolder(View itemView) {
             super(itemView);
@@ -30,6 +28,8 @@ public class GradesAdapter extends RecyclerView.Adapter {
             subjectTextView = itemView.findViewById(R.id.card_grades_subject);
             gradeCodeTextTextView = itemView.findViewById(R.id.card_grades_grades);
             avgTextView = itemView.findViewById(R.id.card_grades_avg);
+            propositionTextView = itemView.findViewById(R.id.card_grades_prop);
+            semTextView = itemView.findViewById(R.id.card_grades_sem);
         }
     }
 
@@ -50,15 +50,29 @@ public class GradesAdapter extends RecyclerView.Adapter {
 
         ((GradesViewHolder) holder).subjectTextView.setText(subject.getSubjectName());
 
+        String tempProposition = subject.getSubjectProposition();
+        if(tempProposition.equals("")) {
+            ((GradesViewHolder) holder).propositionTextView.setText("");
+        } else {
+            ((GradesViewHolder) holder).propositionTextView.setText(String.format("prop: %s", tempProposition));
+        }
+
+        String tempSem = subject.getSubjectSem();
+        if(tempSem.equals("")) {
+            ((GradesViewHolder) holder).semTextView.setText("");
+        } else {
+            ((GradesViewHolder) holder).semTextView.setText(String.format("sem: %s", "3+"));
+        }
+
         String tempAvg = subject.getSubjectAverage();
         if (tempAvg.equals("")) {
             ((GradesViewHolder) holder).avgTextView.setText("");
         } else if (tempAvg.length() == 1) {
-            ((GradesViewHolder) holder).avgTextView.setText(String.format("%s,00", tempAvg));
+            ((GradesViewHolder) holder).avgTextView.setText(String.format("śr: %s,00", tempAvg));
         } else if (tempAvg.length() == 3) {
-            ((GradesViewHolder) holder).avgTextView.setText(String.format("%s0", tempAvg));
+            ((GradesViewHolder) holder).avgTextView.setText(String.format("śr: %s0", tempAvg));
         } else {
-            ((GradesViewHolder) holder).avgTextView.setText(tempAvg);
+            ((GradesViewHolder) holder).avgTextView.setText(String.format("śr: %s", tempAvg));
         }
 
         StringBuilder gradeDateCodeText = new StringBuilder();

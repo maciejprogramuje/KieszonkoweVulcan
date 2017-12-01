@@ -2,6 +2,7 @@ package commaciejprogramuje.facebook.kieszonkowevulcan;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -32,7 +33,7 @@ public class TeacherFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_teacher, container, false);
         ButterKnife.inject(this, view);
@@ -48,7 +49,7 @@ public class TeacherFragment extends Fragment {
 
     @SuppressWarnings("unchecked")
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (getArguments() != null) {
             ArrayList<Teacher> teachersArray = (ArrayList<Teacher>) getArguments().getSerializable(TEACHERS_KEY);
@@ -71,6 +72,7 @@ public class TeacherFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        assert getActivity() != null;
         ((MainActivity) getActivity()).setActionBarSubtitle("");
         ButterKnife.reset(this);
     }
@@ -78,6 +80,7 @@ public class TeacherFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        assert getActivity() != null;
         ((MainActivity) getActivity()).setActionBarTitle("Zastępstwa");
         ((MainActivity) getActivity()).setActionBarSubtitle(tempSubstituteDate);
     }

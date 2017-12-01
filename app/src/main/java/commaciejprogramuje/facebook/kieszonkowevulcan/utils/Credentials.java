@@ -38,8 +38,10 @@ public class Credentials {
 
         DataFile.deleteFile(mainActivity.getApplicationContext(), KIESZONKOWE_FILE);
 
+        //noinspection deprecation
         CookieSyncManager.createInstance(mainActivity);
         CookieManager cookieManager = CookieManager.getInstance();
+        //noinspection deprecation
         cookieManager.removeAllCookie();
 
         SharedPreferences sharedPref = mainActivity.getPreferences(Context.MODE_PRIVATE);

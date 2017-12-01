@@ -3,11 +3,9 @@ package commaciejprogramuje.facebook.kieszonkowevulcan;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -18,8 +16,6 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import commaciejprogramuje.facebook.kieszonkowevulcan.utils.InternetUtils;
 import commaciejprogramuje.facebook.kieszonkowevulcan.utils.JsInterfaceAlarm;
-import commaciejprogramuje.facebook.kieszonkowevulcan.utils.MyAlarm;
-import commaciejprogramuje.facebook.kieszonkowevulcan.utils.NewGradeNotification;
 
 import static commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity.alarmInretvalInGradesForAlarmActivity;
 

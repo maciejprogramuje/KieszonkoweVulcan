@@ -7,10 +7,6 @@ import android.widget.Toast;
 import commaciejprogramuje.facebook.kieszonkowevulcan.HelloFragment;
 import commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity;
 
-/**
- * Created by m.szymczyk on 2017-10-24.
- */
-
 public class InternetUtils {
     public static void noConnectionReaction(MainActivity mainActivity) {
         Toast.makeText(mainActivity, "Włącz internet i odśwież aplikację!", Toast.LENGTH_LONG).show();

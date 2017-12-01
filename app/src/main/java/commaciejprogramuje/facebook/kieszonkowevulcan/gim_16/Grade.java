@@ -2,10 +2,6 @@ package commaciejprogramuje.facebook.kieszonkowevulcan.gim_16;
 
 import java.io.Serializable;
 
-/**
- * Created by m.szymczyk on 2017-10-11.
- */
-
 public class Grade implements Serializable {
     private String mGrade;
     private String mDate;

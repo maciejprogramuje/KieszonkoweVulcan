@@ -14,10 +14,6 @@ import commaciejprogramuje.facebook.kieszonkowevulcan.html_parsers.Grades;
 
 import static commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity.KIESZONKOWE_FILE;
 
-/**
- * Created by m.szymczyk on 2017-10-09.
- */
-
 public class JsInterfaceGrades {
     private ArrayList<Subject> oldSubjectsArray;
     private ArrayList<Subject> newSubjectsArray;
@@ -64,7 +60,9 @@ public class JsInterfaceGrades {
             String tempName = newSubjects.getName(i);
             // wypełnij subjects danymi
             newSubjects.setGrades(i, Grades.getArray(html, tempName));
-            newSubjects.setAverage(i, Grades.getAverage(html, tempName));
+            newSubjects.setAverage(i, Grades.getArrayAveragePropositionSem(html, tempName)[0]);
+            newSubjects.setProposition(i, Grades.getArrayAveragePropositionSem(html, tempName)[1]);
+            newSubjects.setSem(i, Grades.getArrayAveragePropositionSem(html, tempName)[2]);
             newSubjects.setNewestDate(i);
             //Log.w("UWAGA", "dodaję "+tempName+", avg="+Grades.getAverage(html, tempName)+", oceny="+Grades.getArray(html, tempName));
             newSubjectsArray = DataFile.originOrder(newSubjects);

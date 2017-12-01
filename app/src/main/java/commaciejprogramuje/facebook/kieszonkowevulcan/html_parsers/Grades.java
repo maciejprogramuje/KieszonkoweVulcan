@@ -7,25 +7,23 @@ import java.util.regex.Pattern;
 
 import commaciejprogramuje.facebook.kieszonkowevulcan.gim_16.Grade;
 
-/**
- * Created by m.szymczyk on 2017-10-24.
- */
-
 public class Grades {
-    public static String getAverage(String html, String subject) {
-        StringBuilder averageGradesStringBuilder = new StringBuilder("");
+    public static String[] getArrayAveragePropositionSem(String html, String subject) {
+        String[] tempArr = new String[3];
+        int index = 0;
         String temp = html.substring(html.indexOf(subject));
         temp = temp.substring(0, temp.indexOf("</tr>"));
         if (temp.contains("</span></td>")) {
-            Matcher m = Pattern.compile("[1-6]{1}[,]?[0-9]?[0-9]?</td>").matcher(temp);
+            Matcher m = Pattern.compile("<td>[0123456789,-]+</td>").matcher(temp);
             while (m.find()) {
-                averageGradesStringBuilder.append(m.group().replace("</td>", ""));
+                tempArr[index] = m.group()
+                        .replace("<td>", "")
+                        .replace("</td>", "")
+                        .replace("-", "");
+                index++;
             }
         }
-        if(averageGradesStringBuilder.equals("")) {
-            averageGradesStringBuilder.append("-");
-        }
-        return averageGradesStringBuilder.toString();
+        return tempArr;
     }
 
     public static List<Grade> getArray(String html, String subject) {

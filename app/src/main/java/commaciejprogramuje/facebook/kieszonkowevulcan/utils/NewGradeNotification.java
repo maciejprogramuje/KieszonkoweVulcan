@@ -1,6 +1,5 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan.utils;
 
-import android.app.AlarmManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -8,31 +7,22 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.support.v4.app.NotificationCompat;
-import android.util.Log;
-import android.widget.Toast;
+import android.support.v4.app.NotificationCompat.Builder;
 
 import java.util.Date;
 
-import commaciejprogramuje.facebook.kieszonkowevulcan.GradesForAlarmActivity;
-import commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity;
 import commaciejprogramuje.facebook.kieszonkowevulcan.R;
 
-import static android.content.Context.ALARM_SERVICE;
 import static android.support.v4.app.NotificationCompat.BADGE_ICON_SMALL;
-
-/**
- * Created by m.szymczyk on 2017-10-24.
- */
 
 public class NewGradeNotification {
     public static final String FROM_NOTIFICATION_KEY = "fromNotification";
-    private static String CHANNEL_ID = "my_channel_01";
 
     // może to kwestia channel_id? na razie zostawić tak, później można się temu przyjrzeć
 
     public static void show(Context context, String message) {
-        NotificationCompat.Builder notification = new NotificationCompat.Builder(context);
+        @SuppressWarnings("deprecation")
+        Builder notification = new Builder(context);
 
         Intent intent = new Intent();
         intent.setClassName("commaciejprogramuje.facebook.kieszonkowevulcan", "commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity");

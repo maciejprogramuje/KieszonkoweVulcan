@@ -13,10 +13,6 @@ import commaciejprogramuje.facebook.kieszonkowevulcan.R;
 import commaciejprogramuje.facebook.kieszonkowevulcan.gim_16.Subject;
 import commaciejprogramuje.facebook.kieszonkowevulcan.gim_16.Subjects;
 
-/**
- * Created by 5742ZGPC on 2017-10-18.
- */
-
 public class NewsAdapter extends RecyclerView.Adapter {
     private Subjects mSubjects;
 
