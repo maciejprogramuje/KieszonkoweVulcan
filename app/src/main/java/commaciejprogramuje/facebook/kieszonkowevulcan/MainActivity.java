@@ -1,5 +1,7 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -217,15 +219,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onStop() {
         Toast.makeText(this, "onStop", Toast.LENGTH_LONG).show();
 
-        Intent intent = new Intent();
+        /*Intent intent = new Intent();
         intent.setClassName("commaciejprogramuje.facebook.kieszonkowevulcan", "commaciejprogramuje.facebook.kieszonkowevulcan.GradesForAlarmActivity");
         intent.putExtra("login", login);
         intent.putExtra("password", password);
-        startActivity(intent);
+        startActivity(intent);*/
+
+        callAlarm();
 
         super.onStop();
 
         supportFinishAfterTransition();
+    }
+
+    private void callAlarm() {
+        Intent alarmIntent = new Intent();
+        alarmIntent.setClassName("commaciejprogramuje.facebook.kieszonkowevulcan", "commaciejprogramuje.facebook.kieszonkowevulcan.utils.MyAlarm");
+        alarmIntent.putExtra("loginMyAlarm", login);
+        alarmIntent.putExtra("passwordMyAlarm", password);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        assert alarmManager != null;
+        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + ALARM_INRETVAL_IN_GRADES_FOR_ALARM_ACTIVITY, pendingIntent);
+
+        // call alarm jest wywoływany 2x
+        Log.w("UWAGA", "ALARM -> stworzyłem nowy alarm");
     }
 
     @Override
