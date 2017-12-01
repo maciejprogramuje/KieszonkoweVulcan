@@ -5,7 +5,7 @@ import java.io.IOException;
 import commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity;
 import commaciejprogramuje.facebook.kieszonkowevulcan.MoneyFragment;
 import commaciejprogramuje.facebook.kieszonkowevulcan.utils.DataFile;
-import commaciejprogramuje.facebook.kieszonkowevulcan.utils.InternetUtils;
+import commaciejprogramuje.facebook.kieszonkowevulcan.utils.MultiUtils;
 
 import static commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity.KIESZONKOWE_FILE;
 
@@ -17,7 +17,7 @@ public class ShowMoneyFrag {
     }
 
     public void show() {
-        if (InternetUtils.isConnection(mainActivity)) {
+        if (MultiUtils.isInternetConnection(mainActivity)) {
             try {
                 MoneyFragment moneyFragment = MoneyFragment.newInstance(DataFile.read(mainActivity.getApplicationContext(), KIESZONKOWE_FILE));
                 mainActivity.replaceFrag.replace(mainActivity, moneyFragment);
@@ -25,7 +25,7 @@ public class ShowMoneyFrag {
                 e.printStackTrace();
             }
         } else {
-            InternetUtils.noConnectionReaction(mainActivity);
+            MultiUtils.noInternetConnectionReaction(mainActivity);
         }
     }
 }

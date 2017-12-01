@@ -16,39 +16,7 @@ import commaciejprogramuje.facebook.kieszonkowevulcan.R;
 import static android.support.v4.app.NotificationCompat.BADGE_ICON_SMALL;
 
 public class NewGradeNotification {
-    public static final String FROM_NOTIFICATION_KEY = "fromNotification";
 
-    // może to kwestia channel_id? na razie zostawić tak, później można się temu przyjrzeć
 
-    public static void show(Context context, String message) {
-        @SuppressWarnings("deprecation")
-        Builder notification = new Builder(context);
 
-        Intent intent = new Intent();
-        intent.setClassName("commaciejprogramuje.facebook.kieszonkowevulcan", "commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity");
-        intent.putExtra(FROM_NOTIFICATION_KEY, true);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
-
-        notification.setContentIntent(pendingIntent);
-        notification.setSmallIcon(R.drawable.ic_notification_grade_badge);
-        notification.setBadgeIconType(BADGE_ICON_SMALL);
-        notification.setContentTitle("Dzienniczek Vulcan G16");
-        notification.setContentText(message);
-        notification.setAutoCancel(true);
-
-        //Sound
-        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        notification.setSound(alarmSound);
-
-        //Vibration
-        //notification.setVibrate(new long[] { 500, 500, 500, 500, 500 });
-
-        notification.setLights(Color.WHITE, 3000, 3000);
-
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        assert notificationManager != null;
-        //int index = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
-        int index = 1;
-        notificationManager.notify(index, notification.build());
-    }
 }

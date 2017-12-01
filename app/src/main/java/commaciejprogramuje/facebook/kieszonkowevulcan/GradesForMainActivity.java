@@ -10,8 +10,8 @@ import android.webkit.WebViewClient;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import commaciejprogramuje.facebook.kieszonkowevulcan.utils.InternetUtils;
 import commaciejprogramuje.facebook.kieszonkowevulcan.utils.JsInterfaceGrades;
+import commaciejprogramuje.facebook.kieszonkowevulcan.utils.MultiUtils;
 
 @SuppressLint("Registered")
 public class GradesForMainActivity extends AppCompatActivity implements JsInterfaceGrades.OnGradesMainInteractionListener {
@@ -29,9 +29,9 @@ public class GradesForMainActivity extends AppCompatActivity implements JsInterf
 
         this.moveTaskToBack(true);
 
-        //Toast.makeText(MainActivity.getMainActivity(), "wezwanie z MainActivity", Toast.LENGTH_LONG).show();
+        //Toast.makeText(MainActivity.getMainActivity(), "wezwanie z MainActivity", Toast.LENGTH_LONG).showNotification();
 
-        if (InternetUtils.isConnection(this)) {
+        if (MultiUtils.isInternetConnection(this)) {
             browser.getSettings().setJavaScriptEnabled(true);
             browser.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
             browser.setWebViewClient(new WebViewClient() {

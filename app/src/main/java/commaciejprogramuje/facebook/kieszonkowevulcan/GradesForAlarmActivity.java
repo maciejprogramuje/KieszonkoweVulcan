@@ -14,8 +14,8 @@ import android.webkit.WebViewClient;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import commaciejprogramuje.facebook.kieszonkowevulcan.utils.InternetUtils;
 import commaciejprogramuje.facebook.kieszonkowevulcan.utils.JsInterfaceAlarm;
+import commaciejprogramuje.facebook.kieszonkowevulcan.utils.MultiUtils;
 
 import static commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity.ALARM_INRETVAL_IN_GRADES_FOR_ALARM_ACTIVITY;
 
@@ -52,9 +52,9 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
         }
 
         Log.w("UWAGA", "ALARM -> 2. " + login + ", " + password);
-        //NewGradeNotification.show(this,"ALARM -> 2. " + login + ", " + password);
+        //NewGradeNotification.showNotification(this,"ALARM -> 2. " + login + ", " + password);
 
-        if (InternetUtils.isConnection(this)) {
+        if (MultiUtils.isInternetConnection(this)) {
             alarmBrowser.getSettings().setJavaScriptEnabled(true);
             alarmBrowser.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
             alarmBrowser.setWebViewClient(new WebViewClient() {
@@ -90,12 +90,12 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
             // context ma być this, nie kombinuj...
             alarmBrowser.addJavascriptInterface(new JsInterfaceAlarm(this), "ALARM_HTMLOUT");
             alarmBrowser.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
-            callAlarm();
-            finish();
+            //callAlarm();
+            //finish();
         } else {
-            //NewGradeNotification.show(this, "ALARM -> brak internetu");
+            //NewGradeNotification.showNotification(this, "ALARM -> brak internetu");
             Log.w("UWAGA", "ALARM -> brak internetu");
-            callAlarm();
+            //callAlarm();
             finish();
         }
     }
@@ -106,8 +106,8 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
     @Override
     protected void onPause() {
         Log.w("UWAGA", "ALARM -> onPause");
-        callAlarm();
-        finish();
+        MultiUtils.callAlarm(GradesForAlarmActivity.this, login, password);
+        //finish();
         super.onPause();
     }
 
@@ -115,24 +115,8 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
     public void onAlarmInteraction(boolean alarmFlag) {
         if (alarmFlag) {
             Log.w("UWAGA", "ALARM -> plik zapisany, kończę i usuwam zadanie");
-            callAlarm();
+            //callAlarm();
             finish();
         }
     }
-
-    private void callAlarm() {
-        Intent alarmIntent = new Intent();
-        alarmIntent.setClassName("commaciejprogramuje.facebook.kieszonkowevulcan", "commaciejprogramuje.facebook.kieszonkowevulcan.utils.MyAlarm");
-        alarmIntent.putExtra("loginMyAlarm", login);
-        alarmIntent.putExtra("passwordMyAlarm", password);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        assert alarmManager != null;
-        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + ALARM_INRETVAL_IN_GRADES_FOR_ALARM_ACTIVITY, pendingIntent);
-
-        // call alarm jest wywoływany 2x
-        Log.w("UWAGA", "ALARM -> stworzyłem nowy alarm");
-    }
-
 }

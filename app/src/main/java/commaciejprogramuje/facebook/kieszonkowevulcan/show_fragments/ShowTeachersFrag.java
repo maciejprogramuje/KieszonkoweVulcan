@@ -3,7 +3,7 @@ package commaciejprogramuje.facebook.kieszonkowevulcan.show_fragments;
 import commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity;
 import commaciejprogramuje.facebook.kieszonkowevulcan.TeacherFragment;
 import commaciejprogramuje.facebook.kieszonkowevulcan.html_parsers.Teachers;
-import commaciejprogramuje.facebook.kieszonkowevulcan.utils.InternetUtils;
+import commaciejprogramuje.facebook.kieszonkowevulcan.utils.MultiUtils;
 
 public class ShowTeachersFrag {
     private final MainActivity mainActivity;
@@ -13,11 +13,11 @@ public class ShowTeachersFrag {
     }
 
     public void show() {
-        if (InternetUtils.isConnection(mainActivity)) {
+        if (MultiUtils.isInternetConnection(mainActivity)) {
             TeacherFragment teacherFragment = TeacherFragment.newInstance(Teachers.getArray(), Teachers.getDate());
             mainActivity.replaceFrag.replace(mainActivity, teacherFragment);
         } else {
-            InternetUtils.noConnectionReaction(mainActivity);
+            MultiUtils.noInternetConnectionReaction(mainActivity);
         }
     }
 }

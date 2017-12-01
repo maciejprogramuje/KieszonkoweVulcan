@@ -35,19 +35,19 @@ import commaciejprogramuje.facebook.kieszonkowevulcan.show_fragments.ShowMoneyFr
 import commaciejprogramuje.facebook.kieszonkowevulcan.show_fragments.ShowNewsFrag;
 import commaciejprogramuje.facebook.kieszonkowevulcan.show_fragments.ShowTeachersFrag;
 import commaciejprogramuje.facebook.kieszonkowevulcan.utils.Credentials;
-import commaciejprogramuje.facebook.kieszonkowevulcan.utils.InternetUtils;
 import commaciejprogramuje.facebook.kieszonkowevulcan.utils.JsInterfaceGrades;
+import commaciejprogramuje.facebook.kieszonkowevulcan.utils.MultiUtils;
 
 import static commaciejprogramuje.facebook.kieszonkowevulcan.GradesForMainActivity.NOT_RELOAD_GRADES_KEY;
-import static commaciejprogramuje.facebook.kieszonkowevulcan.utils.NewGradeNotification.FROM_NOTIFICATION_KEY;
+import static commaciejprogramuje.facebook.kieszonkowevulcan.utils.MultiUtils.FROM_NOTIFICATION_KEY;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         LoginFragment.OnFragmentInteractionListener,
         Credentials.OnCredentialsCheckedListener,
         JsInterfaceGrades.OnGradesMainInteractionListener {
 
-    //public static final long ALARM_INRETVAL_IN_GRADES_FOR_ALARM_ACTIVITY = 1000 * 60 * 30;
-    public static final long ALARM_INRETVAL_IN_GRADES_FOR_ALARM_ACTIVITY = 1000 * 60 * 5;
+    public static final long ALARM_INRETVAL_IN_GRADES_FOR_ALARM_ACTIVITY = 1000 * 60 * 60;
+    //public static final long ALARM_INRETVAL_IN_GRADES_FOR_ALARM_ACTIVITY = 1000 * 60 * 5;
 
     public static final String LOGIN_DATA_KEY = "loginData";
     public static final String PASSWORD_DATA_KEY = "passwordData";
@@ -112,8 +112,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onResume() {
         super.onResume();
 
-        if (!InternetUtils.isConnection(this)) {
-            InternetUtils.noConnectionReaction(MainActivity.this);
+        if (!MultiUtils.isInternetConnection(this)) {
+            MultiUtils.noInternetConnectionReaction(MainActivity.this);
         } else {
             if (login.isEmpty() || password.isEmpty()) {
                 showLoginFrag.show();
@@ -176,8 +176,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @OnClick(R.id.fab)
     public void onViewClicked() {
-        if (!InternetUtils.isConnection(this)) {
-            InternetUtils.noConnectionReaction(MainActivity.this);
+        if (!MultiUtils.isInternetConnection(this)) {
+            MultiUtils.noInternetConnectionReaction(MainActivity.this);
         } else {
             if (login.equals("") || password.equals("")) {
                 showLoginFrag.show();
@@ -217,34 +217,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onStop() {
-        Toast.makeText(this, "onStop", Toast.LENGTH_LONG).show();
-
-        /*Intent intent = new Intent();
-        intent.setClassName("commaciejprogramuje.facebook.kieszonkowevulcan", "commaciejprogramuje.facebook.kieszonkowevulcan.GradesForAlarmActivity");
-        intent.putExtra("login", login);
-        intent.putExtra("password", password);
-        startActivity(intent);*/
-
-        callAlarm();
-
+        MultiUtils.callAlarm(MainActivity.this, login, password);
         super.onStop();
-
         supportFinishAfterTransition();
-    }
-
-    private void callAlarm() {
-        Intent alarmIntent = new Intent();
-        alarmIntent.setClassName("commaciejprogramuje.facebook.kieszonkowevulcan", "commaciejprogramuje.facebook.kieszonkowevulcan.utils.MyAlarm");
-        alarmIntent.putExtra("loginMyAlarm", login);
-        alarmIntent.putExtra("passwordMyAlarm", password);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        assert alarmManager != null;
-        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + ALARM_INRETVAL_IN_GRADES_FOR_ALARM_ACTIVITY, pendingIntent);
-
-        // call alarm jest wywoływany 2x
-        Log.w("UWAGA", "ALARM -> stworzyłem nowy alarm");
     }
 
     @Override
