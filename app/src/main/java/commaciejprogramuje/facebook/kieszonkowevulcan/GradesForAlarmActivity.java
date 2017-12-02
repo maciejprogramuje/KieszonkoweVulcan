@@ -96,26 +96,26 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
             //NewGradeNotification.showNotification(this, "ALARM -> brak internetu");
             Log.w("UWAGA", "ALARM -> brak internetu");
             MultiUtils.callAlarm(GradesForAlarmActivity.this, login, password);
-            finishAfterTransition();
+            finishAndRemoveTask();
         }
     }
 
     // problemem jest niezamykanie okna przeglądarki, po nieudanym logowaniu? pobieraniu danych?
 
 
-    /*@Override
+    @Override
     protected void onPause() {
         Log.w("UWAGA", "ALARM -> onPause");
-        MultiUtils.callAlarm(GradesForAlarmActivity.this, login, password);
+        finishAndRemoveTask();
         super.onPause();
-    }*/
+    }
 
     @Override
     public void onAlarmInteraction(boolean alarmFlag) {
         if (alarmFlag) {
             Log.w("UWAGA", "ALARM -> plik zapisany, kończę i usuwam zadanie");
             MultiUtils.callAlarm(GradesForAlarmActivity.this, login, password);
-            finishAfterTransition();
+            finishAndRemoveTask();
         }
     }
 }
