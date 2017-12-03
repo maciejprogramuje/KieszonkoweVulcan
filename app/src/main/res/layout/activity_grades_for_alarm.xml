@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
     android:theme="@android:style/Theme.NoDisplay"
     android:noHistory="true"
     android:excludeFromRecents="true"
-    android:background="@android:color/transparent"
+    android:background="@android:color/black"
+    android:windowDisablePreview="true"
     tools:context="commaciejprogramuje.facebook.kieszonkowevulcan.GradesForAlarmActivity">
 
     <WebView
         android:id="@+id/alarm_browser"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="0dp"
+        android:layout_height="0dp">
     </WebView>
 
 </android.support.constraint.ConstraintLayout>

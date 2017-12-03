@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Window;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -30,11 +31,21 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Remove title bar
+        //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
         setContentView(R.layout.activity_grades_for_alarm);
         ButterKnife.inject(this);
         this.moveTaskToBack(true); // ewentualnie na czas testów wyłączyć, ale raczej ok
 
         Log.w("UWAGA", "context: GradesForAlarmActivity");
+
+
+    }
+
+    @Override
+    protected void onResume() {
 
         login = getIntent().getStringExtra("login");
         password = getIntent().getStringExtra("password");
@@ -98,6 +109,8 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
             MultiUtils.callAlarm(GradesForAlarmActivity.this, login, password);
             finishAndRemoveTask();
         }
+
+        super.onResume();
     }
 
     // problemem jest niezamykanie okna przeglądarki, po nieudanym logowaniu? pobieraniu danych?
