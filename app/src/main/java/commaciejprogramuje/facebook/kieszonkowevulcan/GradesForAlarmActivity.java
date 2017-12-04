@@ -1,15 +1,12 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan;
 
 import android.annotation.SuppressLint;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
+import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Window;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -18,9 +15,7 @@ import butterknife.InjectView;
 import commaciejprogramuje.facebook.kieszonkowevulcan.utils.JsInterfaceAlarm;
 import commaciejprogramuje.facebook.kieszonkowevulcan.utils.MultiUtils;
 
-import static commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity.ALARM_INRETVAL_IN_GRADES_FOR_ALARM_ACTIVITY;
-
-public class GradesForAlarmActivity extends AppCompatActivity implements JsInterfaceAlarm.OnAlarmInteractionListener {
+public class GradesForAlarmActivity extends Activity implements JsInterfaceAlarm.OnAlarmInteractionListener {
     @InjectView(R.id.alarm_browser)
     WebView alarmBrowser;
 
@@ -32,21 +27,15 @@ public class GradesForAlarmActivity extends AppCompatActivity implements JsInter
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //Remove title bar
-        //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
         setContentView(R.layout.activity_grades_for_alarm);
         ButterKnife.inject(this);
         this.moveTaskToBack(true); // ewentualnie na czas testów wyłączyć, ale raczej ok
 
         Log.w("UWAGA", "context: GradesForAlarmActivity");
-
-
     }
 
     @Override
     protected void onResume() {
-
         login = getIntent().getStringExtra("login");
         password = getIntent().getStringExtra("password");
 

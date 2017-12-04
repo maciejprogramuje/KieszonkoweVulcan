@@ -6,7 +6,7 @@
     android:theme="@android:style/Theme.NoDisplay"
     android:noHistory="true"
     android:excludeFromRecents="true"
-    android:background="@android:color/black"
+    android:background="@android:color/transparent"
     android:windowDisablePreview="true"
     tools:context="commaciejprogramuje.facebook.kieszonkowevulcan.GradesForAlarmActivity">
 
