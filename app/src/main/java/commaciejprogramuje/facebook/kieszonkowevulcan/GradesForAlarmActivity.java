@@ -36,6 +36,8 @@ public class GradesForAlarmActivity extends Activity implements JsInterfaceAlarm
 
     @Override
     protected void onResume() {
+        super.onResume();
+
         login = getIntent().getStringExtra("login");
         password = getIntent().getStringExtra("password");
 
@@ -90,16 +92,15 @@ public class GradesForAlarmActivity extends Activity implements JsInterfaceAlarm
             // context ma być this, nie kombinuj...
             alarmBrowser.addJavascriptInterface(new JsInterfaceAlarm(this), "ALARM_HTMLOUT");
             alarmBrowser.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
-            //callAlarm();
-            //finish();
+
+            MultiUtils.callAlarm(GradesForAlarmActivity.this, login, password);
+            finishAndRemoveTask();
         } else {
             //NewGradeNotification.showNotification(this, "ALARM -> brak internetu");
             Log.w("UWAGA", "ALARM -> brak internetu");
             MultiUtils.callAlarm(GradesForAlarmActivity.this, login, password);
             finishAndRemoveTask();
         }
-
-        super.onResume();
     }
 
     // problemem jest niezamykanie okna przeglądarki, po nieudanym logowaniu? pobieraniu danych?

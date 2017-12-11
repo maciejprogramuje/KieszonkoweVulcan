@@ -221,7 +221,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onStop() {
         MultiUtils.callAlarm(MainActivity.this, login, password);
         super.onStop();
-        supportFinishAfterTransition();
+        finishAndRemoveTask();
     }
 
     @Override
