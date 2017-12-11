@@ -1,8 +1,6 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan;
 
 import android.annotation.SuppressLint;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -112,22 +110,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         login = sharedPref.getString(LOGIN_DATA_KEY, "");
         password = sharedPref.getString(PASSWORD_DATA_KEY, "");
-
-        setIgnoringBatteryOptimisation();
-    }
-
-    @SuppressLint("BatteryLife")
-    private void setIgnoringBatteryOptimisation() {
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Intent intent = new Intent();
-            String packageName = getPackageName();
-            PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
-            if (!pm.isIgnoringBatteryOptimizations(packageName)) {
-                intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-                intent.setData(Uri.parse("package:" + packageName));
-                startActivityForResult(intent, REQUEST_CODE);
-            }
-        }
     }
 
     @Override
@@ -148,15 +130,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode,  Intent data) {
-        if (requestCode == REQUEST_CODE) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                onResume();
-            }
-        }
-    }
-
-    @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -168,7 +141,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }

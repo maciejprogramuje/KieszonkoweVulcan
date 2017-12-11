@@ -62,10 +62,6 @@ public class MultiUtils {
         //Sound
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         notification.setSound(alarmSound);
-
-        //Vibration
-        //notification.setVibrate(new long[] { 500, 500, 500, 500, 500 });
-
         notification.setLights(Color.WHITE, 3000, 3000);
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -86,7 +82,6 @@ public class MultiUtils {
         assert alarmManager != null;
         alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + ALARM_INRETVAL_IN_GRADES_FOR_ALARM_ACTIVITY, pendingIntent);
 
-        // call alarm jest wywoływany 2x
         Log.w("UWAGA", "ALARM -> stworzyłem nowy alarm");
     }
 }
