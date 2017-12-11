@@ -1,12 +1,17 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan;
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.os.StrictMode;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -52,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static final String LOGIN_DATA_KEY = "loginData";
     public static final String PASSWORD_DATA_KEY = "passwordData";
     public static final String KIESZONKOWE_FILE = "kieszonkoweVulcanGrades.dat";
+    public static final int REQUEST_CODE = 66;
 
     public final Credentials credentials = new Credentials(this);
     public final ShowNewsFrag showNewsFrag = new ShowNewsFrag(this);
@@ -81,6 +87,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
 
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
         browser = findViewById(R.id.browser);
 
         setMainActivity(this);
@@ -96,9 +105,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-
         // czyli szuflada
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -106,6 +112,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         login = sharedPref.getString(LOGIN_DATA_KEY, "");
         password = sharedPref.getString(PASSWORD_DATA_KEY, "");
+
+        setIgnoringBatteryOptimisation();
+    }
+
+    @SuppressLint("BatteryLife")
+    private void setIgnoringBatteryOptimisation() {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Intent intent = new Intent();
+            String packageName = getPackageName();
+            PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
+            if (!pm.isIgnoringBatteryOptimizations(packageName)) {
+                intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                intent.setData(Uri.parse("package:" + packageName));
+                startActivityForResult(intent, REQUEST_CODE);
+            }
+        }
     }
 
     @Override
@@ -123,7 +145,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 showHelloFrag.show();
             }
         }
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode,  Intent data) {
+        if (requestCode == REQUEST_CODE) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                onResume();
+            }
+        }
     }
 
     @Override
