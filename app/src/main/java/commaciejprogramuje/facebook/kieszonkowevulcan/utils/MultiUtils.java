@@ -72,7 +72,7 @@ public class MultiUtils {
     }
 
     public static void callAlarm(Context context, String log, String pass) {
-        Toast.makeText(context, "alarm start", Toast.LENGTH_LONG).show();
+        //Toast.makeText(context, "alarm start", Toast.LENGTH_LONG).show();
 
         Intent alarmIntent = new Intent();
         alarmIntent.setClassName("commaciejprogramuje.facebook.kieszonkowevulcan", "commaciejprogramuje.facebook.kieszonkowevulcan.utils.MyAlarm");
