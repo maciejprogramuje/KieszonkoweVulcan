@@ -55,7 +55,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static final String LOGIN_DATA_KEY = "loginData";
     public static final String PASSWORD_DATA_KEY = "passwordData";
     public static final String KIESZONKOWE_FILE = "kieszonkoweVulcanGrades.dat";
-    public static final int REQUEST_CODE = 66;
 
     public final Credentials credentials = new Credentials(this);
     public final ShowNewsFrag showNewsFrag = new ShowNewsFrag(this);
@@ -74,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     static Subjects subjects;
     private static String login = "";
     private static String password = "";
+
     private int loginIndex = 10;
     private static MainActivity mainActivity;
     NavigationView navigationView;

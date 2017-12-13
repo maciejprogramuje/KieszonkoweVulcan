@@ -1,5 +1,7 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan.html_parsers;
 
+import android.util.Log;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -37,18 +39,25 @@ public class Teachers {
                 String sectionElement = sectionMatcher.group();
 
                 if (!sectionElement.contains("dyżury")) {
-                    Matcher nameMatcher = Pattern.compile(">(.*?)\\d{2,4}[\\.\\/-]\\d{2}[\\.\\/-]\\d{2,4}(.*?)</td>").matcher(sectionElement);
+                    // gdy w colspan="3" align="LEFT" bgcolor="#FFDFBF"> Anna Celińska </td> znajdują się info o dniu (tu nie ma!)
+                    //Matcher nameMatcher = Pattern.compile(">(.*?)\\d{2,4}[\\.\\/-]\\d{2}[\\.\\/-]\\d{2,4}(.*?)</td>").matcher(sectionElement);
+                    Matcher nameMatcher = Pattern.compile("colspan=\"3\" align=\"LEFT\" bgcolor=\"#[\\w]{6}\">(.*?)</td>").matcher(sectionElement);
                     if (nameMatcher.find()) {
                         String nameElement = nameMatcher.group();
                         name = nameElement.substring(nameElement.indexOf(">") + 2, nameElement.indexOf("<") - 1);
                     }
 
-                    Matcher oneRowMatcher = Pattern.compile("\">(.*?)</td>").matcher(sectionElement);
+                    Matcher oneRowMatcher = Pattern.compile("<td nowrap class=\"st(\\d){1,2}\" align=\"LEFT\"(.*?)</td>").matcher(sectionElement);
                     substitute = new StringBuilder();
                     int index = 0;
 
                     while (oneRowMatcher.find()) {
-                        String oneRow = oneRowMatcher.group().replace("\"> ", "").replace(" </td>", "").replace("&" + "nbsp;", "");
+                        String oneRow = oneRowMatcher.group();
+                        oneRow = oneRow.substring(oneRow.indexOf("\">") + 2, oneRow.indexOf("</td>"))
+                                .replace("&" + "nbsp;", "")
+                                .trim();
+
+                        Log.w("UWAGA", oneRow);
 
                         if (!oneRow.contains("lekcja") && !oneRow.contains("opis") && !oneRow.contains("zastępca") && !oneRow.contains("po lekcji") && !oneRow.contains("miejsce") && !oneRow.contains("dyżury")
                                 && !oneRow.contains("poniedziałek") && !oneRow.contains("wtorek") && !oneRow.contains("środa") && !oneRow.contains("czwartek") && !oneRow.contains("piątek")) {
