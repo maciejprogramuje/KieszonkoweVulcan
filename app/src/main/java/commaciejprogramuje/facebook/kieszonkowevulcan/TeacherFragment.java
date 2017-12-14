@@ -25,9 +25,6 @@ import commaciejprogramuje.facebook.kieszonkowevulcan.gim_16.Teacher;
 import commaciejprogramuje.facebook.kieszonkowevulcan.html_parsers.Teachers;
 
 public class TeacherFragment extends Fragment implements LoaderManager.LoaderCallbacks<ArrayList<Teacher>> {
-    public static final String TEACHERS_KEY = "teachers";
-    public static final String SUBSTITUTE_DATE_KEY = "substituteDate";
-
     @InjectView(R.id.teacher_recycler_view)
     RecyclerView teacherRecyclerView;
 
@@ -114,13 +111,17 @@ public class TeacherFragment extends Fragment implements LoaderManager.LoaderCal
 
     @Override
     public void onLoadFinished(Loader<ArrayList<Teacher>> loader, ArrayList<Teacher> data) {
-        MainActivity.hideProgressCircle();
-        teachersAdapter.setmTeachers(data);
-        teachersAdapter.notifyDataSetChanged();
-
         if (data == null) {
             Log.w("UWAGA", "problem w TeacherFragment onLoadFinished");
         } else {
+            MainActivity.hideProgressCircle();
+
+            tempSubstituteDate = Teachers.getDate();
+            ((MainActivity) getActivity()).setActionBarSubtitle(tempSubstituteDate);
+
+            teachersAdapter.setmTeachers(data);
+            teachersAdapter.notifyDataSetChanged();
+
             teacherRecyclerView.setVisibility(View.VISIBLE);
         }
     }

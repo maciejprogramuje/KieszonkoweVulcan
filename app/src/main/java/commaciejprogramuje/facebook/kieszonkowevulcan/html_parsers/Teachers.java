@@ -14,25 +14,18 @@ import java.util.regex.Pattern;
 import commaciejprogramuje.facebook.kieszonkowevulcan.gim_16.Teacher;
 
 public class Teachers {
-
-    private String getDate() {
-        try {
-            Document document = Jsoup.connect("http://zastepstwa.g16-lublin.eu/").get();
-            String temp = document.body().toString();
-            return temp.substring(temp.indexOf("<nobr>") + 32, temp.indexOf("</nobr>"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return "";
-    }
+    private static String date = "";
 
     public static ArrayList<Teacher> getArray() {
         ArrayList<Teacher> teacherArray = new ArrayList<>();
         String name = "";
         StringBuilder substitute;
+        String body = getPageBody();
+
+        date = body.substring(body.indexOf("<nobr>") + 32, body.indexOf("</nobr>"));
 
         // iterate by teacher section
-        Matcher sectionMatcher = Pattern.compile("colspan=\"3\"(.|\\n)*?(st1\"|</body>)").matcher(getPageBody());
+        Matcher sectionMatcher = Pattern.compile("colspan=\"3\"(.|\\n)*?(st1\"|</body>)").matcher(body);
         while (sectionMatcher.find()) {
             String sectionElement = sectionMatcher.group();
 
@@ -94,9 +87,14 @@ public class Teachers {
             try {
                 tBody = Jsoup.parse(new URL("http://zastepstwa.g16-lublin.eu/"), 10000).toString();
             } catch (IOException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
+                Log.w("UWAGA", "problem z ładowaniem strony z zastępstwami");
             }
         }
         return tBody;
+    }
+
+    public static String getDate() {
+        return date;
     }
 }
