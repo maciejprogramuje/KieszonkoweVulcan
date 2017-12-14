@@ -14,7 +14,7 @@ public class ShowTeachersFrag {
 
     public void show() {
         if (MultiUtils.isInternetConnection(mainActivity)) {
-            TeacherFragment teacherFragment = TeacherFragment.newInstance(Teachers.getArray(), Teachers.getDate());
+            TeacherFragment teacherFragment = TeacherFragment.newInstance();
             mainActivity.replaceFrag.replace(mainActivity, teacherFragment);
         } else {
             MultiUtils.noInternetConnectionReaction(mainActivity);

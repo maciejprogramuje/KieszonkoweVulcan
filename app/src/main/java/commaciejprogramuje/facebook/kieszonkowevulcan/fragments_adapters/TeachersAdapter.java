@@ -12,7 +12,7 @@ import commaciejprogramuje.facebook.kieszonkowevulcan.R;
 import commaciejprogramuje.facebook.kieszonkowevulcan.gim_16.Teacher;
 
 public class TeachersAdapter extends RecyclerView.Adapter {
-    private ArrayList<Teacher> mTeachers;
+    private ArrayList<Teacher> mTeachers = null;
 
     private class TeachersViewHolder extends RecyclerView.ViewHolder {
         TextView nameTextView;
@@ -23,10 +23,6 @@ public class TeachersAdapter extends RecyclerView.Adapter {
             nameTextView = itemView.findViewById(R.id.card_teacher_name);
             substituteTextView = itemView.findViewById(R.id.card_teacher_substitute);
         }
-    }
-
-    public TeachersAdapter(ArrayList<Teacher> pTeachers) {
-        mTeachers = pTeachers;
     }
 
     @Override
@@ -45,6 +41,11 @@ public class TeachersAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
+        if (mTeachers == null) return 0;
         return mTeachers.size();
+    }
+
+    public void setmTeachers(ArrayList<Teacher> mTeachers) {
+        this.mTeachers = mTeachers;
     }
 }
