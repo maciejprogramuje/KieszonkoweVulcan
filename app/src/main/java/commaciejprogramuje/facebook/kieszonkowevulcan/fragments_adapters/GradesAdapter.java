@@ -1,6 +1,7 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan.fragments_adapters;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,7 +62,7 @@ public class GradesAdapter extends RecyclerView.Adapter {
         if(tempSem.equals("")) {
             ((GradesViewHolder) holder).semTextView.setText("");
         } else {
-            ((GradesViewHolder) holder).semTextView.setText(String.format("sem: %s", "3+"));
+            ((GradesViewHolder) holder).semTextView.setText(String.format("sem: %s", "tempSem"));
         }
 
         String tempAvg = subject.getSubjectAverage();
@@ -95,6 +96,8 @@ public class GradesAdapter extends RecyclerView.Adapter {
         } else {
             gradeDateCodeText = new StringBuilder("--- brak ocen ---");
         }
+
+        Log.w("UWAGA","przedmiot: " + gradeDateCodeText.toString());
         ((GradesViewHolder) holder).gradeCodeTextTextView.setText(gradeDateCodeText.toString());
 
 

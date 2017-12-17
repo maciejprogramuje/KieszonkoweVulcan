@@ -94,7 +94,15 @@ public class NewsAdapter extends RecyclerView.Adapter {
         ((NewsViewHolder) holder).codeTextTextView.setText(tempCodeText.toString());
 
         if (!tempGrade.toString().equals("--- brak ocen ---")) {
-            int gradeInt = Integer.valueOf(tempGrade.substring(0, 1));
+            int gradeInt = 3;
+
+            try {
+                gradeInt = Integer.valueOf(tempGrade.substring(0, 1));
+            } catch (Exception e) {
+                // do nothing
+            }
+
+
             if (gradeInt < 3.00) {
                 ((NewsViewHolder) holder).circleImageView.setImageResource(R.drawable.ic_circle_red_new);
             } else if (gradeInt < 4.00) {

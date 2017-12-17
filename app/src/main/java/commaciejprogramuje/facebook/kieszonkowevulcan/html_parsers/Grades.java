@@ -1,5 +1,7 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan.html_parsers;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -37,7 +39,8 @@ public class Grades {
         String temp = html.substring(html.indexOf(subject));
         temp = temp.substring(0, temp.indexOf("</tr>"));
 
-        Matcher gradeMatcher = Pattern.compile("[1-6][\\+]*[\\-]*</span>").matcher(temp);
+
+        Matcher gradeMatcher = Pattern.compile("[1-6][\\+\\-]?</span>|np\\.|np|nb\\.|nb|NP\\.|NP|NB\\.|NB").matcher(temp);
         Matcher dateMatcher = Pattern.compile("Data: \\d{2}\\.\\d{2}\\.\\d{4}").matcher(temp);
         Matcher textMatcher = Pattern.compile("Opis:(.*?)<br/>").matcher(temp);
         Matcher codeMatcher = Pattern.compile("Kod:(.*?)<br/>").matcher(temp);
@@ -58,7 +61,7 @@ public class Grades {
             if (textMatcher.find()) {
                 tempText = textMatcher.group().substring(6);
                 tempText = tempText.replace("<br/>", "");
-                tempText = tempText.replaceAll("&quot;", "'");
+                tempText = tempText.replaceAll("&" + "quot;", "'");
             }
 
             if (codeMatcher.find()) {
