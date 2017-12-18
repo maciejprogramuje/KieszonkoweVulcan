@@ -62,7 +62,7 @@ public class GradesAdapter extends RecyclerView.Adapter {
         if(tempSem.equals("")) {
             ((GradesViewHolder) holder).semTextView.setText("");
         } else {
-            ((GradesViewHolder) holder).semTextView.setText(String.format("sem: %s", "tempSem"));
+            ((GradesViewHolder) holder).semTextView.setText(String.format("sem: %s", tempSem));
         }
 
         String tempAvg = subject.getSubjectAverage();

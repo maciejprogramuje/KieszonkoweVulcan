@@ -39,19 +39,17 @@ public class Grades {
         String temp = html.substring(html.indexOf(subject));
         temp = temp.substring(0, temp.indexOf("</tr>"));
 
-
-        Matcher gradeMatcher = Pattern.compile("[1-6][\\+\\-]?</span>|np\\.|np|nb\\.|nb|NP\\.|NP|NB\\.|NB").matcher(temp);
+        Matcher spanMatcher = Pattern.compile("<span class=\"ocenaCzastkowa masterTooltip\"(.*?)</span>").matcher(temp);
+        Matcher gradeMatcher = Pattern.compile("style=\"color:#[0-9A-Fa-f]{6};\">(.*?)</span>").matcher(temp);
         Matcher dateMatcher = Pattern.compile("Data: \\d{2}\\.\\d{2}\\.\\d{4}").matcher(temp);
         Matcher textMatcher = Pattern.compile("Opis:(.*?)<br/>").matcher(temp);
         Matcher codeMatcher = Pattern.compile("Kod:(.*?)<br/>").matcher(temp);
         Matcher weightMather = Pattern.compile("Waga:(.*?)<br/>").matcher(temp);
 
-        while (gradeMatcher.find()) {
-            String tempGradeString = gradeMatcher.group().substring(0, 2);
-            if (tempGradeString.contains("<")) {
-                tempGrade = gradeMatcher.group().substring(0, 1);
-            } else {
-                tempGrade = tempGradeString;
+        while (spanMatcher.find()) {
+            if(gradeMatcher.find()) {
+                String tGr = gradeMatcher.group();
+                tempGrade = tGr.substring(tGr.indexOf(";\">") + 3, tGr.indexOf("</span>"));
             }
 
             if (dateMatcher.find()) {
