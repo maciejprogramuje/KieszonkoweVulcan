@@ -20,6 +20,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
@@ -118,7 +119,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onResume() {
         super.onResume();
-
         if (!MultiUtils.isInternetConnection(this)) {
             MultiUtils.noInternetConnectionReaction(MainActivity.this);
         } else {
@@ -149,6 +149,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if(!semestrFlag) {
+            menu.findItem(R.id.semestr_1_setting).setChecked(true);
+        } else {
+            menu.findItem(R.id.semestr_2_setting).setChecked(true);
+        }
+
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.logout_settings) {
@@ -162,6 +173,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 item.setChecked(true);
                 semestrFlag = false;
             }
+
+            SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putBoolean(SEMESTR_FLAG_KEY, semestrFlag);
+            editor.apply();
+            fab.performClick();
+
+
             return true;
         } else if (id == R.id.semestr_2_setting) {
             if(item.isChecked()) {
@@ -170,6 +189,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 item.setChecked(true);
                 semestrFlag = true;
             }
+
+            SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putBoolean(SEMESTR_FLAG_KEY, semestrFlag);
+            editor.apply();
+            fab.performClick();
+
+
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -224,7 +251,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             SharedPreferences.Editor editor = sharedPref.edit();
             editor.putString(LOGIN_DATA_KEY, login);
             editor.putString(PASSWORD_DATA_KEY, password);
-            editor.putBoolean(SEMESTR_FLAG_KEY, semestrFlag);
             editor.apply();
 
             Log.w("UWAGA", "MainActivity, zapisano login:" + login + ", hasło: " + password);

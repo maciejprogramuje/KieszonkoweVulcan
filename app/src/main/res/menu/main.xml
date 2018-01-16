@@ -5,8 +5,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/semestr_1_setting"
-            android:title="@string/semestr_1"
-            android:checked="true"/>
+            android:title="@string/semestr_1"/>
         <item
             android:id="@+id/semestr_2_setting"
             android:title="@string/semestr_2" />
