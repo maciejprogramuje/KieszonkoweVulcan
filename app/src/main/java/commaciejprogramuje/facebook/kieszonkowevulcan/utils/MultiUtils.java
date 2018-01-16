@@ -71,13 +71,14 @@ public class MultiUtils {
         notificationManager.notify(index, notification.build());
     }
 
-    public static void callAlarm(Context context, String log, String pass) {
+    public static void callAlarm(Context context, String log, String pass, Boolean semFlag) {
         //Toast.makeText(context, "alarm start", Toast.LENGTH_LONG).show();
 
         Intent alarmIntent = new Intent();
         alarmIntent.setClassName("commaciejprogramuje.facebook.kieszonkowevulcan", "commaciejprogramuje.facebook.kieszonkowevulcan.utils.MyAlarm");
         alarmIntent.putExtra("loginMyAlarm", log);
         alarmIntent.putExtra("passwordMyAlarm", pass);
+        alarmIntent.putExtra("semestrFlagMyAlarm", semFlag);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);

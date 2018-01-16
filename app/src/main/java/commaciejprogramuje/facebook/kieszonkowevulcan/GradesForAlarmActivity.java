@@ -21,6 +21,7 @@ public class GradesForAlarmActivity extends Activity implements JsInterfaceAlarm
 
     String login = "";
     String password = "";
+    boolean semestrFlag = false;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -40,17 +41,20 @@ public class GradesForAlarmActivity extends Activity implements JsInterfaceAlarm
 
         login = getIntent().getStringExtra("login");
         password = getIntent().getStringExtra("password");
+        semestrFlag = getIntent().getBooleanExtra("semestrFlag", false);
 
         if (login != null || password != null) {
             SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();
             editor.putString("loginGrades", login);
             editor.putString("passwordGrades", password);
+            editor.putBoolean("semestrFlag", semestrFlag);
             editor.apply();
         } else {
             SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
             login = sharedPref.getString("loginGrades", "");
             password = sharedPref.getString("passwordGrades", "");
+            semestrFlag = sharedPref.getBoolean("semestrFlag", false);
         }
 
         Log.w("UWAGA", "ALARM -> 2. " + login + ", " + password);
@@ -67,9 +71,14 @@ public class GradesForAlarmActivity extends Activity implements JsInterfaceAlarm
                     switch (url) {
                         case "https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Start/Index":
                         case "https://uonetplus.vulcan.net.pl/lublin/Start.mvc/Index":
-                            alarmBrowser.loadUrl("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie");
+                            if(!MainActivity.isSemestrFlag()) {
+                                alarmBrowser.loadUrl("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie?details=1&okres=42781");
+                            } else {
+                                alarmBrowser.loadUrl("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie?details=1&okres=42782");
+                            }
                             break;
-                        case "https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie":
+                        case "https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie?details=1&okres=42781":
+                        case "https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie?details=1&okres=42782":
                             alarmBrowser.loadUrl("javascript:window.ALARM_HTMLOUT.processHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');");
                             break;
                         default:
@@ -93,12 +102,12 @@ public class GradesForAlarmActivity extends Activity implements JsInterfaceAlarm
             alarmBrowser.addJavascriptInterface(new JsInterfaceAlarm(this), "ALARM_HTMLOUT");
             alarmBrowser.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
 
-            MultiUtils.callAlarm(GradesForAlarmActivity.this, login, password);
+            MultiUtils.callAlarm(GradesForAlarmActivity.this, login, password, semestrFlag);
             finishAndRemoveTask();
         } else {
             //NewGradeNotification.showNotification(this, "ALARM -> brak internetu");
             Log.w("UWAGA", "ALARM -> brak internetu");
-            MultiUtils.callAlarm(GradesForAlarmActivity.this, login, password);
+            MultiUtils.callAlarm(GradesForAlarmActivity.this, login, password, semestrFlag);
             finishAndRemoveTask();
         }
     }
@@ -117,7 +126,7 @@ public class GradesForAlarmActivity extends Activity implements JsInterfaceAlarm
     public void onAlarmInteraction(boolean alarmFlag) {
         if (alarmFlag) {
             Log.w("UWAGA", "ALARM -> plik zapisany, kończę i usuwam zadanie");
-            MultiUtils.callAlarm(GradesForAlarmActivity.this, login, password);
+            MultiUtils.callAlarm(GradesForAlarmActivity.this, login, password, semestrFlag);
             finishAndRemoveTask();
         }
     }

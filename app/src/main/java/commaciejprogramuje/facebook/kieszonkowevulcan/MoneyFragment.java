@@ -139,7 +139,7 @@ public class MoneyFragment extends Fragment {
                 int previousMonthInt = 0;
 
                 String tempAvg = sortedSubjectsArray.get(i).getSubjectAverage();
-                if (!tempAvg.equals("")) {
+                if (tempAvg != null && !tempAvg.equals("")) {
                     if (tempAvg.length() == 1) {
                         tempAvg += ".00";
                     } else if (tempAvg.length() == 3) {

@@ -1,6 +1,8 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan.fragments_adapters;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,11 +56,11 @@ public class NewsAdapter extends RecyclerView.Adapter {
         ((NewsViewHolder) holder).subjectTextView.setText(subject.getSubjectName());
 
         String tempAvg = subject.getSubjectAverage();
-        if (tempAvg.equals("")) {
+        if (tempAvg == null || tempAvg.equals("")) {
             ((NewsViewHolder) holder).avgTextView.setText("");
         } else if (tempAvg.length() == 1) {
             ((NewsViewHolder) holder).avgTextView.setText(String.format("%s,00", tempAvg));
-        } else if(tempAvg.length() == 3) {
+        } else if (tempAvg.length() == 3) {
             ((NewsViewHolder) holder).avgTextView.setText(String.format("%s0", tempAvg));
         } else {
             ((NewsViewHolder) holder).avgTextView.setText(tempAvg);
@@ -67,7 +69,9 @@ public class NewsAdapter extends RecyclerView.Adapter {
         StringBuilder tempGrade = new StringBuilder();
         StringBuilder tempCodeText = new StringBuilder();
 
-        if (subject.getSubjectGrades().size() > 0) {
+        //Log.w("UWAGA", "size="+String.valueOf(subject.getSubjectGrades().get(0).getmGrade()));
+
+        if (subject.getSubjectGrades().size() > 0 && !subject.getSubjectGrades().get(0).getmGrade().equals("")) {
             for (int i = 0; i < subject.getSubjectGrades().size(); i++) {
                 if (subject.getSubjectGrades().get(i).getmDate().equals(subject.getNewestDate())) {
                     tempGrade.append(subject.getSubjectGrades().get(i).getmGrade());
@@ -101,7 +105,6 @@ public class NewsAdapter extends RecyclerView.Adapter {
             } catch (Exception e) {
                 // do nothing
             }
-
 
             if (gradeInt < 3.00) {
                 ((NewsViewHolder) holder).circleImageView.setImageResource(R.drawable.ic_circle_red_new);

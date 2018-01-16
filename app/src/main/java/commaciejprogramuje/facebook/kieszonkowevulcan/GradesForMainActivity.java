@@ -37,14 +37,19 @@ public class GradesForMainActivity extends AppCompatActivity implements JsInterf
             browser.setWebViewClient(new WebViewClient() {
                 @Override
                 public void onPageFinished(WebView view, String url) {
-                    Log.w("UWAGA", "FINISHED: " + url);
+                    Log.w("UWAGA", "FINISHEDDDD: " + url);
 
                     switch (url) {
                         case "https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Start/Index":
                         case "https://uonetplus.vulcan.net.pl/lublin/Start.mvc/Index":
-                            browser.loadUrl("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie");
+                            if(!MainActivity.isSemestrFlag()) {
+                                browser.loadUrl("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie?details=1&okres=42781");
+                            } else {
+                                browser.loadUrl("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie?details=1&okres=42782");
+                            }
                             break;
-                        case "https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie":
+                        case "https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie?details=1&okres=42781":
+                        case "https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie?details=1&okres=42782":
                             browser.loadUrl("javascript:window.MAIN_HTMLOUT.processHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');");
                             break;
                         default:
@@ -65,7 +70,7 @@ public class GradesForMainActivity extends AppCompatActivity implements JsInterf
 
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                    Log.w("UWAGA", "LOADING: " + url);
+                    Log.w("UWAGA", "LOADINGGGGGG: " + url);
                     return false;
                 }
             });

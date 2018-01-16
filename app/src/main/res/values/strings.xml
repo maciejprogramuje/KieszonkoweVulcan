@@ -48,4 +48,6 @@
     <string name="zl10m">-10 zł</string>
     <string name="zl0">0 zł</string>
     <string name="zl5m">-5 zł</string>
+    <string name="semestr_1">Semestr 1</string>
+    <string name="semestr_2">Semestr 2</string>
 </resources>

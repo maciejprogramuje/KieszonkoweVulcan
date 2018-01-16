@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static final String LOGIN_DATA_KEY = "loginData";
     public static final String PASSWORD_DATA_KEY = "passwordData";
     public static final String KIESZONKOWE_FILE = "kieszonkoweVulcanGrades.dat";
+    public static final String SEMESTR_FLAG_KEY = "semestrFlag";
 
     public final Credentials credentials = new Credentials(this);
     public final ShowNewsFrag showNewsFrag = new ShowNewsFrag(this);
@@ -73,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     static Subjects subjects;
     private static String login = "";
     private static String password = "";
+    private static boolean semestrFlag; // pierwszy - false, drugi - true
 
     private int loginIndex = 10;
     private static MainActivity mainActivity;
@@ -110,6 +112,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         login = sharedPref.getString(LOGIN_DATA_KEY, "");
         password = sharedPref.getString(PASSWORD_DATA_KEY, "");
+        semestrFlag = sharedPref.getBoolean(SEMESTR_FLAG_KEY, false);
     }
 
     @Override
@@ -151,6 +154,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.logout_settings) {
             credentials.delete();
             showLoginFrag.show();
+            return true;
+        } else if (id == R.id.semestr_1_setting) {
+            if(item.isChecked()) {
+                item.setChecked(false);
+            } else {
+                item.setChecked(true);
+                semestrFlag = false;
+            }
+            return true;
+        } else if (id == R.id.semestr_2_setting) {
+            if(item.isChecked()) {
+                item.setChecked(false);
+            } else {
+                item.setChecked(true);
+                semestrFlag = true;
+            }
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -205,6 +224,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             SharedPreferences.Editor editor = sharedPref.edit();
             editor.putString(LOGIN_DATA_KEY, login);
             editor.putString(PASSWORD_DATA_KEY, password);
+            editor.putBoolean(SEMESTR_FLAG_KEY, semestrFlag);
             editor.apply();
 
             Log.w("UWAGA", "MainActivity, zapisano login:" + login + ", hasło: " + password);
@@ -219,7 +239,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onStop() {
-        MultiUtils.callAlarm(MainActivity.this, login, password);
+        MultiUtils.callAlarm(MainActivity.this, login, password, semestrFlag);
         super.onStop();
         finishAndRemoveTask();
     }
@@ -270,6 +290,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public static String getPassword() {
         return password;
+    }
+
+    public static boolean isSemestrFlag() {
+        return semestrFlag;
     }
 
     public static void setMainActivity(MainActivity mMainActivity) {

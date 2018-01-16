@@ -2,6 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/semestr_1_setting"
+            android:title="@string/semestr_1"
+            android:checked="true"/>
+        <item
+            android:id="@+id/semestr_2_setting"
+            android:title="@string/semestr_2" />
+    </group>
+
     <item
         android:id="@+id/logout_settings"
         android:orderInCategory="100"

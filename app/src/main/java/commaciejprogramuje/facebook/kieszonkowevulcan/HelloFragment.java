@@ -50,14 +50,18 @@ public class HelloFragment extends Fragment {
             firstFileBrowser.setWebViewClient(new WebViewClient() {
                 @Override
                 public void onPageFinished(WebView view, String url) {
-                    Log.w("UWAGA", "FINISHED: " + url);
+                    Log.w("UWAGA", "FINISHED_HELLO_FRAG: " + url);
 
                     switch (url) {
                         case "https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Start/Index":
                         case "https://uonetplus.vulcan.net.pl/lublin/Start.mvc/Index":
-                            firstFileBrowser.loadUrl("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie");
-                            break;
-                        case "https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie":
+                            if(!MainActivity.isSemestrFlag()) {
+                                firstFileBrowser.loadUrl("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie?details=1&okres=42781");
+                            } else {
+                                firstFileBrowser.loadUrl("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie?details=1&okres=42782");
+                            }
+                        case "https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie?details=1&okres=42781":
+                        case "https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie?details=1&okres=42782":
                             firstFileBrowser.loadUrl("javascript:window.HELLO_HTMLOUT.processHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');");
                             break;
                         default:
@@ -78,7 +82,7 @@ public class HelloFragment extends Fragment {
 
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                    Log.w("UWAGA", "LOADING: " + url);
+                    Log.w("UWAGA", "LOADING_HELLO_FRAG: " + url);
                     return false;
                 }
             });

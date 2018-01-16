@@ -64,7 +64,7 @@ public class Subject implements Serializable, Comparable<Subject> {
     }
 
     void setNewestDate() {
-        if (getSubjectGrades().size() > 0) {
+        if (getSubjectGrades().size() > 0 && !getSubjectGrades().get(0).getmDate().equals("")) {
             Calendar oldGradeDateCal = Calendar.getInstance();
             try {
                 String dateString = getSubjectGrades().get(0).getmDate();

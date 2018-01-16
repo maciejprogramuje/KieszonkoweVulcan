@@ -52,21 +52,21 @@ public class GradesAdapter extends RecyclerView.Adapter {
         ((GradesViewHolder) holder).subjectTextView.setText(subject.getSubjectName());
 
         String tempProposition = subject.getSubjectProposition();
-        if(tempProposition.equals("")) {
+        if(tempProposition == null || tempProposition.equals("")) {
             ((GradesViewHolder) holder).propositionTextView.setText("");
         } else {
             ((GradesViewHolder) holder).propositionTextView.setText(String.format("prop: %s", tempProposition));
         }
 
         String tempSem = subject.getSubjectSem();
-        if(tempSem.equals("")) {
+        if(tempSem == null || tempSem.equals("")) {
             ((GradesViewHolder) holder).semTextView.setText("");
         } else {
             ((GradesViewHolder) holder).semTextView.setText(String.format("sem: %s", tempSem));
         }
 
         String tempAvg = subject.getSubjectAverage();
-        if (tempAvg.equals("")) {
+        if (tempAvg == null || tempAvg.equals("")) {
             ((GradesViewHolder) holder).avgTextView.setText("");
         } else if (tempAvg.length() == 1) {
             ((GradesViewHolder) holder).avgTextView.setText(String.format("śr: %s,00", tempAvg));
@@ -101,7 +101,7 @@ public class GradesAdapter extends RecyclerView.Adapter {
         ((GradesViewHolder) holder).gradeCodeTextTextView.setText(gradeDateCodeText.toString());
 
 
-        if (!tempAvg.equals("")) {
+        if (tempAvg != null && !tempAvg.equals("")) {
             Double avgDouble = Double.valueOf(tempAvg.replace(",", "."));
             if (avgDouble < 3.00) {
                 ((GradesViewHolder) holder).circleImageView.setImageResource(R.drawable.ic_circle_red_avg);
