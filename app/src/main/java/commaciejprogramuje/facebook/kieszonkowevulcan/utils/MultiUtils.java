@@ -22,7 +22,6 @@ import commaciejprogramuje.facebook.kieszonkowevulcan.R;
 import static android.content.Context.ALARM_SERVICE;
 import static android.support.v4.app.NotificationCompat.BADGE_ICON_SMALL;
 import static commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity.ALARM_INRETVAL_IN_GRADES_FOR_ALARM_ACTIVITY;
-import static commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity.getLogin;
 
 /**
  * Created by 5742ZGPC on 2017-12-01.

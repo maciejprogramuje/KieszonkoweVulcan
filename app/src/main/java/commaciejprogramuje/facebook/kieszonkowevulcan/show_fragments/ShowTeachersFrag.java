@@ -2,7 +2,6 @@ package commaciejprogramuje.facebook.kieszonkowevulcan.show_fragments;
 
 import commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity;
 import commaciejprogramuje.facebook.kieszonkowevulcan.TeacherFragment;
-import commaciejprogramuje.facebook.kieszonkowevulcan.html_parsers.Teachers;
 import commaciejprogramuje.facebook.kieszonkowevulcan.utils.MultiUtils;
 
 public class ShowTeachersFrag {

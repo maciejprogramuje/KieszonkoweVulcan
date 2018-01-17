@@ -11,7 +11,8 @@ import android.webkit.WebViewClient;
 
 import commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity;
 
-import static commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity.KIESZONKOWE_FILE;
+import static commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity.KIESZONKOWE_FILE_SEM_1;
+import static commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity.KIESZONKOWE_FILE_SEM_2;
 
 public class Credentials {
     private final MainActivity mainActivity;
@@ -36,7 +37,8 @@ public class Credentials {
         MainActivity.setLogin("");
         MainActivity.setPassword("");
 
-        DataFile.deleteFile(mainActivity.getApplicationContext(), KIESZONKOWE_FILE);
+        DataFile.deleteFile(mainActivity.getApplicationContext(), KIESZONKOWE_FILE_SEM_1);
+        DataFile.deleteFile(mainActivity.getApplicationContext(), KIESZONKOWE_FILE_SEM_2);
 
         //noinspection deprecation
         CookieSyncManager.createInstance(mainActivity);

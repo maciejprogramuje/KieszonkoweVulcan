@@ -7,11 +7,14 @@ import android.webkit.JavascriptInterface;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity;
 import commaciejprogramuje.facebook.kieszonkowevulcan.gim_16.Subject;
 import commaciejprogramuje.facebook.kieszonkowevulcan.gim_16.Subjects;
 import commaciejprogramuje.facebook.kieszonkowevulcan.html_parsers.Grades;
 
-import static commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity.KIESZONKOWE_FILE;
+import static commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity.KIESZONKOWE_FILE_SEM_1;
+import static commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity.KIESZONKOWE_FILE_SEM_2;
+
 
 public class JsInterfaceAlarm {
     private ArrayList<Subject> oldSubjectsArray;
@@ -40,12 +43,23 @@ public class JsInterfaceAlarm {
 
         int numOfSubjects = newSubjects.size();
         // read old data
-        if (DataFile.isExists(context, KIESZONKOWE_FILE)) {
-            try {
-                oldSubjects = DataFile.read(context, KIESZONKOWE_FILE);
-                oldSubjectsArray = DataFile.originOrder(oldSubjects);
-            } catch (IOException | ClassNotFoundException e) {
-                oldSubjects = null;
+        if(!MainActivity.isSemestrFlag()) {
+            if (DataFile.isExists(context, KIESZONKOWE_FILE_SEM_1)) {
+                try {
+                    oldSubjects = DataFile.read(context, KIESZONKOWE_FILE_SEM_1);
+                    oldSubjectsArray = DataFile.originOrder(oldSubjects);
+                } catch (IOException | ClassNotFoundException e) {
+                    oldSubjects = null;
+                }
+            }
+        } else {
+            if (DataFile.isExists(context, KIESZONKOWE_FILE_SEM_2)) {
+                try {
+                    oldSubjects = DataFile.read(context, KIESZONKOWE_FILE_SEM_2);
+                    oldSubjectsArray = DataFile.originOrder(oldSubjects);
+                } catch (IOException | ClassNotFoundException e) {
+                    oldSubjects = null;
+                }
             }
         }
 
@@ -79,13 +93,18 @@ public class JsInterfaceAlarm {
             // there is not new grade
             if(message.equals("")) {
                 Log.w("UWAGA", "Brak nowych ocen");
-                //MultiUtils.showNotification(context, "Brak nowych ocen");
+
+                MultiUtils.showNotification(context, "Brak nowych ocen");
             }
         }
 
         // write new data as old data
         Log.w("UWAGA", "nadpisuję plik");
-        DataFile.write(context, newSubjects, KIESZONKOWE_FILE);
+        if(!MainActivity.isSemestrFlag()) {
+            DataFile.write(context, newSubjects, KIESZONKOWE_FILE_SEM_1);
+        } else {
+            DataFile.write(context, newSubjects, KIESZONKOWE_FILE_SEM_2);
+        }
 
         onAlarmInteraction.onAlarmInteraction(true);
     }

@@ -8,11 +8,13 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity;
 import commaciejprogramuje.facebook.kieszonkowevulcan.gim_16.Subject;
 import commaciejprogramuje.facebook.kieszonkowevulcan.gim_16.Subjects;
 import commaciejprogramuje.facebook.kieszonkowevulcan.html_parsers.Grades;
 
-import static commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity.KIESZONKOWE_FILE;
+import static commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity.KIESZONKOWE_FILE_SEM_1;
+import static commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity.KIESZONKOWE_FILE_SEM_2;
 
 public class JsInterfaceGrades {
     private ArrayList<Subject> oldSubjectsArray;
@@ -43,16 +45,30 @@ public class JsInterfaceGrades {
 
         int numOfSubjects = newSubjects.size();
         // read old data
-        if (DataFile.isExists(context, KIESZONKOWE_FILE)) {
-            try {
-                Log.w("UWAGA", "czytam plik");
-                oldSubjects = DataFile.read(context, KIESZONKOWE_FILE);
-                oldSubjectsArray = DataFile.originOrder(oldSubjects);
-            } catch (IOException | ClassNotFoundException e) {
-                Log.w("UWAGA", "problem z plikiem");
-                oldSubjects = null;
+        if(!MainActivity.isSemestrFlag()) {
+            if (DataFile.isExists(context, KIESZONKOWE_FILE_SEM_1)) {
+                try {
+                    Log.w("UWAGA", "czytam plik");
+                    oldSubjects = DataFile.read(context, KIESZONKOWE_FILE_SEM_1);
+                    oldSubjectsArray = DataFile.originOrder(oldSubjects);
+                } catch (IOException | ClassNotFoundException e) {
+                    Log.w("UWAGA", "problem z plikiem");
+                    oldSubjects = null;
+                }
+            }
+        } else {
+            if (DataFile.isExists(context, KIESZONKOWE_FILE_SEM_2)) {
+                try {
+                    Log.w("UWAGA", "czytam plik");
+                    oldSubjects = DataFile.read(context, KIESZONKOWE_FILE_SEM_2);
+                    oldSubjectsArray = DataFile.originOrder(oldSubjects);
+                } catch (IOException | ClassNotFoundException e) {
+                    Log.w("UWAGA", "problem z plikiem");
+                    oldSubjects = null;
+                }
             }
         }
+
 
         // originOrder new data
         for (int i = 0; i < numOfSubjects; i++) {
@@ -92,7 +108,12 @@ public class JsInterfaceGrades {
 
         // write new data as old data
         Log.w("UWAGA", "nadpisuję plik");
-        DataFile.write(context, newSubjects, KIESZONKOWE_FILE);
+        if(!MainActivity.isSemestrFlag()) {
+            DataFile.write(context, newSubjects, KIESZONKOWE_FILE_SEM_1);
+        } else {
+            DataFile.write(context, newSubjects, KIESZONKOWE_FILE_SEM_2);
+        }
+
 
         onFileSavedInteraction.onGradesMainInteraction(true);
     }

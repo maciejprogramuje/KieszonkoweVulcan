@@ -1,15 +1,9 @@
 package commaciejprogramuje.facebook.kieszonkowevulcan;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.PowerManager;
 import android.os.StrictMode;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -20,7 +14,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
@@ -50,12 +43,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Credentials.OnCredentialsCheckedListener,
         JsInterfaceGrades.OnGradesMainInteractionListener {
 
-    public static final long ALARM_INRETVAL_IN_GRADES_FOR_ALARM_ACTIVITY = 1000 * 60 * 30;
-    //public static final long ALARM_INRETVAL_IN_GRADES_FOR_ALARM_ACTIVITY = 1000 * 60 * 2;
+    //public static final long ALARM_INRETVAL_IN_GRADES_FOR_ALARM_ACTIVITY = 1000 * 60 * 30;
+    public static final long ALARM_INRETVAL_IN_GRADES_FOR_ALARM_ACTIVITY = 1000 * 60 * 2;
+
+    // JSInterfaceAlarm -> show notofication "brak nowych ocen"
 
     public static final String LOGIN_DATA_KEY = "loginData";
     public static final String PASSWORD_DATA_KEY = "passwordData";
-    public static final String KIESZONKOWE_FILE = "kieszonkoweVulcanGrades.dat";
+    public static final String KIESZONKOWE_FILE_SEM_1 = "kieszonkoweVulcanGradesSem1.dat";
+    public static final String KIESZONKOWE_FILE_SEM_2 = "kieszonkoweVulcanGradesSem2.dat";
     public static final String SEMESTR_FLAG_KEY = "semestrFlag";
 
     public final Credentials credentials = new Credentials(this);

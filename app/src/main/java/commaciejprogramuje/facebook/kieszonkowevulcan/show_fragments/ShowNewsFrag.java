@@ -7,7 +7,8 @@ import commaciejprogramuje.facebook.kieszonkowevulcan.NewsFragment;
 import commaciejprogramuje.facebook.kieszonkowevulcan.utils.DataFile;
 import commaciejprogramuje.facebook.kieszonkowevulcan.utils.MultiUtils;
 
-import static commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity.KIESZONKOWE_FILE;
+import static commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity.KIESZONKOWE_FILE_SEM_1;
+import static commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity.KIESZONKOWE_FILE_SEM_2;
 
 public class ShowNewsFrag {
     private final MainActivity mainActivity;
@@ -19,7 +20,12 @@ public class ShowNewsFrag {
     public void show() {
         if (MultiUtils.isInternetConnection(mainActivity)) {
             try {
-                NewsFragment newsFragment = NewsFragment.newInstance(DataFile.read(mainActivity.getApplicationContext(), KIESZONKOWE_FILE));
+                NewsFragment newsFragment;
+                if(!MainActivity.isSemestrFlag()) {
+                    newsFragment = NewsFragment.newInstance(DataFile.read(mainActivity.getApplicationContext(), KIESZONKOWE_FILE_SEM_1));
+                } else {
+                    newsFragment = NewsFragment.newInstance(DataFile.read(mainActivity.getApplicationContext(), KIESZONKOWE_FILE_SEM_2));
+                }
                 mainActivity.replaceFrag.replace(mainActivity, newsFragment);
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
