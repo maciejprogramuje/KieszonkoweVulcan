@@ -43,8 +43,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Credentials.OnCredentialsCheckedListener,
         JsInterfaceGrades.OnGradesMainInteractionListener {
 
-    //public static final long ALARM_INRETVAL_IN_GRADES_FOR_ALARM_ACTIVITY = 1000 * 60 * 30;
-    public static final long ALARM_INRETVAL_IN_GRADES_FOR_ALARM_ACTIVITY = 1000 * 60 * 2;
+    public static final long ALARM_INRETVAL_IN_GRADES_FOR_ALARM_ACTIVITY = 1000 * 60 * 30;
+    //public static final long ALARM_INRETVAL_IN_GRADES_FOR_ALARM_ACTIVITY = 1000 * 60 * 2;
 
     // JSInterfaceAlarm -> show notofication "brak nowych ocen"
 
