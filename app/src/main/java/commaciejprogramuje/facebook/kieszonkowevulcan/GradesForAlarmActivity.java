@@ -20,7 +20,7 @@ public class GradesForAlarmActivity extends Activity implements JsInterfaceAlarm
 
     String login = "";
     String password = "";
-    boolean semestrFlag = false;
+    boolean semestrFlag = true;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -58,6 +58,7 @@ public class GradesForAlarmActivity extends Activity implements JsInterfaceAlarm
 
         Log.w("UWAGA", "ALARM -> 2. " + login + ", " + password);
         //NewGradeNotification.showNotification(this,"ALARM -> 2. " + login + ", " + password);
+        MultiUtils.showNotification(this, "Alarm -> semestr: " + semestrFlag);
 
         if (MultiUtils.isInternetConnection(this)) {
             alarmBrowser.getSettings().setJavaScriptEnabled(true);

@@ -7,14 +7,9 @@ import android.webkit.JavascriptInterface;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity;
 import commaciejprogramuje.facebook.kieszonkowevulcan.gim_16.Subject;
 import commaciejprogramuje.facebook.kieszonkowevulcan.gim_16.Subjects;
 import commaciejprogramuje.facebook.kieszonkowevulcan.html_parsers.Grades;
-
-import static commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity.KIESZONKOWE_FILE_SEM_1;
-import static commaciejprogramuje.facebook.kieszonkowevulcan.MainActivity.KIESZONKOWE_FILE_SEM_2;
-
 
 public class JsInterfaceAlarm {
     private ArrayList<Subject> oldSubjectsArray;
@@ -46,18 +41,18 @@ public class JsInterfaceAlarm {
         int numOfSubjects = newSubjects.size();
         // read old data
         if(firstSem) {
-            if (DataFile.isExists(context, KIESZONKOWE_FILE_SEM_1)) {
+            if (DataFile.isExists(context, "kieszonkoweVulcanGradesSem1.dat")) {
                 try {
-                    oldSubjects = DataFile.read(context, KIESZONKOWE_FILE_SEM_1);
+                    oldSubjects = DataFile.read(context, "kieszonkoweVulcanGradesSem1.dat");
                     oldSubjectsArray = DataFile.originOrder(oldSubjects);
                 } catch (IOException | ClassNotFoundException e) {
                     oldSubjects = null;
                 }
             }
         } else {
-            if (DataFile.isExists(context, KIESZONKOWE_FILE_SEM_2)) {
+            if (DataFile.isExists(context, "kieszonkoweVulcanGradesSem2.dat")) {
                 try {
-                    oldSubjects = DataFile.read(context, KIESZONKOWE_FILE_SEM_2);
+                    oldSubjects = DataFile.read(context, "kieszonkoweVulcanGradesSem2.dat");
                     oldSubjectsArray = DataFile.originOrder(oldSubjects);
                 } catch (IOException | ClassNotFoundException e) {
                     oldSubjects = null;
@@ -109,9 +104,9 @@ public class JsInterfaceAlarm {
         // write new data as old data
         Log.w("UWAGA", "nadpisuję plik");
         if(firstSem) {
-            DataFile.write(context, newSubjects, KIESZONKOWE_FILE_SEM_1);
+            DataFile.write(context, newSubjects, "kieszonkoweVulcanGradesSem1.dat");
         } else {
-            DataFile.write(context, newSubjects, KIESZONKOWE_FILE_SEM_2);
+            DataFile.write(context, newSubjects, "kieszonkoweVulcanGradesSem2.dat");
         }
 
         onAlarmInteraction.onAlarmInteraction(true);
