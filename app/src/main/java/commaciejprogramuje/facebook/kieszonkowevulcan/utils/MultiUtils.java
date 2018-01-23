@@ -11,6 +11,8 @@ import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import java.util.Date;
@@ -79,7 +81,6 @@ public class MultiUtils {
 
     public static void callAlarm(Context context, String log, String pass, Boolean semFlag) {
 
-
         ////////////////// TEST ///////////////////////
         Toast.makeText(context, "alarm start", Toast.LENGTH_LONG).show();
 
@@ -95,5 +96,10 @@ public class MultiUtils {
         alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + ALARM_INRETVAL_IN_GRADES_FOR_ALARM_ACTIVITY, pendingIntent);
 
         Log.w("UWAGA", "ALARM -> stworzyłem nowy alarm");
+    }
+
+    public static void hideKeyboard(Context context, View view) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
     }
 }

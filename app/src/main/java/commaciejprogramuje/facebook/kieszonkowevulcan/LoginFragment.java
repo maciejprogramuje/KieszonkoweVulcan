@@ -13,6 +13,7 @@ import android.widget.EditText;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import commaciejprogramuje.facebook.kieszonkowevulcan.utils.MultiUtils;
 
 
 public class LoginFragment extends Fragment {
@@ -51,6 +52,7 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (onFragmentInteraction != null) {
+                    MultiUtils.hideKeyboard(getContext(), loginButton);
                     onFragmentInteraction.onFragmentInteraction(loginEditText.getText().toString(), passwordEditText.getText().toString());
                 }
             }

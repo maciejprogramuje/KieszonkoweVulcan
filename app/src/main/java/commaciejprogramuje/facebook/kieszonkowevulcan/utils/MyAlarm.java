@@ -17,7 +17,7 @@ public class MyAlarm extends BroadcastReceiver {
         getGradesIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         getGradesIntent.putExtra("login", intent.getStringExtra("loginMyAlarm"));
         getGradesIntent.putExtra("password", intent.getStringExtra("passwordMyAlarm"));
-        getGradesIntent.putExtra("semestrFlag", intent.getBooleanExtra("semestrFlagMyAlarm", false));
+        getGradesIntent.putExtra("semestrFlag", intent.getBooleanExtra("semestrFlagMyAlarm", true));
 
         context.startActivity(getGradesIntent);
     }

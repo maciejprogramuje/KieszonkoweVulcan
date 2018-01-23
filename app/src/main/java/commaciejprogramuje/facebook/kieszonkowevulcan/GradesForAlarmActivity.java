@@ -58,7 +58,7 @@ public class GradesForAlarmActivity extends Activity implements JsInterfaceAlarm
 
         Log.w("UWAGA", "ALARM -> 2. " + login + ", " + password);
         //NewGradeNotification.showNotification(this,"ALARM -> 2. " + login + ", " + password);
-        MultiUtils.showNotification(this, "Alarm -> semestr: " + semestrFlag);
+        MultiUtils.showNotification(this, "Alarm -> first semestr: " + semestrFlag);
 
         if (MultiUtils.isInternetConnection(this)) {
             alarmBrowser.getSettings().setJavaScriptEnabled(true);
@@ -106,7 +106,7 @@ public class GradesForAlarmActivity extends Activity implements JsInterfaceAlarm
             finishAndRemoveTask();
         } else {
             //NewGradeNotification.showNotification(this, "ALARM -> brak internetu");
-            Log.w("UWAGA", "ALARM -> brak internetu");
+            Log.w("UWAGA", "ALARM -> brak internetu, first sem: " + semestrFlag);
             MultiUtils.callAlarm(GradesForAlarmActivity.this, login, password, semestrFlag);
             finishAndRemoveTask();
         }
