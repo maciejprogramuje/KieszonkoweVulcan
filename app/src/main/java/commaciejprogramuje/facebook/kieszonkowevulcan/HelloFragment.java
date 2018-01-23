@@ -55,7 +55,7 @@ public class HelloFragment extends Fragment {
                     switch (url) {
                         case "https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Start/Index":
                         case "https://uonetplus.vulcan.net.pl/lublin/Start.mvc/Index":
-                            if(!MainActivity.isSemestrFlag()) {
+                            if(MainActivity.isFirstSemestr()) {
                                 firstFileBrowser.loadUrl("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie?details=1&okres=42781");
                             } else {
                                 firstFileBrowser.loadUrl("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie?details=1&okres=42782");

@@ -40,7 +40,7 @@ public class GradesForAlarmActivity extends Activity implements JsInterfaceAlarm
 
         login = getIntent().getStringExtra("login");
         password = getIntent().getStringExtra("password");
-        semestrFlag = getIntent().getBooleanExtra("semestrFlag", false);
+        semestrFlag = getIntent().getBooleanExtra("semestrFlag", true);
 
         if (login != null || password != null) {
             SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
@@ -53,7 +53,7 @@ public class GradesForAlarmActivity extends Activity implements JsInterfaceAlarm
             SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
             login = sharedPref.getString("loginGrades", "");
             password = sharedPref.getString("passwordGrades", "");
-            semestrFlag = sharedPref.getBoolean("semestrFlag", false);
+            semestrFlag = sharedPref.getBoolean("semestrFlag", true);
         }
 
         Log.w("UWAGA", "ALARM -> 2. " + login + ", " + password);
@@ -70,7 +70,7 @@ public class GradesForAlarmActivity extends Activity implements JsInterfaceAlarm
                     switch (url) {
                         case "https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Start/Index":
                         case "https://uonetplus.vulcan.net.pl/lublin/Start.mvc/Index":
-                            if(!MainActivity.isSemestrFlag()) {
+                            if(!semestrFlag) {
                                 alarmBrowser.loadUrl("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie?details=1&okres=42781");
                             } else {
                                 alarmBrowser.loadUrl("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie?details=1&okres=42782");

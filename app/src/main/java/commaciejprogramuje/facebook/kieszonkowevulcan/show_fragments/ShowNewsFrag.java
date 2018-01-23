@@ -21,7 +21,7 @@ public class ShowNewsFrag {
         if (MultiUtils.isInternetConnection(mainActivity)) {
             try {
                 NewsFragment newsFragment;
-                if(!MainActivity.isSemestrFlag()) {
+                if(MainActivity.isFirstSemestr()) {
                     newsFragment = NewsFragment.newInstance(DataFile.read(mainActivity.getApplicationContext(), KIESZONKOWE_FILE_SEM_1));
                 } else {
                     newsFragment = NewsFragment.newInstance(DataFile.read(mainActivity.getApplicationContext(), KIESZONKOWE_FILE_SEM_2));

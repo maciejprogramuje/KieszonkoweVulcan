@@ -45,7 +45,7 @@ public class JsInterfaceGrades {
 
         int numOfSubjects = newSubjects.size();
         // read old data
-        if(!MainActivity.isSemestrFlag()) {
+        if(MainActivity.isFirstSemestr()) {
             if (DataFile.isExists(context, KIESZONKOWE_FILE_SEM_1)) {
                 try {
                     Log.w("UWAGA", "czytam plik");
@@ -108,7 +108,7 @@ public class JsInterfaceGrades {
 
         // write new data as old data
         Log.w("UWAGA", "nadpisuję plik");
-        if(!MainActivity.isSemestrFlag()) {
+        if(MainActivity.isFirstSemestr()) {
             DataFile.write(context, newSubjects, KIESZONKOWE_FILE_SEM_1);
         } else {
             DataFile.write(context, newSubjects, KIESZONKOWE_FILE_SEM_2);

@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static final String PASSWORD_DATA_KEY = "passwordData";
     public static final String KIESZONKOWE_FILE_SEM_1 = "kieszonkoweVulcanGradesSem1.dat";
     public static final String KIESZONKOWE_FILE_SEM_2 = "kieszonkoweVulcanGradesSem2.dat";
-    public static final String SEMESTR_FLAG_KEY = "semestrFlag";
+    public static final String SEMESTR_FLAG_KEY = "firstSemestr";
 
     public final Credentials credentials = new Credentials(this);
     public final ShowNewsFrag showNewsFrag = new ShowNewsFrag(this);
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     static Subjects subjects;
     private static String login = "";
     private static String password = "";
-    private static boolean semestrFlag; // pierwszy - false, drugi - true
+    private static boolean firstSemestr; // pierwszy - true, drugi - false
 
     private int loginIndex = 10;
     private static MainActivity mainActivity;
@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         login = sharedPref.getString(LOGIN_DATA_KEY, "");
         password = sharedPref.getString(PASSWORD_DATA_KEY, "");
-        semestrFlag = sharedPref.getBoolean(SEMESTR_FLAG_KEY, false);
+        firstSemestr = sharedPref.getBoolean(SEMESTR_FLAG_KEY, true);
     }
 
     @Override
@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        if(!semestrFlag) {
+        if(firstSemestr) {
             menu.findItem(R.id.semestr_1_setting).setChecked(true);
         } else {
             menu.findItem(R.id.semestr_2_setting).setChecked(true);
@@ -167,15 +167,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 item.setChecked(false);
             } else {
                 item.setChecked(true);
-                semestrFlag = false;
+                firstSemestr = true;
             }
 
             SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putBoolean(SEMESTR_FLAG_KEY, semestrFlag);
+            editor.putBoolean(SEMESTR_FLAG_KEY, firstSemestr);
             editor.apply();
             fab.performClick();
-
 
             return true;
         } else if (id == R.id.semestr_2_setting) {
@@ -183,15 +182,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 item.setChecked(false);
             } else {
                 item.setChecked(true);
-                semestrFlag = true;
+                firstSemestr = false;
             }
 
             SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putBoolean(SEMESTR_FLAG_KEY, semestrFlag);
+            editor.putBoolean(SEMESTR_FLAG_KEY, firstSemestr);
             editor.apply();
             fab.performClick();
-
 
             return true;
         }
@@ -261,7 +259,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onStop() {
-        MultiUtils.callAlarm(MainActivity.this, login, password, semestrFlag);
+        MultiUtils.callAlarm(MainActivity.this, login, password, firstSemestr);
         super.onStop();
         finishAndRemoveTask();
     }
@@ -314,8 +312,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return password;
     }
 
-    public static boolean isSemestrFlag() {
-        return semestrFlag;
+    public static boolean isFirstSemestr() {
+        return firstSemestr;
     }
 
     public static void setMainActivity(MainActivity mMainActivity) {

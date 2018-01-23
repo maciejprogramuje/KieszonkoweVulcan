@@ -42,7 +42,7 @@ public class GradesForMainActivity extends AppCompatActivity implements JsInterf
                     switch (url) {
                         case "https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Start/Index":
                         case "https://uonetplus.vulcan.net.pl/lublin/Start.mvc/Index":
-                            if(!MainActivity.isSemestrFlag()) {
+                            if(MainActivity.isFirstSemestr()) {
                                 browser.loadUrl("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie?details=1&okres=42781");
                             } else {
                                 browser.loadUrl("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie?details=1&okres=42782");

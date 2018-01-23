@@ -22,11 +22,11 @@ public class JsInterfaceAlarm {
     private Subjects oldSubjects;
     private Subjects newSubjects;
     private Context context;
-    private boolean semFlag;
+    private boolean firstSem;
 
-    public JsInterfaceAlarm(Context context, boolean semFlag) {
+    public JsInterfaceAlarm(Context context, boolean firstSem) {
         this.context = context;
-        this.semFlag = semFlag;
+        this.firstSem = firstSem;
         newSubjects = new Subjects();
     }
 
@@ -45,7 +45,7 @@ public class JsInterfaceAlarm {
 
         int numOfSubjects = newSubjects.size();
         // read old data
-        if(!semFlag) {
+        if(firstSem) {
             if (DataFile.isExists(context, KIESZONKOWE_FILE_SEM_1)) {
                 try {
                     oldSubjects = DataFile.read(context, KIESZONKOWE_FILE_SEM_1);
@@ -98,7 +98,7 @@ public class JsInterfaceAlarm {
 
 
                 ////////////////// TEST ///////////////////////
-                if(!MainActivity.isSemestrFlag()) {
+                if(firstSem) {
                     MultiUtils.showNotification(context, "Brak nowych ocen, sem 1");
                 } else {
                     MultiUtils.showNotification(context, "Brak nowych ocen, sem 2");
@@ -108,7 +108,7 @@ public class JsInterfaceAlarm {
 
         // write new data as old data
         Log.w("UWAGA", "nadpisuję plik");
-        if(!MainActivity.isSemestrFlag()) {
+        if(firstSem) {
             DataFile.write(context, newSubjects, KIESZONKOWE_FILE_SEM_1);
         } else {
             DataFile.write(context, newSubjects, KIESZONKOWE_FILE_SEM_2);

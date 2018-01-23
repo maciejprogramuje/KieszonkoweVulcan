@@ -21,7 +21,7 @@ public class ShowGradesFrag {
         if (MultiUtils.isInternetConnection(mainActivity)) {
             try {
                 GradesFragment gradesFragment;
-                if(!MainActivity.isSemestrFlag()) {
+                if(MainActivity.isFirstSemestr()) {
                     gradesFragment = GradesFragment.newInstance(DataFile.read(mainActivity.getApplicationContext(), KIESZONKOWE_FILE_SEM_1));
                 } else {
                     gradesFragment = GradesFragment.newInstance(DataFile.read(mainActivity.getApplicationContext(), KIESZONKOWE_FILE_SEM_2));

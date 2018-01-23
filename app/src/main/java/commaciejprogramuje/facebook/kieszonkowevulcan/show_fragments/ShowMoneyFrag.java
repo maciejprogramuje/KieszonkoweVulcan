@@ -21,7 +21,7 @@ public class ShowMoneyFrag {
         if (MultiUtils.isInternetConnection(mainActivity)) {
             try {
                 MoneyFragment moneyFragment;
-                if(!MainActivity.isSemestrFlag()) {
+                if(MainActivity.isFirstSemestr()) {
                     moneyFragment = MoneyFragment.newInstance(DataFile.read(mainActivity.getApplicationContext(), KIESZONKOWE_FILE_SEM_1));
                 } else {
                     moneyFragment = MoneyFragment.newInstance(DataFile.read(mainActivity.getApplicationContext(), KIESZONKOWE_FILE_SEM_2));
