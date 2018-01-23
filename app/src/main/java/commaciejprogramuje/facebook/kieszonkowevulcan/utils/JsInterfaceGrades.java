@@ -114,7 +114,6 @@ public class JsInterfaceGrades {
             DataFile.write(context, newSubjects, KIESZONKOWE_FILE_SEM_2);
         }
 
-
         onFileSavedInteraction.onGradesMainInteraction(true);
     }
 

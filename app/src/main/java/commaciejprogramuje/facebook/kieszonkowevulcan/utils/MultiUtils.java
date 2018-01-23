@@ -95,7 +95,7 @@ public class MultiUtils {
         assert alarmManager != null;
         alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + ALARM_INRETVAL_IN_GRADES_FOR_ALARM_ACTIVITY, pendingIntent);
 
-        Log.w("UWAGA", "ALARM -> stworzyłem nowy alarm");
+        Log.w("UWAGA", "ALARM -> new alarm, first sem: " + semFlag);
     }
 
     public static void hideKeyboard(Context context, View view) {
