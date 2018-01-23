@@ -98,7 +98,7 @@ public class GradesForAlarmActivity extends Activity implements JsInterfaceAlarm
             });
 
             // context ma być this, nie kombinuj...
-            alarmBrowser.addJavascriptInterface(new JsInterfaceAlarm(this), "ALARM_HTMLOUT");
+            alarmBrowser.addJavascriptInterface(new JsInterfaceAlarm(this, semestrFlag), "ALARM_HTMLOUT");
             alarmBrowser.loadUrl("https://uonetplus.vulcan.net.pl/lublin/LoginEndpoint.aspx");
 
             MultiUtils.callAlarm(GradesForAlarmActivity.this, login, password, semestrFlag);

@@ -60,7 +60,14 @@ public class MultiUtils {
 
         //Sound
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        notification.setSound(alarmSound);
+
+
+
+        ////////////////// TEST ///////////////////////
+        //notification.setSound(alarmSound);
+
+
+
         notification.setLights(Color.WHITE, 3000, 3000);
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -71,7 +78,10 @@ public class MultiUtils {
     }
 
     public static void callAlarm(Context context, String log, String pass, Boolean semFlag) {
-        //Toast.makeText(context, "alarm start", Toast.LENGTH_LONG).show();
+
+
+        ////////////////// TEST ///////////////////////
+        Toast.makeText(context, "alarm start", Toast.LENGTH_LONG).show();
 
         Intent alarmIntent = new Intent();
         alarmIntent.setClassName("commaciejprogramuje.facebook.kieszonkowevulcan", "commaciejprogramuje.facebook.kieszonkowevulcan.utils.MyAlarm");

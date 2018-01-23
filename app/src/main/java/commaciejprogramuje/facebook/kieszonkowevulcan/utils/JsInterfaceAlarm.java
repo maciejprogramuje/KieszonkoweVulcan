@@ -22,9 +22,11 @@ public class JsInterfaceAlarm {
     private Subjects oldSubjects;
     private Subjects newSubjects;
     private Context context;
+    private boolean semFlag;
 
-    public JsInterfaceAlarm(Context context) {
+    public JsInterfaceAlarm(Context context, boolean semFlag) {
         this.context = context;
+        this.semFlag = semFlag;
         newSubjects = new Subjects();
     }
 
@@ -43,7 +45,7 @@ public class JsInterfaceAlarm {
 
         int numOfSubjects = newSubjects.size();
         // read old data
-        if(!MainActivity.isSemestrFlag()) {
+        if(!semFlag) {
             if (DataFile.isExists(context, KIESZONKOWE_FILE_SEM_1)) {
                 try {
                     oldSubjects = DataFile.read(context, KIESZONKOWE_FILE_SEM_1);
@@ -94,7 +96,13 @@ public class JsInterfaceAlarm {
             if(message.equals("")) {
                 Log.w("UWAGA", "Brak nowych ocen");
 
-                //MultiUtils.showNotification(context, "Brak nowych ocen");
+
+                ////////////////// TEST ///////////////////////
+                if(!MainActivity.isSemestrFlag()) {
+                    MultiUtils.showNotification(context, "Brak nowych ocen, sem 1");
+                } else {
+                    MultiUtils.showNotification(context, "Brak nowych ocen, sem 2");
+                }
             }
         }
 
