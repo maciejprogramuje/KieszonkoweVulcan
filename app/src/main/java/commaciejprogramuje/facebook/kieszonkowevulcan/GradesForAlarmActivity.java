@@ -57,8 +57,8 @@ public class GradesForAlarmActivity extends Activity implements JsInterfaceAlarm
         }
 
         Log.w("UWAGA", "ALARM -> 2. " + login + ", " + password);
-        //NewGradeNotification.showNotification(this,"ALARM -> 2. " + login + ", " + password);
-        MultiUtils.showNotification(this, "Alarm -> first semestr: " + semestrFlag);
+        //MultiUtils.showNotification(this,"ALARM -> 2. " + login + ", " + password);
+        //MultiUtils.showNotification(this, "Alarm -> first semestr: " + semestrFlag);
 
         if (MultiUtils.isInternetConnection(this)) {
             alarmBrowser.getSettings().setJavaScriptEnabled(true);
@@ -71,7 +71,7 @@ public class GradesForAlarmActivity extends Activity implements JsInterfaceAlarm
                     switch (url) {
                         case "https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Start/Index":
                         case "https://uonetplus.vulcan.net.pl/lublin/Start.mvc/Index":
-                            if(!semestrFlag) {
+                            if(semestrFlag) {
                                 alarmBrowser.loadUrl("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie?details=1&okres=42781");
                             } else {
                                 alarmBrowser.loadUrl("https://uonetplus-opiekun.vulcan.net.pl/lublin/001959/Oceny.mvc/Wszystkie?details=1&okres=42782");
@@ -105,7 +105,7 @@ public class GradesForAlarmActivity extends Activity implements JsInterfaceAlarm
             MultiUtils.callAlarm(GradesForAlarmActivity.this, login, password, semestrFlag);
             finishAndRemoveTask();
         } else {
-            //NewGradeNotification.showNotification(this, "ALARM -> brak internetu");
+            //MultiUtils.showNotification(this, "ALARM -> brak internetu");
             Log.w("UWAGA", "ALARM -> brak internetu, first sem: " + semestrFlag);
             MultiUtils.callAlarm(GradesForAlarmActivity.this, login, password, semestrFlag);
             finishAndRemoveTask();

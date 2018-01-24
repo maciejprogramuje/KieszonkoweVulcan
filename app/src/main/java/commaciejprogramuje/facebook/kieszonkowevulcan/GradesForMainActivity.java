@@ -29,8 +29,6 @@ public class GradesForMainActivity extends AppCompatActivity implements JsInterf
 
         this.moveTaskToBack(true);
 
-        //Toast.makeText(MainActivity.getMainActivity(), "wezwanie z MainActivity", Toast.LENGTH_LONG).showNotification();
-
         if (MultiUtils.isInternetConnection(this)) {
             browser.getSettings().setJavaScriptEnabled(true);
             browser.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);

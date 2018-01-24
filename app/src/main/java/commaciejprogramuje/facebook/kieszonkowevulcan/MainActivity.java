@@ -43,10 +43,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Credentials.OnCredentialsCheckedListener,
         JsInterfaceGrades.OnGradesMainInteractionListener {
 
-    //public static final long ALARM_INRETVAL_IN_GRADES_FOR_ALARM_ACTIVITY = 1000 * 60 * 30;
-    public static final long ALARM_INRETVAL_IN_GRADES_FOR_ALARM_ACTIVITY = 1000 * 60 * 2;
-
-    // JSInterfaceAlarm -> show notofication "brak nowych ocen"
+    public static final long ALARM_INRETVAL_IN_GRADES_FOR_ALARM_ACTIVITY = 1000 * 60 * 30;
+    //public static final long ALARM_INRETVAL_IN_GRADES_FOR_ALARM_ACTIVITY = 1000 * 60 * 2;
 
     public static final String LOGIN_DATA_KEY = "loginData";
     public static final String PASSWORD_DATA_KEY = "passwordData";
@@ -71,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     static Subjects subjects;
     private static String login = "";
     private static String password = "";
-    private static boolean firstSemestr; // pierwszy - true, drugi - false
+    private static boolean firstSemestr = true; // pierwszy - true, drugi - false
 
     private int loginIndex = 10;
     private static MainActivity mainActivity;
