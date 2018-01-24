@@ -90,7 +90,7 @@ public class JsInterfaceAlarm {
             // there is not new grade
             if(message.equals("")) {
                 Log.w("UWAGA", "Brak nowych ocen");
-                MultiUtils.showNotification(context, "Brak nowych ocen, 1. sem: " + firstSem);
+                //MultiUtils.showNotification(context, "Brak nowych ocen, 1. sem: " + firstSem);
             }
         }
 
