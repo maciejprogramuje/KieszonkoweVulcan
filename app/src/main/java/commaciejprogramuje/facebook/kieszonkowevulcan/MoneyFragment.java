@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -195,6 +196,8 @@ public class MoneyFragment extends Fragment {
 
                     curDateCal.add(Calendar.MONTH, -1);
                     previousMonthInt = curDateCal.get(Calendar.MONTH);
+
+                    Log.w("UWAGA", "prev mon: "+previousMonthInt);
 
                     if (gradeDateCal.get(Calendar.MONTH) == curDateCal.get(Calendar.MONTH)) {
                         if ((sortedSubjectsArray.get(i).getSubjectGrades().get(j).getmGrade().equals("1")
