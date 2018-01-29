@@ -222,6 +222,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if (login.equals("") || password.equals("")) {
                 showLoginFrag.show();
             } else {
+                navigationView.getMenu().getItem(0).setChecked(true);
+
                 showHelloFrag.show();
             }
         }
