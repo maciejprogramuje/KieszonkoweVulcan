@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -129,6 +128,13 @@ public class MoneyFragment extends Fragment {
         int extraMoneyCurrentMonth = 30;
         int extraMoneyPreviousMonth = 30;
 
+        Calendar cal = Calendar.getInstance();
+        String tempMoneyExtraCurrentString = "z premią za " + getMonthName(cal.get(Calendar.MONTH));
+        cal.add(Calendar.MONTH, -1);
+        String tempMoneyExtraPreviousString = "z premią za " + getMonthName(cal.get(Calendar.MONTH));
+        moneyExtraCurrent.setText(tempMoneyExtraCurrentString);
+        moneyExtraPrevious.setText(tempMoneyExtraPreviousString);
+
         if (getArguments() != null) {
             Subjects tempSubjects = (Subjects) getArguments().getSerializable(GRADES_KEY);
 
@@ -136,8 +142,6 @@ public class MoneyFragment extends Fragment {
 
             assert tempSubjects != null;
             for (int i = 0; i < tempSubjects.size(); i++) {
-                int currentMonthInt = 0;
-                int previousMonthInt = 0;
 
                 String tempAvg = sortedSubjectsArray.get(i).getSubjectAverage();
                 if (tempAvg != null && !tempAvg.equals("")) {
@@ -173,7 +177,6 @@ public class MoneyFragment extends Fragment {
                 for (int j = 0; j <  sortedSubjectsArray.get(i).getSubjectGrades().size(); j++) {
                     Calendar gradeDateCal = Calendar.getInstance();
                     Calendar curDateCal = Calendar.getInstance();
-                    currentMonthInt = curDateCal.get(Calendar.MONTH);
                     try {
                         String dateString = sortedSubjectsArray.get(i).getSubjectGrades().get(j).getmDate();
                         Date date = (new SimpleDateFormat("dd.MM.yyyy", Locale.US).parse(dateString));
@@ -195,9 +198,6 @@ public class MoneyFragment extends Fragment {
                     }
 
                     curDateCal.add(Calendar.MONTH, -1);
-                    previousMonthInt = curDateCal.get(Calendar.MONTH);
-
-                    Log.w("UWAGA", "prev mon: "+previousMonthInt);
 
                     if (gradeDateCal.get(Calendar.MONTH) == curDateCal.get(Calendar.MONTH)) {
                         if ((sortedSubjectsArray.get(i).getSubjectGrades().get(j).getmGrade().equals("1")
@@ -211,13 +211,6 @@ public class MoneyFragment extends Fragment {
                         }
                     }
                 }
-
-                String tempMoneyExtraCurrentString = "z premią za " + getMonthName(currentMonthInt);
-                String tempMoneyExtraPreviousString = "z premią za " + getMonthName(previousMonthInt);
-
-
-                moneyExtraCurrent.setText(tempMoneyExtraCurrentString);
-                moneyExtraPrevious.setText(tempMoneyExtraPreviousString);
 
                 String tempMoneySumCurrentString = (money + extraMoneyCurrentMonth) + " zł";
                 String tempMoneySumPreviousString = (money + extraMoneyPreviousMonth) + " zł";
